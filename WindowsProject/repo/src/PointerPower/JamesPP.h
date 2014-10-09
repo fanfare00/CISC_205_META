@@ -30,6 +30,7 @@ public:
 	void playGame();
 	void displayGameHistory();
 	void displayIDInfo();
+	void displayCredits();
 	void displayStars();
 	void farewell();
 

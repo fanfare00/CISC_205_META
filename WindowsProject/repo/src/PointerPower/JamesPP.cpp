@@ -24,6 +24,11 @@ void JamesPP::setup()
 	JamesCurses::mvwprintw(mainWindow, LINES - 1, 0, "%s %s", defaultStatus, (char*)userName.c_str());
 	JamesCurses::wattroff(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLUE)));
 
+	JamesCurses::wattron(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLUE)));
+	JamesCurses::mvwprintwCentered(mainWindow, COLS / 2, "Use the arrow keys to move up and down.");
+	JamesCurses::mvwprintwCentered(mainWindow, COLS / 2, "Press <ENTER> to make a selection");
+	JamesCurses::wattroff(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLUE)));
+
 	ofstream ofs;
 	ofs.open("scores.txt", std::ofstream::out | std::ofstream::trunc);
 	ofs.close();
@@ -44,6 +49,11 @@ void JamesPP::refreshBackground()
 	JamesCurses::wattron(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLUE)));
 	JamesCurses::mvwprintw(mainWindow, LINES - 1, 0, "%s %s", defaultStatus, (char*)userName.c_str());
 	JamesCurses::wattroff(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLUE)));
+
+	JamesCurses::wattron(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_BLUE)));
+	JamesCurses::mvwprintwCentered(mainWindow, LINES-8, "Use the arrow keys to move up and down.");
+	JamesCurses::mvwprintwCentered(mainWindow, LINES - 7, "Press <ENTER> to make a selection");
+	JamesCurses::wattroff(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_BLUE)));
 
 	wrefresh(mainWindow);
 }
@@ -83,7 +93,7 @@ void JamesPP::mainMenu()
 	int choice = 0;
 
 	JamesOptionPanes::showTitleMessage("James' Pointer Power");
-	choice = JamesOptionPanes::showNavMenu(mainWindow, "-MAIN MENU-", "SIGN IN", "DISPLAY LOGO", "GO GALTON", "PLAY GAME", "GAME HISTIORY", "ID INFORMATION", "STARS", "EXIT");
+	choice = JamesOptionPanes::showNavMenu(mainWindow, "-MAIN MENU-", "SIGN IN", "DISPLAY LOGO", "GO GALTON", "PLAY GAME", "GAME HISTIORY", "ID INFORMATION", "CREDITS", "STARS", "EXIT");
 
 	switch (choice)
 	{
@@ -112,10 +122,14 @@ void JamesPP::mainMenu()
 		break;
 
 	case 7:
-		displayStars();
+		displayCredits();
 		break;
 
 	case 8:
+		displayStars();
+		break;
+
+	case 9:
 		farewell();
 		break;
 
@@ -299,12 +313,13 @@ void JamesPP::showGalton(WINDOW* win, bool showHistogram)
 
 				for (j = 0; j < box[i]; j++)
 				{
-					wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_BLACK)));
-					mvwprintw(win, 29 - ((j + 5) / 20), 14 + i * 6, "*");
-					wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_BLACK)));
+					wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_RED)));
+					mvwprintw(win, 29 - ((j + 5) / 20), 13 + i * 6, "   ");
+					wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_RED)));
 				}
 				wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
 				mvwprintw(win, 30, 11 + i * 6, "|  %i  |", i);
+				
 				wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
 			}
 		}
@@ -322,7 +337,7 @@ void JamesPP::goGalton()
 	JamesPP::showGalton(win, true);
 
 	wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLACK)));
-	JamesCurses::mvwprintwCentered(win, 14, "HISTOGRAM  :  ( 1 * = ~ 20 balls )");
+	JamesCurses::mvwprintwCentered(win, 14, "HISTOGRAM");
 	JamesCurses::mvwprintwCentered(win, 1, "  GALTON BOARD FLOW");
 	JamesCurses::mvwprintwCentered(win, 32, "Press <ESC> to return to main menu");
 	JamesCurses::mvwprintwCentered(win, 33, "Press <ENTER> to drop again");
@@ -339,6 +354,13 @@ void JamesPP::goGalton()
 			mvwaddch(win, 29, 11 + t, ACS_HLINE);
 		}
 
+	}
+
+	for (int i = 0; i < 14; i++)
+	{
+		wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
+		mvwprintw(win, 29 - i, 8, "%i", i * 20);
+		wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
 	}
 
 	for (int r = 0; r < 61; r+=6)
@@ -551,21 +573,24 @@ void JamesPP::displayIDInfo()
 	mainMenu();
 }
 
+void JamesPP::displayCredits()
+{
+	JamesOptionPanes::showMessage(
+		mainWindow,
+		"CREDITS",
+		"Put credits here");
+
+
+	refreshBackground();
+	mainMenu();
+}
+
 void JamesPP::displayStars()
 {
 	JamesOptionPanes::showMessage(
 		mainWindow,
-		"ID INFORMATION",
-		"      Programmer         : James McCarthy   \n"
-		"      Assignment #       : TA #1.2CA        \n"
-		"      Assignment Name    : Cellular Automata\n"
-		"      Course # and Title : CISC 205 - OOPS  \n"
-		"      Class Meeting Time : TTh 9:35 - 12:40 \n"
-		"      Instructor         : Professor Forman \n"
-		"      Hours              : 15               \n"
-		"      Difficulty         : 5                \n"
-		"      Completion Date    : 9/11/2014        \n"
-		"      Project Name       : JamesCA          \n");
+		"STARS",
+		"Put stars here");
 
 
 	refreshBackground();
