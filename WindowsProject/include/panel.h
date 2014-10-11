@@ -1,15 +1,15 @@
-/* Public Domain Curses */
+/* Public Domain JCurses */
 
 /* $Id: panel.h,v 1.19 2008/07/13 16:08:16 wmcbrine Exp $ */
 
 /*----------------------------------------------------------------------*
- *                         Panels for PDCurses                          *
+ *                         Panels for PDJCurses                          *
  *----------------------------------------------------------------------*/
 
-#ifndef __PDCURSES_PANEL_H__
-#define __PDCURSES_PANEL_H__ 1
+#ifndef __PDJCurses_PANEL_H__
+#define __PDJCurses_PANEL_H__ 1
 
-#include <curses.h>
+#include <../util/cwt/CursesWindowToolkit.h>
 
 #if defined(__cplusplus) || defined(__cplusplus__) || defined(__CPLUSPLUS)
 extern "C"
@@ -55,4 +55,4 @@ void    update_panels(void);
 }
 #endif
 
-#endif /* __PDCURSES_PANEL_H__ */
+#endif /* __PDJCurses_PANEL_H__ */

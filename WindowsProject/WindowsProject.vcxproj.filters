@@ -15,16 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="repo\src\util\JamesCurses.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="repo\src\ProjectLoader\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="repo\src\CellularAutomata\JamesCA.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="repo\src\util\JamesFrames.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="repo\src\util\JamesOptionPanes.cpp">
@@ -36,18 +30,24 @@
     <ClCompile Include="repo\src\util\ConsoleWordWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="repo\src\TestingGround\TestingGround.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="repo\src\util\cwt\Components\Component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="repo\src\util\cwt\Components\Dialogs\DialogFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="repo\src\util\cwt\Components\Frames\Frame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repo\src\Cellular Automata\JamesCA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="repo\src\util\JamesCurses.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="repo\src\CellularAutomata\JamesCA.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="repo\src\util\JamesFrames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="repo\src\util\JamesOptionPanes.h">
@@ -57,6 +57,30 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="repo\src\util\ConsoleWordWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="repo\src\TestingGround\TestingGround.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="repo\src\util\cwt\Color\Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="repo\src\util\cwt\CursesWindowToolkit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\curses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\panel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="repo\src\util\cwt\Components\Component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="repo\src\util\cwt\Components\Dialogs\DialogFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="repo\src\util\cwt\Components\Frames\Frame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

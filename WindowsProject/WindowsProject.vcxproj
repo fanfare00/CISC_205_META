@@ -74,19 +74,27 @@
     <ClCompile Include="repo\src\CellularAutomata\JamesCA.cpp" />
     <ClCompile Include="repo\src\PointerPower\JamesPP.cpp" />
     <ClCompile Include="repo\src\ProjectLoader\main.cpp" />
+    <ClCompile Include="repo\src\TestingGround\TestingGround.cpp" />
+    <ClCompile Include="repo\src\util\cwt\Components\Component.cpp" />
     <ClCompile Include="repo\src\util\ConsoleWordWrapper.cpp" />
+    <ClCompile Include="repo\src\util\cwt\Components\Dialogs\DialogFrame.cpp" />
+    <ClCompile Include="repo\src\util\cwt\Components\Frames\Frame.cpp" />
     <ClCompile Include="repo\src\util\JamesOptionPanes.cpp" />
-    <ClCompile Include="repo\src\util\JamesCurses.cpp" />
-    <ClCompile Include="repo\src\util\JamesFrames.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\curses.h" />
+    <ClInclude Include="include\panel.h" />
     <ClInclude Include="repo\src\Cellular Automata\JamesCA.h" />
     <ClInclude Include="repo\src\CellularAutomata\JamesCA.h" />
     <ClInclude Include="repo\src\PointerPower\JamesPP.h" />
+    <ClInclude Include="repo\src\TestingGround\TestingGround.h" />
+    <ClInclude Include="repo\src\util\cwt\Components\Component.h" />
     <ClInclude Include="repo\src\util\ConsoleWordWrapper.h" />
+    <ClInclude Include="repo\src\util\cwt\Color\Color.h" />
+    <ClInclude Include="repo\src\util\cwt\CursesWindowToolkit.h" />
+    <ClInclude Include="repo\src\util\cwt\Components\Dialogs\DialogFrame.h" />
+    <ClInclude Include="repo\src\util\cwt\Components\Frames\Frame.h" />
     <ClInclude Include="repo\src\util\JamesOptionPanes.h" />
-    <ClInclude Include="repo\src\util\JamesCurses.h" />
-    <ClInclude Include="repo\src\util\JamesFrames.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

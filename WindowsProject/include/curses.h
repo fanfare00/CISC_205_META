@@ -5,44 +5,44 @@
 # define PDC_WIDE
 #endif
 
-/* Public Domain Curses */
+/* Public Domain JCurses */
 
-/* $Id: curses.h,v 1.295 2008/07/15 17:13:25 wmcbrine Exp $ */
+/* $Id: ../util/cwt/CursesWindowToolkit.h,v 1.295 2008/07/15 17:13:25 wmcbrine Exp $ */
 
 /*----------------------------------------------------------------------*
- *                              PDCurses                                *
+ *                              PDJCurses                                *
  *----------------------------------------------------------------------*/
 
-#ifndef __PDCURSES__
-#define __PDCURSES__ 1
+#ifndef __PDJCurses__
+#define __PDJCurses__ 1
 
 /*man-start**************************************************************
 
-PDCurses definitions list:  (Only define those needed)
+PDJCurses definitions list:  (Only define those needed)
 
-    XCURSES         True if compiling for X11.
+    XJCurses         True if compiling for X11.
     PDC_RGB         True if you want to use RGB color definitions
                     (Red = 1, Green = 2, Blue = 4) instead of BGR.
     PDC_WIDE        True if building wide-character support.
     PDC_DLL_BUILD   True if building a Win32 DLL.
-    NCURSES_MOUSE_VERSION   Use the ncurses mouse API instead
-                            of PDCurses' traditional mouse API.
+    NJCurses_MOUSE_VERSION   Use the nJCurses mouse API instead
+                            of PDJCurses' traditional mouse API.
 
-PDCurses portable platform definitions list:
+PDJCurses portable platform definitions list:
 
     PDC_BUILD       Defines API build version.
-    PDCURSES        Enables access to PDCurses-only routines.
+    PDJCurses        Enables access to PDJCurses-only routines.
     XOPEN           Always true.
-    SYSVcurses      True if you are compiling for SYSV portability.
-    BSDcurses       True if you are compiling for BSD portability.
+    SYSVJCurses      True if you are compiling for SYSV portability.
+    BSDJCurses       True if you are compiling for BSD portability.
 
 **man-end****************************************************************/
 
 #define PDC_BUILD 3401
-#define PDCURSES        1      /* PDCurses-only routines */
-#define XOPEN           1      /* X/Open Curses routines */
-#define SYSVcurses      1      /* System V Curses routines */
-#define BSDcurses       1      /* BSD Curses routines */
+#define PDJCurses        1      /* PDJCurses-only routines */
+#define XOPEN           1      /* X/Open JCurses routines */
+#define SYSVJCurses      1      /* System V JCurses routines */
+#define BSDJCurses       1      /* BSD JCurses routines */
 #define CHTYPE_LONG     1      /* size of chtype; long */
 
 /*----------------------------------------------------------------------*/
@@ -63,7 +63,7 @@ extern "C"
 
 /*----------------------------------------------------------------------
  *
- *  PDCurses Manifest Constants
+ *  PDJCurses Manifest Constants
  *
  */
 
@@ -85,11 +85,11 @@ extern "C"
 
 /*----------------------------------------------------------------------
  *
- *  PDCurses Type Declarations
+ *  PDJCurses Type Declarations
  *
  */
 
-typedef unsigned char bool;    /* PDCurses Boolean type */
+typedef unsigned char bool;    /* PDJCurses Boolean type */
 
 #ifdef CHTYPE_LONG
 # if _LP64
@@ -109,7 +109,7 @@ typedef chtype attr_t;
 
 /*----------------------------------------------------------------------
  *
- *  PDCurses Mouse Interface -- SYSVR4, with extensions
+ *  PDJCurses Mouse Interface -- SYSVR4, with extensions
  *
  */
 
@@ -126,14 +126,14 @@ typedef struct
 #define BUTTON_CLICKED          0x0002
 #define BUTTON_DOUBLE_CLICKED   0x0003
 #define BUTTON_TRIPLE_CLICKED   0x0004
-#define BUTTON_MOVED            0x0005  /* PDCurses */
-#define WHEEL_SCROLLED          0x0006  /* PDCurses */
-#define BUTTON_ACTION_MASK      0x0007  /* PDCurses */
+#define BUTTON_MOVED            0x0005  /* PDJCurses */
+#define WHEEL_SCROLLED          0x0006  /* PDJCurses */
+#define BUTTON_ACTION_MASK      0x0007  /* PDJCurses */
 
-#define PDC_BUTTON_SHIFT        0x0008  /* PDCurses */
-#define PDC_BUTTON_CONTROL      0x0010  /* PDCurses */
-#define PDC_BUTTON_ALT          0x0020  /* PDCurses */
-#define BUTTON_MODIFIER_MASK    0x0038  /* PDCurses */
+#define PDC_BUTTON_SHIFT        0x0008  /* PDJCurses */
+#define PDC_BUTTON_CONTROL      0x0010  /* PDJCurses */
+#define PDC_BUTTON_ALT          0x0020  /* PDJCurses */
+#define BUTTON_MODIFIER_MASK    0x0038  /* PDJCurses */
 
 #define MOUSE_X_POS             (Mouse_status.x)
 #define MOUSE_Y_POS             (Mouse_status.y)
@@ -171,25 +171,25 @@ typedef struct
 #define BUTTON1_CLICKED         0x00000004L
 #define BUTTON1_DOUBLE_CLICKED  0x00000008L
 #define BUTTON1_TRIPLE_CLICKED  0x00000010L
-#define BUTTON1_MOVED           0x00000010L /* PDCurses */
+#define BUTTON1_MOVED           0x00000010L /* PDJCurses */
 
 #define BUTTON2_RELEASED        0x00000020L
 #define BUTTON2_PRESSED         0x00000040L
 #define BUTTON2_CLICKED         0x00000080L
 #define BUTTON2_DOUBLE_CLICKED  0x00000100L
 #define BUTTON2_TRIPLE_CLICKED  0x00000200L
-#define BUTTON2_MOVED           0x00000200L /* PDCurses */
+#define BUTTON2_MOVED           0x00000200L /* PDJCurses */
 
 #define BUTTON3_RELEASED        0x00000400L
 #define BUTTON3_PRESSED         0x00000800L
 #define BUTTON3_CLICKED         0x00001000L
 #define BUTTON3_DOUBLE_CLICKED  0x00002000L
 #define BUTTON3_TRIPLE_CLICKED  0x00004000L
-#define BUTTON3_MOVED           0x00004000L /* PDCurses */
+#define BUTTON3_MOVED           0x00004000L /* PDJCurses */
 
-/* For the ncurses-compatible functions only, BUTTON4_PRESSED and 
+/* For the nJCurses-compatible functions only, BUTTON4_PRESSED and 
    BUTTON5_PRESSED are returned for mouse scroll wheel up and down; 
-   otherwise PDCurses doesn't support buttons 4 and 5 */
+   otherwise PDJCurses doesn't support buttons 4 and 5 */
 
 #define BUTTON4_RELEASED        0x00008000L
 #define BUTTON4_PRESSED         0x00010000L
@@ -203,15 +203,15 @@ typedef struct
 #define BUTTON5_DOUBLE_CLICKED  0x00800000L
 #define BUTTON5_TRIPLE_CLICKED  0x01000000L
 
-#define MOUSE_WHEEL_SCROLL      0x02000000L /* PDCurses */
-#define BUTTON_MODIFIER_SHIFT   0x04000000L /* PDCurses */
-#define BUTTON_MODIFIER_CONTROL 0x08000000L /* PDCurses */
-#define BUTTON_MODIFIER_ALT     0x10000000L /* PDCurses */
+#define MOUSE_WHEEL_SCROLL      0x02000000L /* PDJCurses */
+#define BUTTON_MODIFIER_SHIFT   0x04000000L /* PDJCurses */
+#define BUTTON_MODIFIER_CONTROL 0x08000000L /* PDJCurses */
+#define BUTTON_MODIFIER_ALT     0x10000000L /* PDJCurses */
 
 #define ALL_MOUSE_EVENTS        0x1fffffffL
 #define REPORT_MOUSE_POSITION   0x20000000L
 
-/* ncurses mouse interface */
+/* nJCurses mouse interface */
 
 typedef unsigned long mmask_t;
 
@@ -223,7 +223,7 @@ typedef struct
                            in the same format as used for mousemask() */
 } MEVENT;
 
-#ifdef NCURSES_MOUSE_VERSION
+#ifdef NJCurses_MOUSE_VERSION
 # define BUTTON_SHIFT   BUTTON_MODIFIER_SHIFT
 # define BUTTON_CONTROL BUTTON_MODIFIER_CONTROL
 # define BUTTON_CTRL    BUTTON_MODIFIER_CONTROL
@@ -236,11 +236,11 @@ typedef struct
 
 /*----------------------------------------------------------------------
  *
- *  PDCurses Structure Definitions
+ *  PDJCurses Structure Definitions
  *
  */
 
-typedef struct _win       /* definition of a window */
+typedef  struct _win       /* definition of a window */
 {
     int   _cury;          /* current pseudo-cursor */
     int   _curx;
@@ -313,7 +313,7 @@ typedef struct
                                       returned as "real" keys */
     bool  key_code;                /* TRUE if last key is a special key;
                                       used internally by get_wch() */
-#ifdef XCURSES
+#ifdef XJCurses
     int   XcurscrSize;    /* size of Xcurscr shared memory block */
     bool  sb_on;
     int   sb_viewport_y;
@@ -328,12 +328,12 @@ typedef struct
 
 /*----------------------------------------------------------------------
  *
- *  PDCurses External Variables
+ *  PDJCurses External Variables
  *
  */
 
 #ifdef PDC_DLL_BUILD
-# ifdef CURSES_LIBRARY
+# ifdef JCurses_LIBRARY
 #  define PDCEX __declspec(dllexport) extern
 # else
 #  define PDCEX __declspec(dllimport)
@@ -346,7 +346,7 @@ PDCEX  int          LINES;        /* terminal height */
 PDCEX  int          COLS;         /* terminal width */
 PDCEX  WINDOW       *stdscr;      /* the default screen window */
 PDCEX  WINDOW       *curscr;      /* the current screen image */
-PDCEX  SCREEN       *SP;          /* curses variables */
+PDCEX  SCREEN       *SP;          /* JCurses variables */
 PDCEX  MOUSE_STATUS Mouse_status;
 PDCEX  int          COLORS;
 PDCEX  int          COLOR_PAIRS;
@@ -356,15 +356,15 @@ PDCEX  char         ttytype[];    /* terminal name/description */
 
 /*man-start**************************************************************
 
-PDCurses Text Attributes
+PDJCurses Text Attributes
 ========================
 
-Originally, PDCurses used a short (16 bits) for its chtype. To include 
+Originally, PDJCurses used a short (16 bits) for its chtype. To include 
 color, a number of things had to be sacrificed from the strict Unix and 
 System V support. The main problem was fitting all character attributes 
 and color into an unsigned char (all 8 bits!).
 
-Today, PDCurses by default uses a long (32 bits) for its chtype, as in 
+Today, PDJCurses by default uses a long (32 bits) for its chtype, as in 
 System V. The short chtype is still available, by undefining CHTYPE_LONG 
 and rebuilding the library.
 
@@ -503,7 +503,7 @@ bits), 8 bits for other attributes, and 16 bits for character data.
 #define ACS_PLMINUS   ACS_PICK('g', '#')
 #define ACS_BULLET    ACS_PICK('~', 'o')
 
-/* Teletype 5410v1 symbols -- these are defined in SysV curses, but
+/* Teletype 5410v1 symbols -- these are defined in SysV JCurses, but
    are not well-supported by most terminals. Stick to VT100 characters
    for optimum portability. */
 
@@ -710,7 +710,7 @@ bits), 8 bits for other attributes, and 16 bits for character data.
 #define KEY_SUSPEND   0x195  /* suspend key */
 #define KEY_UNDO      0x196  /* undo key */
 
-/* PDCurses-specific key definitions -- PC only */
+/* PDJCurses-specific key definitions -- PC only */
 
 #define ALT_0         0x197
 #define ALT_1         0x198
@@ -863,14 +863,14 @@ bits), 8 bits for other attributes, and 16 bits for character data.
 #define KEY_SUP       0x223  /* Shifted up arrow */
 #define KEY_SDOWN     0x224  /* Shifted down arrow */
 
-#define KEY_MIN       KEY_BREAK      /* Minimum curses key value */
-#define KEY_MAX       KEY_SDOWN      /* Maximum curses key */
+#define KEY_MIN       KEY_BREAK      /* Minimum JCurses key value */
+#define KEY_MAX       KEY_SDOWN      /* Maximum JCurses key */
 
 #define KEY_F(n)      (KEY_F0 + (n))
 
 /*----------------------------------------------------------------------
  *
- *  PDCurses Function Declarations
+ *  PDJCurses Function Declarations
  *
  */
 
@@ -1271,10 +1271,10 @@ void    wmouse_position(WINDOW *, int *, int *);
 unsigned long getmouse(void);
 unsigned long getbmap(void);
 
-/* ncurses */
+/* nJCurses */
 
 int     assume_default_colors(int, int);
-const char *curses_version(void);
+const char *JCurses_version(void);
 bool    has_key(int);
 int     use_default_colors(void);
 int     wresize(WINDOW *, int, int);
@@ -1287,7 +1287,7 @@ int     ungetmouse(MEVENT *);
 bool    wenclose(const WINDOW *, int, int);
 bool    wmouse_trafo(const WINDOW *, int *, int *, bool);
 
-/* PDCurses */
+/* PDJCurses */
 
 int     addrawch(chtype);
 int     insrawch(chtype);
@@ -1327,9 +1327,9 @@ unsigned long PDC_get_key_modifiers(void);
 int     PDC_return_key_modifiers(bool);
 int     PDC_save_key_modifiers(bool);
 
-#ifdef XCURSES
+#ifdef XJCurses
 WINDOW *Xinitscr(int, char **);
-void    XCursesExit(void);
+void    XJCursesExit(void);
 int     sb_init(void);
 int     sb_set_horz(int, int, int);
 int     sb_set_vert(int, int, int);
@@ -1358,7 +1358,7 @@ int     sb_refresh(void);
 #define getsyx(y, x)       { if (curscr->_leaveit) (y)=(x)=-1; \
                              else getyx(curscr,(y),(x)); }
 
-#ifdef NCURSES_MOUSE_VERSION
+#ifdef NJCurses_MOUSE_VERSION
 # define getmouse(x) nc_getmouse(x)
 #endif
 
@@ -1369,7 +1369,7 @@ int     sb_refresh(void);
 #define PDC_CLIP_EMPTY           2
 #define PDC_CLIP_MEMORY_ERROR    3
 
-/* PDCurses key modifier masks */
+/* PDJCurses key modifier masks */
 
 #define PDC_KEY_MODIFIER_SHIFT   1
 #define PDC_KEY_MODIFIER_CONTROL 2
@@ -1381,4 +1381,4 @@ int     sb_refresh(void);
 }
 #endif
 
-#endif  /* __PDCURSES__ */
+#endif  /* __PDJCurses__ */
