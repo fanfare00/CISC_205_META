@@ -24,6 +24,14 @@ void JamesPP::setup()
 	JamesCurses::mvwprintw(mainWindow, LINES - 1, 0, "%s %s", defaultStatus, (char*)userName.c_str());
 	JamesCurses::wattroff(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLUE)));
 
+<<<<<<< HEAD
+=======
+	JamesCurses::wattron(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLUE)));
+	JamesCurses::mvwprintwCentered(mainWindow, COLS / 2, "Use the arrow keys to move up and down.");
+	JamesCurses::mvwprintwCentered(mainWindow, COLS / 2, "Press <ENTER> to make a selection");
+	JamesCurses::wattroff(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLUE)));
+
+>>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 	ofstream ofs;
 	ofs.open("scores.txt", std::ofstream::out | std::ofstream::trunc);
 	ofs.close();
@@ -45,6 +53,14 @@ void JamesPP::refreshBackground()
 	JamesCurses::mvwprintw(mainWindow, LINES - 1, 0, "%s %s", defaultStatus, (char*)userName.c_str());
 	JamesCurses::wattroff(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLUE)));
 
+<<<<<<< HEAD
+=======
+	JamesCurses::wattron(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_BLUE)));
+	JamesCurses::mvwprintwCentered(mainWindow, LINES-8, "Use the arrow keys to move up and down.");
+	JamesCurses::mvwprintwCentered(mainWindow, LINES - 7, "Press <ENTER> to make a selection");
+	JamesCurses::wattroff(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_BLUE)));
+
+>>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 	wrefresh(mainWindow);
 }
 
@@ -83,7 +99,11 @@ void JamesPP::mainMenu()
 	int choice = 0;
 
 	JamesOptionPanes::showTitleMessage("James' Pointer Power");
+<<<<<<< HEAD
 	choice = JamesOptionPanes::showNavMenu(mainWindow, "-MAIN MENU-", "SIGN IN", "DISPLAY LOGO", "GO GALTON", "PLAY GAME", "GAME HISTIORY", "ID INFORMATION", "STARS", "EXIT");
+=======
+	choice = JamesOptionPanes::showNavMenu(mainWindow, "-MAIN MENU-", "SIGN IN", "DISPLAY LOGO", "GO GALTON", "PLAY GAME", "GAME HISTIORY", "ID INFORMATION", "CREDITS", "STARS", "EXIT");
+>>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 
 	switch (choice)
 	{
@@ -112,10 +132,21 @@ void JamesPP::mainMenu()
 		break;
 
 	case 7:
+<<<<<<< HEAD
 		displayStars();
 		break;
 
 	case 8:
+=======
+		displayCredits();
+		break;
+
+	case 8:
+		displayStars();
+		break;
+
+	case 9:
+>>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 		farewell();
 		break;
 
@@ -299,12 +330,22 @@ void JamesPP::showGalton(WINDOW* win, bool showHistogram)
 
 				for (j = 0; j < box[i]; j++)
 				{
+<<<<<<< HEAD
 					wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_BLACK)));
 					mvwprintw(win, 29 - ((j + 5) / 20), 14 + i * 6, "*");
 					wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_BLACK)));
 				}
 				wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
 				mvwprintw(win, 30, 11 + i * 6, "|  %i  |", i);
+=======
+					wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_RED)));
+					mvwprintw(win, 29 - ((j + 5) / 20), 13 + i * 6, "   ");
+					wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_RED)));
+				}
+				wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
+				mvwprintw(win, 30, 11 + i * 6, "|  %i  |", i);
+				
+>>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 				wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
 			}
 		}
@@ -322,7 +363,11 @@ void JamesPP::goGalton()
 	JamesPP::showGalton(win, true);
 
 	wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLACK)));
+<<<<<<< HEAD
 	JamesCurses::mvwprintwCentered(win, 14, "HISTOGRAM  :  ( 1 * = ~ 20 balls )");
+=======
+	JamesCurses::mvwprintwCentered(win, 14, "HISTOGRAM");
+>>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 	JamesCurses::mvwprintwCentered(win, 1, "  GALTON BOARD FLOW");
 	JamesCurses::mvwprintwCentered(win, 32, "Press <ESC> to return to main menu");
 	JamesCurses::mvwprintwCentered(win, 33, "Press <ENTER> to drop again");
@@ -341,6 +386,16 @@ void JamesPP::goGalton()
 
 	}
 
+<<<<<<< HEAD
+=======
+	for (int i = 0; i < 14; i++)
+	{
+		wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
+		mvwprintw(win, 29 - i, 8, "%i", i * 20);
+		wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
+	}
+
+>>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 	for (int r = 0; r < 61; r+=6)
 	{
 		mvwaddch(win, 29, 11+r, ACS_PLUS);
@@ -551,10 +606,26 @@ void JamesPP::displayIDInfo()
 	mainMenu();
 }
 
+<<<<<<< HEAD
+=======
+void JamesPP::displayCredits()
+{
+	JamesOptionPanes::showMessage(
+		mainWindow,
+		"CREDITS",
+		"Put credits here");
+
+
+	refreshBackground();
+	mainMenu();
+}
+
+>>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 void JamesPP::displayStars()
 {
 	JamesOptionPanes::showMessage(
 		mainWindow,
+<<<<<<< HEAD
 		"ID INFORMATION",
 		"      Programmer         : James McCarthy   \n"
 		"      Assignment #       : TA #1.2CA        \n"
@@ -566,6 +637,10 @@ void JamesPP::displayStars()
 		"      Difficulty         : 5                \n"
 		"      Completion Date    : 9/11/2014        \n"
 		"      Project Name       : JamesCA          \n");
+=======
+		"STARS",
+		"Put stars here");
+>>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 
 
 	refreshBackground();

@@ -30,6 +30,10 @@ public:
 	void playGame();
 	void displayGameHistory();
 	void displayIDInfo();
+<<<<<<< HEAD
+=======
+	void displayCredits();
+>>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 	void displayStars();
 	void farewell();
 
