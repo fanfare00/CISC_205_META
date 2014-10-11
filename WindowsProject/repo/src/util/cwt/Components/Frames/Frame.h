@@ -1,19 +1,22 @@
 #pragma once
 
 #include "../Component.h"
+#include <string>
+
 
 class Frame : public Component
 {
+
+
 public:
-
-	//Frame() :Component() {}
-	Frame(int begX, int begY, int len, int wid) :Component(begX, begY, len, wid)
+	Frame() :Component() {}
+	Frame(int begX, int begY, int len, int wid, std::string title) :Component(begX, begY, len, wid)
 	{
-		setBackground(COLOR_RED);
-
-		//frames need text areas, title areas, border colors, shadow
+		box(this->component, 0, 0);
+		mvwprintw(this->component, 0, ((length / 2) - (title.length()/2)), (char*)title.c_str());
+		//enableBorder(true);
+		
 	}
 
-	//Frame(int begX, int begY, int len, int wid);
 
 };

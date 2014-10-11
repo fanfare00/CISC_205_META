@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 	noecho();
 	cbreak();
 	curs_set(0);
-	resize_term(40, 90);
+	resize_term(40, 100);
 	cwt::loadColor();
 
 

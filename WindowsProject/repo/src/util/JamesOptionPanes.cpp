@@ -81,7 +81,7 @@ string JamesOptionPanes::showInputMessage(WINDOW* parentWindow, string title, st
 {
 	WINDOW* win = JamesOptionPanes::jamesFrame(getWidthFromString(message), getHeightFromString(message)+3);
 	char * cMessage = (char*)message.c_str();
-	char userInput[80];
+	string userInput;
 	int startingLine = 0;
 
 	ConsoleWordWrapper::formatString(&message, 80);
@@ -111,25 +111,23 @@ string JamesOptionPanes::showInputMessage(WINDOW* parentWindow, string title, st
 	wrefresh(textArea);
 	wrefresh(titleArea);
 
-	WINDOW *inputBox = newwin(3, (getmaxx(win) - 8),    (getbegy(win) + getmaxy(win) - 8)                    , (getbegx(win)+4));
-	mvwprintw(inputBox, 1, 1, " ");
-	box(inputBox, 0, 0);
-	wrefresh(inputBox);
+	InputField anInputBox((getbegx(win) + 4), (getbegy(win) + getmaxy(win) - 8), (getmaxx(win) - 8), 3);
 
-	wgetstr(inputBox, userInput);
+	userInput = anInputBox.getInput();
+
+
 	werase(win);
-	werase(inputBox);
+	//werase(inputBox);
 	werase(textArea);
 	delwin(win);
-	delwin(inputBox);
+	//delwin(inputBox);
 	delwin(textArea);
 
-	curs_set(0);
-	noecho();
+
 
 	
 
-	return (string)userInput;
+	return userInput;
 }
 
 

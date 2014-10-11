@@ -25,8 +25,8 @@ void TestingGround::start()
 	Component CRM(25, 1, 10, 5);
 	CRM.setBackground(COLOR_BLUE);
 
-	Frame FRM(1, 1, 10, 5);
-	FRM.enableBorder(true);
+	Frame FRM(1, 1, 30, 10, "TEST TITLE");
+	
 
 	getch();
 	FRM.enableMoveMode(true);

@@ -33,7 +33,7 @@ public:
 
 
 
-private:
+protected:
 	
 
 	bool moveMode = false;

@@ -69,7 +69,7 @@ void JamesCA::setUp()
 
 void JamesCA::refreshBackground()
 {
-	resize_term(40, 90);
+	resize_term(40, 100);
 	delwin(mainWindow);
 	
 	mainWindow = newwin(LINES, COLS, 0, 0);

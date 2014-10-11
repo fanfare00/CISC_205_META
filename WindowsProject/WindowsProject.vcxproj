@@ -91,6 +91,7 @@
     <ClInclude Include="repo\src\util\cwt\Components\Component.h" />
     <ClInclude Include="repo\src\util\ConsoleWordWrapper.h" />
     <ClInclude Include="repo\src\util\cwt\Color\Color.h" />
+    <ClInclude Include="repo\src\util\cwt\Components\InputField\InputField.h" />
     <ClInclude Include="repo\src\util\cwt\CursesWindowToolkit.h" />
     <ClInclude Include="repo\src\util\cwt\Components\Dialogs\DialogFrame.h" />
     <ClInclude Include="repo\src\util\cwt\Components\Frames\Frame.h" />
