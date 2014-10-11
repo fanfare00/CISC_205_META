@@ -48,9 +48,11 @@ using namespace std;
 #include <string>
 #include <bitset>
 
+#include "../util/cwt/CursesWindowToolkit.h"
+
 JamesCA::~JamesCA()
 {
-	//JamesCurses::endwin();
+	//endwin();
 }
 
 JamesCA& JamesCA::getInstance()
@@ -67,19 +69,19 @@ void JamesCA::setUp()
 
 void JamesCA::refreshBackground()
 {
-	JamesCurses::resize_term(40, 90);
-	JamesCurses::delwin(mainWindow);
+	resize_term(40, 90);
+	delwin(mainWindow);
 	
-	mainWindow = JamesCurses::newwin(LINES, COLS, 0, 0);
-	JamesCurses::wbkgd(mainWindow, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_CYAN)));
+	mainWindow = newwin(LINES, COLS, 0, 0);
+	wbkgd(mainWindow, COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_CYAN)));
 
-	JamesCurses::wattron(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_CYAN)));
-	JamesCurses::mvwprintw(mainWindow, LINES - 1, 0, "%s %s", defaultStatus, (char*)userName.c_str());
-	JamesCurses::wattroff(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_CYAN)));
+	wattron(mainWindow, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_CYAN)));
+	mvwprintw(mainWindow, LINES - 1, 0, "%s %s", defaultStatus, (char*)userName.c_str());
+	wattroff(mainWindow, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_CYAN)));
 
 	
 
-	JamesCurses::wrefresh(mainWindow);
+	wrefresh(mainWindow);
 }
 
 void JamesCA::start()
@@ -94,9 +96,9 @@ void JamesCA::start()
 
 void JamesCA::welcomeScreen()
 {
-	WINDOW *win = JamesCurses::newwin(15, 65, 2, 12);
-	JamesCurses::wbox(win, 0, 0);
-	JamesCurses::wbkgd(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_BLUE, COLOR_GREEN)));
+	WINDOW *win = newwin(15, 65, 2, 12);
+	box(win, 0, 0);
+	wbkgd(win, COLOR_PAIR(cwt::colorPair(COLOR_BLUE, COLOR_GREEN)));
 
 	while (win != NULL)
 	{
@@ -104,41 +106,41 @@ void JamesCA::welcomeScreen()
 
 
 
-		JamesCurses::mvwprintw(win, 1, 16, "  _____     _ _       _			");
-		JamesCurses::mvwprintw(win, 2, 16, " / ____|   | | |     | |		");
-		JamesCurses::mvwprintw(win, 3, 16, "| |     ___| | |_   _| | __ _ _ __");
-		JamesCurses::mvwprintw(win, 4, 16, "| |    / _ \\ | | | | | |/ _` | '__|");
-		JamesCurses::mvwprintw(win, 5, 16, "| |___|  __/ | | |_| | | (_| | |	");
-		JamesCurses::mvwprintw(win, 6, 16, " \\_____\\___|_|_|\\__,_|_|\\__,_|_|");
-		JamesCurses::mvwprintw(win, 7, 4, "         _    _ _______ ____  __  __       _______	");
-		JamesCurses::mvwprintw(win, 8, 4, "    /\\  | |  | |__   __/ __ \\|  \\/  |   /\\|__   __|/\\ ");
-		JamesCurses::mvwprintw(win, 9, 4, "   /  \\ | |  | |  | | | |  | | \\  / |  /  \\  | |  /  \\ ");
-		JamesCurses::mvwprintw(win, 10, 4, "  / /\\ \\| |  | |  | | | |  | | |\\/| | / /\\ \\ | | / /\\ \\ ");
-		JamesCurses::mvwprintw(win, 11, 4, " / ____ \\ |__| |  | | | |__| | |  | |/ ____ \\| |/ ____ \\ ");
-		JamesCurses::mvwprintw(win, 12, 4, "/_/    \\_\\____/   |_|  \\____/|_|  |_/_/    \\_\\_/_/    \\_\\ ");
-		JamesCurses::wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_BLUE, COLOR_GREEN)));
+		mvwprintw(win, 1, 16, "  _____     _ _       _			");
+		mvwprintw(win, 2, 16, " / ____|   | | |     | |		");
+		mvwprintw(win, 3, 16, "| |     ___| | |_   _| | __ _ _ __");
+		mvwprintw(win, 4, 16, "| |    / _ \\ | | | | | |/ _` | '__|");
+		mvwprintw(win, 5, 16, "| |___|  __/ | | |_| | | (_| | |	");
+		mvwprintw(win, 6, 16, " \\_____\\___|_|_|\\__,_|_|\\__,_|_|");
+		mvwprintw(win, 7, 4, "         _    _ _______ ____  __  __       _______	");
+		mvwprintw(win, 8, 4, "    /\\  | |  | |__   __/ __ \\|  \\/  |   /\\|__   __|/\\ ");
+		mvwprintw(win, 9, 4, "   /  \\ | |  | |  | | | |  | | \\  / |  /  \\  | |  /  \\ ");
+		mvwprintw(win, 10, 4, "  / /\\ \\| |  | |  | | | |  | | |\\/| | / /\\ \\ | | / /\\ \\ ");
+		mvwprintw(win, 11, 4, " / ____ \\ |__| |  | | | |__| | |  | |/ ____ \\| |/ ____ \\ ");
+		mvwprintw(win, 12, 4, "/_/    \\_\\____/   |_|  \\____/|_|  |_/_/    \\_\\_/_/    \\_\\ ");
+		wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_BLUE, COLOR_GREEN)));
 
-		JamesCurses::wrefresh(win);
-
-
-		JamesCurses::wattron(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_CYAN)));
-		JamesCurses::mvwprintw(mainWindow, 1, 13, "Welcome to James'");
-		JamesCurses::mvwprintw(mainWindow, 17, 16, "--An experimental program examining digital life-forms--");
-		JamesCurses::mvwprintwCentered(mainWindow, LINES / 2 + 5, "Press <ENTER> To Begin");
-		JamesCurses::wattroff(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_CYAN)));
+		wrefresh(win);
 
 
-		JamesCurses::wrefresh(mainWindow);
+		wattron(mainWindow, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_CYAN)));
+		mvwprintw(mainWindow, 1, 13, "Welcome to James'");
+		mvwprintw(mainWindow, 17, 16, "--An experimental program examining digital life-forms--");
+		cwt::mvwprintwCentered(mainWindow, LINES / 2 + 5, "Press <ENTER> To Begin");
+		wattroff(mainWindow, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_CYAN)));
+
+
+		wrefresh(mainWindow);
 
 		//pause for key input
-		int keyPress = JamesCurses::wgetch(win);
+		int keyPress = wgetch(win);
 
 		//test key input
 		if (keyPress == 10)
 		{
-			JamesCurses::werase(win);
-			JamesCurses::wrefresh(win);
-			JamesCurses::delwin(win);
+			werase(win);
+			wrefresh(win);
+			delwin(win);
 
 			refreshBackground();
 			mainMenu();
@@ -243,20 +245,23 @@ void JamesCA::displayPattern(int nSteps, char* ruleSet, char* patternCode)
 	bool rules[7]; //array of possible neighbor configurations
 
 
+
 	//resize the console window based on number of lines user asked to see
-	JamesCurses::resize_term(nSteps + 15, nCells + 6);
+	resize_term(nSteps + 15, nCells + 6);
 
 	//title box that displays the code# and ruleset of the current pattern
 	WINDOW* patternTitle = JamesOptionPanes::titleBox();
-	JamesCurses::mvwprintw(patternTitle, 1, 16, "%s", ruleSet);
-	JamesCurses::mvwprintwCentered(patternTitle, 3, "PATTERN # %s", patternCode);
-	JamesCurses::wrefresh(patternTitle);
+	mvwprintw(patternTitle, 1, 16, "%s", ruleSet);
+	cwt::mvwprintwCentered(patternTitle, 3, "PATTERN # %s", patternCode);
+	
+	
+	wrefresh(patternTitle);
 
 	//window the pattern is displayed inside
-	WINDOW* patternWindow = JamesCurses::newwin(LINES - 12, COLS - 4, 8, (COLS / 2) - ((COLS - 4) / 2));
-	JamesCurses::wbkgd(patternWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_BLACK)));
-	JamesCurses::wbox(patternWindow, 0, 0);
-	JamesCurses::wrefresh(patternWindow);
+	WINDOW* patternWindow = newwin(LINES - 12, COLS - 4, 8, (COLS / 2) - ((COLS - 4) / 2));
+	wbkgd(patternWindow, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_BLACK)));
+	box(patternWindow, 0, 0);
+	wrefresh(patternWindow);
 
 	//dont pause for input
 	nodelay(patternWindow, TRUE);
@@ -276,7 +281,7 @@ void JamesCA::displayPattern(int nSteps, char* ruleSet, char* patternCode)
 	//print "generation 1"
 	for (i = 1; i <= nCells; i++)
 	{
-		JamesCurses::mvwprintw(patternWindow, 1, i, "%c", x[i]);
+		mvwprintw(patternWindow, 1, i, "%c", x[i]);
 	}
 
 	//repeat for each row user asked for
@@ -328,18 +333,18 @@ void JamesCA::displayPattern(int nSteps, char* ruleSet, char* patternCode)
 
 		for (i = 1; i <= nCells; i++)
 		{
-			JamesCurses::mvwprintw(patternWindow, j + 1, i, "%c", x[i]);
+			mvwprintw(patternWindow, j + 1, i, "%c", x[i]);
 
 		}
 
 		//if key is pressed, end pattern loop
-		if ((JamesCurses::wgetch(patternWindow) != ERR))
+		if ((wgetch(patternWindow) != ERR))
 		{
 			break;
 		}
 
 		//refresh after printing line
-		JamesCurses::wrefresh(patternWindow);
+		wrefresh(patternWindow);
 
 		//pause thread for .25 seconds before printing next line
 		napms(250);
@@ -349,10 +354,10 @@ void JamesCA::displayPattern(int nSteps, char* ruleSet, char* patternCode)
 	delete[] x;
 	delete[] x_old;
 
-	JamesCurses::attron(A_BOLD | WA_BLINK | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_BLACK)));
-	JamesCurses::mvprintw(LINES - 3, (COLS / 2) - 2, "BACK");
-	JamesCurses::attroff(A_BOLD | WA_BLINK | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_BLACK)));
-	JamesCurses::refresh();
+	attron(A_BOLD | WA_BLINK | COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_BLACK)));
+	mvprintw(LINES - 3, (COLS / 2) - 2, "BACK");
+	attroff(A_BOLD | WA_BLINK | COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_BLACK)));
+	refresh();
 
 	JamesOptionPanes::hitEnter(patternWindow);
 	refreshBackground();
@@ -407,7 +412,7 @@ void JamesCA::signIn()
 void JamesCA::displayLogo()
 {
 		WINDOW* logoWindow = JamesOptionPanes::largeMessageFrame();
-			JamesCurses::mvwprintwCentered(logoWindow, 2, "THANK YOU FOR VIEWING JAMES' LOGO");
+			cwt::mvwprintwCentered(logoWindow, 2, "THANK YOU FOR VIEWING JAMES' LOGO");
 			
 		int c = 1;
 
@@ -427,7 +432,7 @@ void JamesCA::displayLogo()
 
 		nodelay(logoWindow, TRUE);
 		
-		while ((JamesCurses::wgetch(logoWindow) == ERR))
+		while ((wgetch(logoWindow) == ERR))
 		{
 			c++;
 			if (c == 18)
@@ -441,7 +446,7 @@ void JamesCA::displayLogo()
 				//for every character in the line
 				for (int j = 0; j < 58; j++)
 				{
-					if ((JamesCurses::wgetch(logoWindow) != ERR))
+					if ((wgetch(logoWindow) != ERR))
 					{
 						goto endLoops;
 					}
@@ -449,30 +454,30 @@ void JamesCA::displayLogo()
 					switch (logoLines[i][j])
 					{	
 						case 'J':
-							JamesCurses::wattron(logoWindow, COLOR_PAIR(1));
-							JamesCurses::mvwprintw(logoWindow, 5 + i, 7 + j, "J");
-							JamesCurses::wattroff(logoWindow, COLOR_PAIR(1));
+							wattron(logoWindow, COLOR_PAIR(1));
+							mvwprintw(logoWindow, 5 + i, 7 + j, "J");
+							wattroff(logoWindow, COLOR_PAIR(1));
 						
 							break;
 
 						case 'D':
-							JamesCurses::wattron(logoWindow, COLOR_PAIR(1));
-							JamesCurses::mvwprintw(logoWindow, 5 + i, 7 + j, "D");
-							JamesCurses::wattroff(logoWindow, COLOR_PAIR(1));
+							wattron(logoWindow, COLOR_PAIR(1));
+							mvwprintw(logoWindow, 5 + i, 7 + j, "D");
+							wattroff(logoWindow, COLOR_PAIR(1));
 							break;
 
 						case 'M':
-							JamesCurses::wattron(logoWindow, COLOR_PAIR(1));
-							JamesCurses::mvwprintw(logoWindow, 5 + i, 7 + j, "M");
-							JamesCurses::wattroff(logoWindow, COLOR_PAIR(1));
+							wattron(logoWindow, COLOR_PAIR(1));
+							mvwprintw(logoWindow, 5 + i, 7 + j, "M");
+							wattroff(logoWindow, COLOR_PAIR(1));
 
 							break;
 
 						case '.':
-							JamesCurses::wattron(logoWindow, COLOR_PAIR(c));
-							JamesCurses::mvwprintw(logoWindow, 5 + i, 7 + j, "#");
-							JamesCurses::wattroff(logoWindow, COLOR_PAIR(c));
-							JamesCurses::wrefresh(logoWindow);
+							wattron(logoWindow, COLOR_PAIR(c));
+							mvwprintw(logoWindow, 5 + i, 7 + j, "#");
+							wattroff(logoWindow, COLOR_PAIR(c));
+							wrefresh(logoWindow);
 							
 							napms(40);
 							break;
@@ -486,7 +491,7 @@ void JamesCA::displayLogo()
 		}
 		endLoops:
 
-		JamesCurses::wrefresh(logoWindow);
+		wrefresh(logoWindow);
 
 		refreshBackground();
 		mainMenu();
@@ -523,8 +528,8 @@ void JamesCA::credits()
 		"James' Cellular Automata Program was created by James McCarthy for "
 		"Larry Forman's Fall 2014 CISC 205 Object Oriented C++ class at San "
 		"Diego City College. Thank you to Nils Olsson for introducing me to "
-		"PDCurses and helping me set it up in Visual Studio. Thank you to the "
-		"creators of PDCurses and ncurses for providing documentation that "
+		"PDJCurses and helping me set it up in Visual Studio. Thank you to the "
+		"creators of PDJCurses and nJCurses for providing documentation that "
 		"helped me learn my way around. \n\n\n"
 		"My Github Profile :   www.github.com/fanfare00 \n"
 		"My Blog :             www.jdonaldmccarthy.wordpress.com");
@@ -534,12 +539,12 @@ void JamesCA::credits()
 	JamesOptionPanes::showMessage(
 		mainWindow,
 		"RESOURCES",
-		"\n\nPDCurses Website  :   www.pdcurses.sourceforge.net\n");
+		"\n\nPDJCurses Website  :   www.pdJCurses.sourceforge.net\n");
 
 	//JamesOptionPanes::showMessage(
 	//	mainWindow,
 	//	"RESOURCES",
-	//	" PDCurses Website  :   www.pdcurses.sourceforge.net\n"
+	//	" PDJCurses Website  :   www.pdJCurses.sourceforge.net\n"
 	//	" add more links");
 																		
 

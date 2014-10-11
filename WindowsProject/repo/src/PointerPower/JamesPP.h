@@ -1,13 +1,19 @@
-#include "../util/JamesCurses.h"
+#ifndef JAMESPP_H
+#define JAMESPP_H
+
 #include "../util/JamesOptionPanes.h"
+#include "../util/cwt/CursesWindowToolkit.h"
+#include "curses.h"
 #include <string>
 #include <vector>
 
+
+using namespace std;
 class JamesPP
 {
 public:
 
-	vector<int>     box;
+	vector<int>     gBox;
 	int gameNumber = 0;
 
 	string userName = "Unknown User";
@@ -30,13 +36,11 @@ public:
 	void playGame();
 	void displayGameHistory();
 	void displayIDInfo();
-<<<<<<< HEAD
-=======
-	void displayCredits();
->>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 	void displayStars();
 	void farewell();
 
 	void showGalton(WINDOW* win, bool showHistogram);
 
 };
+
+#endif /* JAMESPP_H */

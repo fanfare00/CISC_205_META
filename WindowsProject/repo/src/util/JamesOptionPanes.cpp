@@ -43,42 +43,23 @@ CREDITS
 ********************************************************************************/
 
 #include "JamesOptionPanes.h"
-#include "JamesCurses.h"
 #include <stdio.h>
 #include <time.h>
 #include "ConsoleWordWrapper.h"
 
 WINDOW* JamesOptionPanes::setUp(int scrHeight, int scrWidth)
 {
-	WINDOW* mainWindow = JamesCurses::initscr();
-	JamesCurses::noecho();
-	JamesCurses::cbreak();
-	JamesCurses::curs_set(0);
-	JamesCurses::resize_term(scrHeight, scrWidth);
+	WINDOW* mainWindow = initscr();
+	noecho();
+	cbreak();
+	curs_set(0);
+	resize_term(scrHeight, scrWidth);
 
-	loadColors();
+	//cwt::loadColor();
 
 	return mainWindow;
 }
 
-void JamesOptionPanes::loadColors()
-{
-	JamesCurses::start_color();
-
-	for (int foreColor = 0; foreColor < 8; foreColor++)
-	{
-		for (int backColor = 0; backColor < 8; backColor++)
-		{
-			init_pair((foreColor * 10) + backColor, foreColor, backColor);
-		}
-	}
-
-}
-
-int JamesOptionPanes::jColor(int foreColor, int backColor)
-{
-	return (foreColor*10) + backColor;
-}
 
 void JamesOptionPanes::showDateTime(WINDOW* win, int y, int x)
 {
@@ -90,8 +71,8 @@ void JamesOptionPanes::showDateTime(WINDOW* win, int y, int x)
 	_strtime_s(time);
 
 	
-	JamesCurses::mvwprintw(win, y,  x, "Date: %s", date);
-	JamesCurses::mvwprintw(win, y+1, x, "Time: %s", time);
+	mvwprintw(win, y,  x, "Date: %s", date);
+	mvwprintw(win, y+1, x, "Time: %s", time);
 	 
 }
 
@@ -105,8 +86,8 @@ string JamesOptionPanes::showInputMessage(WINDOW* parentWindow, string title, st
 
 	ConsoleWordWrapper::formatString(&message, 80);
 	
-	WINDOW* textArea = JamesCurses::newwin((getmaxy(win) - 6), (getmaxx(win) - 4), (getbegy(win) + 3), (getbegx(win) + 2));
-	WINDOW* titleArea = JamesCurses::newwin(1, (getmaxx(win) - 4), (getbegy(win) + 1), (getbegx(win) + 2));
+	WINDOW* textArea = newwin((getmaxy(win) - 6), (getmaxx(win) - 4), (getbegy(win) + 3), (getbegx(win) + 2));
+	WINDOW* titleArea = newwin(1, (getmaxx(win) - 4), (getbegy(win) + 1), (getbegx(win) + 2));
 
 	if (message.length() <= 80)
 	{
@@ -114,37 +95,37 @@ string JamesOptionPanes::showInputMessage(WINDOW* parentWindow, string title, st
 	}
 
 
-	JamesCurses::curs_set(1);
-	JamesCurses::echo();
+	curs_set(1);
+	echo();
 
-	JamesCurses::wattron(win, A_BOLD | WA_BLINK);
-	JamesCurses::mvwprintw(win, (getmaxy(win) - 3), ((getmaxx(win) / 2) - 4), "CONTINUE");
-	JamesCurses::wattroff(win, A_BOLD | WA_BLINK);
+	wattron(win, A_BOLD | WA_BLINK);
+	mvwprintw(win, (getmaxy(win) - 3), ((getmaxx(win) / 2) - 4), "CONTINUE");
+	wattroff(win, A_BOLD | WA_BLINK);
 
 
-	JamesCurses::mvwprintw(titleArea, 0, (getmaxx(titleArea) / 2) - (title.length() / 2), (char*)title.c_str());
-	JamesCurses::mvwprintw(textArea, 1, startingLine, (char*)message.c_str());
+	mvwprintw(titleArea, 0, (getmaxx(titleArea) / 2) - (title.length() / 2), (char*)title.c_str());
+	mvwprintw(textArea, 1, startingLine, (char*)message.c_str());
 	
 
-	JamesCurses::wrefresh(win);
-	JamesCurses::wrefresh(textArea);
-	JamesCurses::wrefresh(titleArea);
+	wrefresh(win);
+	wrefresh(textArea);
+	wrefresh(titleArea);
 
-	WINDOW *inputBox = JamesCurses::newwin(3, (getmaxx(win) - 8),    (getbegy(win) + getmaxy(win) - 8)                    , (getbegx(win)+4));
-	JamesCurses::mvwprintw(inputBox, 1, 1, " ");
-	JamesCurses::wbox(inputBox, 0, 0);
-	JamesCurses::wrefresh(inputBox);
+	WINDOW *inputBox = newwin(3, (getmaxx(win) - 8),    (getbegy(win) + getmaxy(win) - 8)                    , (getbegx(win)+4));
+	mvwprintw(inputBox, 1, 1, " ");
+	box(inputBox, 0, 0);
+	wrefresh(inputBox);
 
 	wgetstr(inputBox, userInput);
-	JamesCurses::werase(win);
-	JamesCurses::werase(inputBox);
-	JamesCurses::werase(textArea);
-	JamesCurses::delwin(win);
-	JamesCurses::delwin(inputBox);
-	JamesCurses::delwin(textArea);
+	werase(win);
+	werase(inputBox);
+	werase(textArea);
+	delwin(win);
+	delwin(inputBox);
+	delwin(textArea);
 
-	JamesCurses::curs_set(0);
-	JamesCurses::noecho();
+	curs_set(0);
+	noecho();
 
 	
 
@@ -163,28 +144,30 @@ void JamesOptionPanes::showMessage(WINDOW* parentWindow, string title, string me
 	
 
 	WINDOW* win = JamesOptionPanes::jamesFrame(getWidthFromString(message), getHeightFromString(message));
-	WINDOW* textArea = JamesCurses::newwin( (getmaxy(win) - 6), (getmaxx(win) - 4), (getbegy(win) + 3), (getbegx(win) + 2) );
-	WINDOW* titleArea = JamesCurses::newwin(1,                  (getmaxx(win) - 4), (getbegy(win) + 1), (getbegx(win) + 2) );
+	WINDOW* textArea = newwin( (getmaxy(win) - 6), (getmaxx(win) - 4), (getbegy(win) + 3), (getbegx(win) + 2) );
+	WINDOW* titleArea = newwin(1,                  (getmaxx(win) - 4), (getbegy(win) + 1), (getbegx(win) + 2) );
 
 	if (message.length() <= 80)
 	{
 		startingLine = (getmaxx(textArea) / 2) - (message.length() / 2);
 	}
 
-	JamesCurses::wattron(win, A_BOLD | WA_BLINK);
-	JamesCurses::mvwprintw(win,(getmaxy(win)-3), ((getmaxx(win)/2) - 4), "CONTINUE");
-	JamesCurses::wattroff(win, A_BOLD | WA_BLINK);
+	wattron(win, A_BOLD | WA_BLINK);
+	mvwprintw(win,(getmaxy(win)-3), ((getmaxx(win)/2) - 4), "CONTINUE");
+	wattroff(win, A_BOLD | WA_BLINK);
 
-	JamesCurses::mvwprintw(titleArea, 0, (getmaxx(titleArea) / 2) - (title.length() / 2), (char*)title.c_str());
-	JamesCurses::mvwprintw(textArea, 1, startingLine, (char*)message.c_str());
+	mvwprintw(titleArea, 0, (getmaxx(titleArea) / 2) - (title.length() / 2), (char*)title.c_str());
+	mvwprintw(textArea, 1, startingLine, (char*)message.c_str());
 	
-	JamesCurses::wrefresh(win);
-	JamesCurses::wrefresh(titleArea);
-	JamesCurses::wrefresh(textArea);
+	
+
+	wrefresh(win);
+	wrefresh(titleArea);
+	wrefresh(textArea);
 
 	
 	JamesOptionPanes::hitEnter(win);
-	JamesCurses::werase(win);
+	werase(win);
 
 }
 
@@ -200,15 +183,15 @@ void JamesOptionPanes::showLargeMessage(WINDOW* parentWindow, string title, stri
 	char* cTitle = (char*)title.c_str();
 	char* cMessage = (char*)message.c_str();
 
-	JamesCurses::wattron(win, A_BOLD | WA_BLINK);
-	JamesCurses::mvwprintwCentered(win, 17, "CONTINUE");
-	JamesCurses::wattroff(win, A_BOLD | WA_BLINK);
+	wattron(win, A_BOLD | WA_BLINK);
+	cwt::mvwprintwCentered(win, 17, "CONTINUE");
+	wattroff(win, A_BOLD | WA_BLINK);
 
-	JamesCurses::mvwprintwCentered(textArea, 2, cTitle);
-	JamesCurses::mvwprintw(textArea, 4, 1, cMessage);
+	cwt::mvwprintwCentered(textArea, 2, cTitle);
+	mvwprintw(textArea, 4, 1, cMessage);
 
-	JamesCurses::wrefresh(textArea);
-	JamesCurses::wrefresh(win);
+	wrefresh(textArea);
+	wrefresh(win);
 
 	JamesOptionPanes::hitEnter(win);
 
@@ -217,17 +200,17 @@ void JamesOptionPanes::showLargeMessage(WINDOW* parentWindow, string title, stri
 
 WINDOW* JamesOptionPanes::titleBox()
 {
-	WINDOW *win = JamesCurses::newwin(5, 40, 2, (COLS/2) - 20);
-	WINDOW *shadowWin = JamesCurses::newwin(5, 40, 3, (COLS / 2) - 19);
-	JamesCurses::wbox(win, 0, 183);
+	WINDOW *win = newwin(5, 40, 2, (COLS/2) - 20);
+	WINDOW *shadowWin = newwin(5, 40, 3, (COLS / 2) - 19);
+	box(win, 0, 183);
 
-	//JamesCurses::wbkgd(win, COLOR_PAIR(jColor(COLOR_BLACK, COLOR_GREEN)));
-	JamesCurses::wbkgd(win, COLOR_PAIR(jColor(COLOR_BLACK, COLOR_GREEN)));
+	//wbkgd(win, COLOR_PAIR(jColor(COLOR_BLACK, COLOR_GREEN)));
+	wbkgd(win, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_GREEN)));
 
 
 
-	JamesCurses::wrefresh(shadowWin);
-	JamesCurses::wrefresh(win);
+	wrefresh(shadowWin);
+	wrefresh(win);
 	
 
 	return win;
@@ -236,8 +219,8 @@ WINDOW* JamesOptionPanes::titleBox()
 void JamesOptionPanes::showTitleMessage(string title)
 {
 	WINDOW* titleBox = JamesOptionPanes::titleBox();
-		JamesCurses::mvwprintw(titleBox, 2, getCenterX(titleBox, title), (char*)title.c_str());
-		JamesCurses::wrefresh(titleBox);
+		mvwprintw(titleBox, 2, getCenterX(titleBox, title), (char*)title.c_str());
+		wrefresh(titleBox);
 }
 
 int JamesOptionPanes::getCenterX(WINDOW* win, string text)
@@ -256,10 +239,10 @@ bool JamesOptionPanes::showConfirmationMessage(WINDOW* parWindow, string title, 
 
 	int menuItemSelection;
 
-	WINDOW *win = JamesCurses::newwin(10, 50, (getmaxy(parWindow)/2) - 5, (getmaxx(parWindow)/2) - 50/2);
+	WINDOW *win = newwin(10, 50, (getmaxy(parWindow)/2) - 5, (getmaxx(parWindow)/2) - 50/2);
 
 	menuItemSelection = navigationMenu(win, menuItems, 2);
-	JamesCurses::wrefresh(win);
+	wrefresh(win);
 	if (menuItemSelection == 1)
 	{
 
@@ -363,9 +346,9 @@ int JamesOptionPanes::getHeightFromString(string message)
 WINDOW* JamesOptionPanes::jamesFrame(int width, int height)
 {
 
-	WINDOW *win = JamesCurses::newwin(height, width, ((getmaxy(stdscr) / 2) - (height) / 2), (getmaxx(stdscr) / 2) - (( width) / 2));
-		JamesCurses::wbox(win, 0, 0);
-		JamesCurses::wbkgd(win, A_BOLD | COLOR_PAIR(jColor(COLOR_YELLOW, COLOR_BLACK)));
+	WINDOW *win = newwin(height, width, ((getmaxy(stdscr) / 2) - (height) / 2), (getmaxx(stdscr) / 2) - (( width) / 2));
+		box(win, 0, 0);
+		wbkgd(win, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_BLACK)));
 
 		mvwaddch(win, 2, 0, ACS_LTEE);
 		mvwaddch(win, 2, width-1, ACS_RTEE);
@@ -381,9 +364,9 @@ WINDOW* JamesOptionPanes::jamesFrame(int width, int height)
 
 WINDOW* JamesOptionPanes::largeMessageFrame()
 {
-	WINDOW *win = JamesCurses::newwin(25, 80, (LINES/2) - 12, (COLS/2) - 40);
-		JamesCurses::wbox(win, 0, 0);
-		JamesCurses::wbkgd(win, A_BOLD | COLOR_PAIR(jColor(COLOR_YELLOW, COLOR_BLACK)));
+	WINDOW *win = newwin(25, 80, (LINES/2) - 12, (COLS/2) - 40);
+		box(win, 0, 0);
+		wbkgd(win, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_BLACK)));
 
 	return win;
 }
@@ -419,10 +402,12 @@ int JamesOptionPanes::navigationMenu(WINDOW *win, string menuItems[], int numMen
 			if (highlight == 1)
 			{
 				highlight = n_menuChoices;
+
 			}
 			else
 			{
 				--highlight;
+
 			}
 			break;
 
@@ -431,10 +416,12 @@ int JamesOptionPanes::navigationMenu(WINDOW *win, string menuItems[], int numMen
 			if (highlight == n_menuChoices)
 			{
 				highlight = 1;
+
 			}
 			else
 			{
 				++highlight;
+
 			}
 			break;
 
@@ -471,7 +458,7 @@ void JamesOptionPanes::printMenuItems(WINDOW *win, string menuItems[], int numMe
 	x = 7;
 	y = 5;
 
-	JamesCurses::wbox(win, 0, 0);
+	box(win, 0, 0);
 
 
 	for (i = 0; i < n_menuChoices; ++i)
@@ -479,18 +466,18 @@ void JamesOptionPanes::printMenuItems(WINDOW *win, string menuItems[], int numMe
 		if (highlight == i + 1) /* High light the present choice */
 		{
 			
-			JamesCurses::wattron(win,  COLOR_PAIR(jColor(COLOR_WHITE, COLOR_YELLOW)));
-			JamesCurses::mvwprintw(win, y, x, (char*)menuItems[i].c_str());
-			JamesCurses::wattroff(win,   COLOR_PAIR(jColor(COLOR_WHITE, COLOR_YELLOW)));
+			wattron(win, COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_YELLOW)));
+			mvwprintw(win, y, x, (char*)menuItems[i].c_str());
+			wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_YELLOW)));
 		}
 		else
 			
-			JamesCurses::mvwprintw(win, y, x, (char*)menuItems[i].c_str());
+			mvwprintw(win, y, x, (char*)menuItems[i].c_str());
 			
 		y++;
 	}
 
-	JamesCurses::wrefresh(win);
+	wrefresh(win);
 }
 
 void JamesOptionPanes::hitEnter(WINDOW *win)
@@ -501,7 +488,7 @@ void JamesOptionPanes::hitEnter(WINDOW *win)
 	while (true)
 	{
 		//pause for key input
-		keyPress = JamesCurses::wgetch(win);
+		keyPress = wgetch(win);
 
 		//test key input
 		if (keyPress == 10)

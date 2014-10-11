@@ -1,21 +1,26 @@
+#pragma once
 
+#include "../util/cwt/CursesWindowToolkit.h"
+//#include "../util/cwt/Components/Component.h"
 #include "..\CellularAutomata\JamesCA.h"
 #include "..\PointerPower\JamesPP.h"
 
-#include "..\util\JamesCurses.h"
 #include "..\util\JamesOptionPanes.h"
+
+#include "..\TestingGround\TestingGround.h"
+
 
 int main(int argc, char *argv[])
 {
-	JamesCurses::initscr();
-	JamesCurses::noecho();
-	JamesCurses::cbreak();
-	JamesCurses::curs_set(0);
-	JamesCurses::resize_term(40, 90);
-	JamesOptionPanes::loadColors();
+	initscr();
+	noecho();
+	cbreak();
+	curs_set(0);
+	resize_term(40, 90);
+	cwt::loadColor();
 
 
-	WINDOW *loaderWin = JamesCurses::newwin(40, 90, 0, 0);
+	WINDOW *loaderWin = newwin(40, 90, 0, 0);
 	int choice = 0;
 
 	while (true)
@@ -37,6 +42,10 @@ int main(int argc, char *argv[])
 		case 3:
 			JamesPP::getInstance().start();
 			break;
+
+		case 4:
+			TestingGround::getInstance().start();
+			break;
 			
 		default: 
 			exit(1);
@@ -48,6 +57,7 @@ int main(int argc, char *argv[])
 			"CELLULAR AUTOMATA",
 			"AFFIRMATIVE INTERACTION",
 			"POINTER POWER",
+			"TESTING GROUND",
 			"EXIT");
 	}
 	
@@ -55,3 +65,4 @@ int main(int argc, char *argv[])
 	
 	return 0;
 }
+

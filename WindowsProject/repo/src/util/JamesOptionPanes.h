@@ -41,11 +41,9 @@ CREDITS
 ********************************************************************************
 ********************************************************************************
 ********************************************************************************/
-#ifndef JamesOptionPanes_H
-#define JamesOptionPanes_H
+#pragma once
 
-
-#include "curses.h"
+#include "cwt/CursesWindowToolkit.h"
 #include <string>
 using namespace std;
 
@@ -56,7 +54,7 @@ public:
 
 
 	static WINDOW* setUp(int scrHeight, int scrWidth);
-	static void loadColors();
+	//static void loadColors();
 	static void colorOn();
 	static void colorOff();
 
@@ -108,7 +106,7 @@ public:
 
 	static int getCenterX(WINDOW* win, string text);
 
-	static int jColor(int foreColor, int backColor);
+	//static int JamesColor::colorPair(int foreColor, int backColor);
 
 	template<typename... Arguments>
 	static int showNavMenu(WINDOW* parentWindow, string title, Arguments&... args)
@@ -119,12 +117,12 @@ public:
 		string menuItems[] = { args... };
 		int nMenuItems = sizeof...(Arguments);
 
-		WINDOW *menuFrame = JamesCurses::newwin(7+nMenuItems, 40, 14, (COLS / 2) - 20);
-		WINDOW *shadowWin = JamesCurses::newwin(7 + nMenuItems, 40, 15, (COLS / 2) - 19);
-		JamesCurses::wbkgd(menuFrame, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_BLACK, COLOR_YELLOW)));
-		JamesCurses::mvwprintw(menuFrame, 2, (getmaxx(menuFrame)/2) - (title.length())/2, cTitle);
-		JamesCurses::wrefresh(shadowWin);
-		JamesCurses::wrefresh(menuFrame);
+		WINDOW *menuFrame = newwin(7+nMenuItems, 40, 14, (COLS / 2) - 20);
+		WINDOW *shadowWin = newwin(7 + nMenuItems, 40, 15, (COLS / 2) - 19);
+		wbkgd(menuFrame, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_YELLOW)));
+		mvwprintw(menuFrame, 2, (getmaxx(menuFrame)/2) - (title.length())/2, cTitle);
+		wrefresh(shadowWin);
+		wrefresh(menuFrame);
 
 		choice = JamesOptionPanes::navigationMenu(menuFrame, menuItems, nMenuItems);
 
@@ -159,4 +157,3 @@ public:
 	};
 };
 
-#endif /* JamesOptionPanes_H */

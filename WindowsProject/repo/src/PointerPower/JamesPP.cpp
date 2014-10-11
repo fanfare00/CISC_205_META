@@ -4,9 +4,11 @@
 #include <iostream>
 #include <fstream>
 
+
+using namespace std;
 JamesPP::~JamesPP()
 {
-	//JamesCurses::endwin();
+	//endwin();
 }
 
 JamesPP& JamesPP::getInstance()
@@ -17,21 +19,13 @@ JamesPP& JamesPP::getInstance()
 
 void JamesPP::setup()
 {
-	mainWindow = JamesCurses::newwin(LINES, COLS, 0, 0);
-	JamesCurses::wbkgd(mainWindow, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_BLUE)));
+	mainWindow = newwin(LINES, COLS, 0, 0);
+	wbkgd(mainWindow, COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_BLUE)));
 
-	JamesCurses::wattron(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLUE)));
-	JamesCurses::mvwprintw(mainWindow, LINES - 1, 0, "%s %s", defaultStatus, (char*)userName.c_str());
-	JamesCurses::wattroff(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLUE)));
+	wattron(mainWindow, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLUE)));
+	mvwprintw(mainWindow, LINES - 1, 0, "%s %s", defaultStatus, (char*)userName.c_str());
+	wattroff(mainWindow, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLUE)));
 
-<<<<<<< HEAD
-=======
-	JamesCurses::wattron(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLUE)));
-	JamesCurses::mvwprintwCentered(mainWindow, COLS / 2, "Use the arrow keys to move up and down.");
-	JamesCurses::mvwprintwCentered(mainWindow, COLS / 2, "Press <ENTER> to make a selection");
-	JamesCurses::wattroff(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLUE)));
-
->>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 	ofstream ofs;
 	ofs.open("scores.txt", std::ofstream::out | std::ofstream::trunc);
 	ofs.close();
@@ -49,44 +43,36 @@ void JamesPP::refreshBackground()
 	wclear(mainWindow);
 	
 
-	JamesCurses::wattron(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLUE)));
-	JamesCurses::mvwprintw(mainWindow, LINES - 1, 0, "%s %s", defaultStatus, (char*)userName.c_str());
-	JamesCurses::wattroff(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLUE)));
+	wattron(mainWindow, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLUE)));
+	mvwprintw(mainWindow, LINES - 1, 0, "%s %s", defaultStatus, (char*)userName.c_str());
+	wattroff(mainWindow, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLUE)));
 
-<<<<<<< HEAD
-=======
-	JamesCurses::wattron(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_BLUE)));
-	JamesCurses::mvwprintwCentered(mainWindow, LINES-8, "Use the arrow keys to move up and down.");
-	JamesCurses::mvwprintwCentered(mainWindow, LINES - 7, "Press <ENTER> to make a selection");
-	JamesCurses::wattroff(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_BLUE)));
-
->>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 	wrefresh(mainWindow);
 }
 
 void JamesPP::welcomeScreen()
 {
-	WINDOW *welcomeWin = JamesCurses::newwin(15, 65, 2, 12);
-	JamesCurses::wbox(welcomeWin, 0, 0);
-	JamesCurses::wbkgd(welcomeWin, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_BLUE, COLOR_GREEN)));
+	WINDOW *welcomeWin = newwin(15, 65, 2, 12);
+	box(welcomeWin, 0, 0);
+	wbkgd(welcomeWin, COLOR_PAIR(cwt::colorPair(COLOR_BLUE, COLOR_GREEN)));
 
 	while (welcomeWin != NULL)
 	{
-		JamesCurses::wattron(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_BLUE)));
-		JamesCurses::mvwprintwCentered(mainWindow, (LINES/2), "Welcome to James' Pointer Power");
-		JamesCurses::mvwprintwCentered(mainWindow, (LINES / 2) + 1, "Press <ENTER> To Begin");
-		JamesCurses::wattroff(mainWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_BLUE)));
+		wattron(mainWindow, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_BLUE)));
+		cwt::mvwprintwCentered(mainWindow, (LINES/2), "Welcome to James' Pointer Power");
+		cwt::mvwprintwCentered(mainWindow, (LINES / 2) + 1, "Press <ENTER> To Begin");
+		wattroff(mainWindow, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_BLUE)));
 
 
-		JamesCurses::wrefresh(mainWindow);
+		wrefresh(mainWindow);
 
 		JamesOptionPanes::hitEnter(mainWindow);
 		break;
 	}
 
-	JamesCurses::werase(welcomeWin);
-	JamesCurses::wrefresh(welcomeWin);
-	JamesCurses::delwin(welcomeWin);
+	werase(welcomeWin);
+	wrefresh(welcomeWin);
+	delwin(welcomeWin);
 
 	refreshBackground();
 
@@ -99,11 +85,7 @@ void JamesPP::mainMenu()
 	int choice = 0;
 
 	JamesOptionPanes::showTitleMessage("James' Pointer Power");
-<<<<<<< HEAD
 	choice = JamesOptionPanes::showNavMenu(mainWindow, "-MAIN MENU-", "SIGN IN", "DISPLAY LOGO", "GO GALTON", "PLAY GAME", "GAME HISTIORY", "ID INFORMATION", "STARS", "EXIT");
-=======
-	choice = JamesOptionPanes::showNavMenu(mainWindow, "-MAIN MENU-", "SIGN IN", "DISPLAY LOGO", "GO GALTON", "PLAY GAME", "GAME HISTIORY", "ID INFORMATION", "CREDITS", "STARS", "EXIT");
->>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 
 	switch (choice)
 	{
@@ -132,21 +114,10 @@ void JamesPP::mainMenu()
 		break;
 
 	case 7:
-<<<<<<< HEAD
 		displayStars();
 		break;
 
 	case 8:
-=======
-		displayCredits();
-		break;
-
-	case 8:
-		displayStars();
-		break;
-
-	case 9:
->>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 		farewell();
 		break;
 
@@ -168,12 +139,12 @@ void JamesPP::signIn()
 
 void JamesPP::displayLogo()
 {
-	WINDOW *logoWindow = JamesCurses::newwin(25, 80, (LINES / 2) - 11, (COLS / 2) - 40);
-	JamesCurses::wbox(logoWindow, 0, 0);
-	JamesCurses::wbkgd(logoWindow, A_BOLD | COLOR_PAIR(JamesOptionPanes::jColor(COLOR_YELLOW, COLOR_BLACK)));
+	WINDOW *logoWindow = newwin(25, 80, (LINES / 2) - 11, (COLS / 2) - 40);
+	box(logoWindow, 0, 0);
+	wbkgd(logoWindow, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_BLACK)));
 
-	JamesCurses::mvwprintwCentered(logoWindow, 2, "THANK YOU FOR VIEWING JAMES' LOGO");
-	JamesCurses::mvwprintwCentered(logoWindow, (getmaxy(logoWindow)-3), "Press any key to quit.");
+	cwt::mvwprintwCentered(logoWindow, 2, "THANK YOU FOR VIEWING JAMES' LOGO");
+	cwt::mvwprintwCentered(logoWindow, (getmaxy(logoWindow)-3), "Press any key to quit.");
 
 	int c = 0;
 
@@ -193,7 +164,7 @@ void JamesPP::displayLogo()
 
 	nodelay(logoWindow, TRUE);
 
-	while ((JamesCurses::wgetch(logoWindow) == ERR))
+	while ((wgetch(logoWindow) == ERR))
 	{
 		c+=10;
 		if (c == 95)
@@ -207,7 +178,7 @@ void JamesPP::displayLogo()
 			//for every character in the line
 			for (int j = 0; j < 58; j++)
 			{
-				if ((JamesCurses::wgetch(logoWindow) != ERR))
+				if ((wgetch(logoWindow) != ERR))
 				{
 					goto endLoops;
 				}
@@ -215,30 +186,30 @@ void JamesPP::displayLogo()
 				switch (logoLines[i][j])
 				{
 				case 'J':
-JamesCurses::wattron(logoWindow, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_BLUE)));
-JamesCurses::mvwprintw(logoWindow, 6 + i, 9 + j, "J");
-JamesCurses::wattroff(logoWindow, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_BLUE)));
+wattron(logoWindow, COLOR_PAIR(cwt::colorPair(COLOR_RED, COLOR_BLUE)));
+mvwprintw(logoWindow, 6 + i, 9 + j, "J");
+wattroff(logoWindow, COLOR_PAIR(cwt::colorPair(COLOR_RED, COLOR_BLUE)));
 
 break;
 
 				case 'D':
-					JamesCurses::wattron(logoWindow, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_BLUE)));
-					JamesCurses::mvwprintw(logoWindow, 6 + i, 9 + j, "D");
-					JamesCurses::wattroff(logoWindow, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_BLUE)));
+					wattron(logoWindow, COLOR_PAIR(cwt::colorPair(COLOR_RED, COLOR_BLUE)));
+					mvwprintw(logoWindow, 6 + i, 9 + j, "D");
+					wattroff(logoWindow, COLOR_PAIR(cwt::colorPair(COLOR_RED, COLOR_BLUE)));
 					break;
 
 				case 'M':
-					JamesCurses::wattron(logoWindow, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_BLUE)));
-					JamesCurses::mvwprintw(logoWindow, 6 + i, 9 + j, "M");
-					JamesCurses::wattroff(logoWindow, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_BLUE)));
+					wattron(logoWindow, COLOR_PAIR(cwt::colorPair(COLOR_RED, COLOR_BLUE)));
+					mvwprintw(logoWindow, 6 + i, 9 + j, "M");
+					wattroff(logoWindow, COLOR_PAIR(cwt::colorPair(COLOR_RED, COLOR_BLUE)));
 
 					break;
 
 				case '.':
-					JamesCurses::wattron(logoWindow, COLOR_PAIR(c));
-					JamesCurses::mvwprintw(logoWindow, 6 + i, 9 + j, "#");
-					JamesCurses::wattroff(logoWindow, COLOR_PAIR(c));
-					JamesCurses::wrefresh(logoWindow);
+					wattron(logoWindow, COLOR_PAIR(c));
+					mvwprintw(logoWindow, 6 + i, 9 + j, "#");
+					wattroff(logoWindow, COLOR_PAIR(c));
+					wrefresh(logoWindow);
 
 					napms(40);
 					break;
@@ -252,7 +223,7 @@ break;
 	}
 endLoops:
 
-	JamesCurses::wrefresh(logoWindow);
+	wrefresh(logoWindow);
 
 	refreshBackground();
 	mainMenu();
@@ -266,7 +237,7 @@ void JamesPP::showGalton(WINDOW* win, bool showHistogram)
 	string coolString = "";
 
 	
-	box.resize(ballCount);
+	gBox.resize(ballCount);
 
 	int     left_or_right = 0;
 	int     counter;
@@ -283,7 +254,7 @@ void JamesPP::showGalton(WINDOW* win, bool showHistogram)
 
 		for (i = 0; i < ballCount; i++)
 		{
-			box[i] = 0;
+			gBox[i] = 0;
 		}
 
 
@@ -298,25 +269,25 @@ void JamesPP::showGalton(WINDOW* win, bool showHistogram)
 
 
 			}
-			box[counter] = box[counter]++;
+			gBox[counter] = gBox[counter]++;
 		}
 
 		for (i = 0; i <= boxCount; i++)
 		{
-			wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_WHITE, COLOR_BLACK)));
-			JamesCurses::mvwprintwCentered(win, 2 + k, (char*)coolString.c_str());
-			wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_WHITE, COLOR_BLACK)));
+			wattron(win, COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_BLACK)));
+			cwt::mvwprintwCentered(win, 2 + k, (char*)coolString.c_str());
+			wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_BLACK)));
 
-			wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
-			JamesCurses::mvwprintw(win, 3 + k, 2, "%i:", k);
-			wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
+			wattron(win, COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+			mvwprintw(win, 3 + k, 2, "%i:", k);
+			wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
 
 
-			if (box[i] < 100)
+			if (gBox[i] < 100)
 			{
 				coolString += " ";
 			}
-			coolString += "   " + to_string(box[i]);
+			coolString += "   " + to_string(gBox[i]);
 
 			if (k == 10 && i < 10 && showHistogram == true)
 			{
@@ -328,30 +299,20 @@ void JamesPP::showGalton(WINDOW* win, bool showHistogram)
 
 
 
-				for (j = 0; j < box[i]; j++)
+				for (j = 0; j < gBox[i]; j++)
 				{
-<<<<<<< HEAD
-					wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_BLACK)));
+					wattron(win, COLOR_PAIR(cwt::colorPair(COLOR_RED, COLOR_BLACK)));
 					mvwprintw(win, 29 - ((j + 5) / 20), 14 + i * 6, "*");
-					wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_BLACK)));
+					wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_RED, COLOR_BLACK)));
 				}
-				wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
+				wattron(win, COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
 				mvwprintw(win, 30, 11 + i * 6, "|  %i  |", i);
-=======
-					wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_RED)));
-					mvwprintw(win, 29 - ((j + 5) / 20), 13 + i * 6, "   ");
-					wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_RED, COLOR_RED)));
-				}
-				wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
-				mvwprintw(win, 30, 11 + i * 6, "|  %i  |", i);
-				
->>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
-				wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
+				wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
 			}
 		}
 	}
 
-		JamesCurses::mvwprintw(win, 13, 2, "   ");
+		mvwprintw(win, 13, 2, "   ");
 }
 
 void JamesPP::goGalton()
@@ -362,16 +323,12 @@ void JamesPP::goGalton()
 
 	JamesPP::showGalton(win, true);
 
-	wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLACK)));
-<<<<<<< HEAD
-	JamesCurses::mvwprintwCentered(win, 14, "HISTOGRAM  :  ( 1 * = ~ 20 balls )");
-=======
-	JamesCurses::mvwprintwCentered(win, 14, "HISTOGRAM");
->>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
-	JamesCurses::mvwprintwCentered(win, 1, "  GALTON BOARD FLOW");
-	JamesCurses::mvwprintwCentered(win, 32, "Press <ESC> to return to main menu");
-	JamesCurses::mvwprintwCentered(win, 33, "Press <ENTER> to drop again");
-	wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLACK)));
+	wattron(win, COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+	cwt::mvwprintwCentered(win, 14, "HISTOGRAM  :  ( 1 * = ~ 20 balls )");
+	cwt::mvwprintwCentered(win, 1, "  GALTON BOARD FLOW");
+	cwt::mvwprintwCentered(win, 32, "Press <ESC> to return to main menu");
+	cwt::mvwprintwCentered(win, 33, "Press <ENTER> to drop again");
+	wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
 
 	for (int t = 0; t < getmaxx(win)-2; t++)
 	{
@@ -386,16 +343,6 @@ void JamesPP::goGalton()
 
 	}
 
-<<<<<<< HEAD
-=======
-	for (int i = 0; i < 14; i++)
-	{
-		wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
-		mvwprintw(win, 29 - i, 8, "%i", i * 20);
-		wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
-	}
-
->>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 	for (int r = 0; r < 61; r+=6)
 	{
 		mvwaddch(win, 29, 11+r, ACS_PLUS);
@@ -407,7 +354,7 @@ void JamesPP::goGalton()
 	
 	wrefresh(win);
 
-	int keyPress = JamesCurses::wgetch(win);
+	int keyPress = wgetch(win);
 
 	//test key input
 	if (keyPress == 10)
@@ -444,18 +391,18 @@ void JamesPP::playGame()
 
 	gameNumber += 1;
 
-	wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
+	wattron(win, COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
 	mvwprintw(win, 14, 2, "WEIGHT:    126    14   3.5   1.5    1     1    1.5   3.5    14   126");
-	wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_MAGENTA, COLOR_BLACK)));
+	wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
 	mvwprintw(win, 16, 2, "SCORE:");
 
-	wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_CYAN, COLOR_BLACK)));
+	wattron(win, COLOR_PAIR(cwt::colorPair(COLOR_CYAN, COLOR_BLACK)));
 	for (int i = 0; i < 10; i++)
 	{
 
 
 
-		aString = to_string(box[i] * values[i]);
+		aString = to_string(gBox[i] * values[i]);
 		aString.erase(aString.find_last_not_of('0') + 1, std::string::npos);
 		if (aString.back() == '.')
 		{
@@ -463,11 +410,11 @@ void JamesPP::playGame()
 		}
 		
 		
-		score += (box[i] * values[i]);
+		score += (gBox[i] * values[i]);
 		mvwprintw(win, 16, 13+i*6, (char*)aString.c_str());
 
 	}
-	wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_CYAN, COLOR_BLACK)));
+	wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_CYAN, COLOR_BLACK)));
 
 	for (int t = 0; t < getmaxx(win) - 2; t++)
 	{
@@ -496,19 +443,19 @@ void JamesPP::playGame()
 		JamesOptionPanes::showMessage(mainWindow, "ERROR", "Unable to open file 'scores.txt'.");
 	}
 
-	wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_WHITE, COLOR_BLACK)));
-	JamesCurses::mvwprintwCentered(win, 24, (char*)congrats.c_str());
-	wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_WHITE, COLOR_BLACK)));
+	wattron(win, COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_BLACK)));
+	cwt::mvwprintwCentered(win, 24, (char*)congrats.c_str());
+	wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_BLACK)));
 
-	wattron(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLACK)));
-	JamesCurses::mvwprintwCentered(win, 1, "   PLAY GAME");
-	JamesCurses::mvwprintwCentered(win, 32, "Press <ESC> to return to main menu");
-	JamesCurses::mvwprintwCentered(win, 33, "Press <ENTER> to drop again");
-	wattroff(win, COLOR_PAIR(JamesOptionPanes::jColor(COLOR_GREEN, COLOR_BLACK)));
+	wattron(win, COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+	cwt::mvwprintwCentered(win, 1, "   PLAY GAME");
+	cwt::mvwprintwCentered(win, 32, "Press <ESC> to return to main menu");
+	cwt::mvwprintwCentered(win, 33, "Press <ENTER> to drop again");
+	wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
 
 	wrefresh(win);
 
-	int keyPress = JamesCurses::wgetch(win);
+	int keyPress = wgetch(win);
 
 	//test key input
 	if (keyPress == 10)
@@ -549,8 +496,8 @@ void JamesPP::displayGameHistory()
 	}
 
 
-	JamesCurses::mvwprintwCentered(win, 4, (char*)summary.c_str());
-	JamesCurses::mvwprintwCentered(win, 1, "GAME HISTORY");
+	cwt::mvwprintwCentered(win, 4, (char*)summary.c_str());
+	cwt::mvwprintwCentered(win, 1, "GAME HISTORY");
 
 	
 	for (int i = 1; i <= gameNumber; i++)
@@ -564,12 +511,12 @@ void JamesPP::displayGameHistory()
 		game = "Game #" + to_string(i) + ": " + myLines[i - 1];
 
 
-		JamesCurses::mvwprintw(win, 6 + i, 10, (char*)game.c_str());
+		mvwprintw(win, 6 + i, 10, (char*)game.c_str());
 	}
 
-	JamesCurses::wattron(win, A_BOLD | WA_BLINK);
-	JamesCurses::mvwprintw(win, (getmaxy(win) - 3), ((getmaxx(win) / 2) - 4), "CONTINUE");
-	JamesCurses::wattroff(win, A_BOLD | WA_BLINK);
+	wattron(win, A_BOLD | WA_BLINK);
+	mvwprintw(win, (getmaxy(win) - 3), ((getmaxx(win) / 2) - 4), "CONTINUE");
+	wattroff(win, A_BOLD | WA_BLINK);
 	wrefresh(win);
 
 	JamesOptionPanes::hitEnter(win);
@@ -606,26 +553,10 @@ void JamesPP::displayIDInfo()
 	mainMenu();
 }
 
-<<<<<<< HEAD
-=======
-void JamesPP::displayCredits()
-{
-	JamesOptionPanes::showMessage(
-		mainWindow,
-		"CREDITS",
-		"Put credits here");
-
-
-	refreshBackground();
-	mainMenu();
-}
-
->>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 void JamesPP::displayStars()
 {
 	JamesOptionPanes::showMessage(
 		mainWindow,
-<<<<<<< HEAD
 		"ID INFORMATION",
 		"      Programmer         : James McCarthy   \n"
 		"      Assignment #       : TA #1.2CA        \n"
@@ -637,10 +568,6 @@ void JamesPP::displayStars()
 		"      Difficulty         : 5                \n"
 		"      Completion Date    : 9/11/2014        \n"
 		"      Project Name       : JamesCA          \n");
-=======
-		"STARS",
-		"Put stars here");
->>>>>>> 77862894765ab4f0eb5df267235b2130f7238f82
 
 
 	refreshBackground();

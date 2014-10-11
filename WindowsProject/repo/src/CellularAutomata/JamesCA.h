@@ -45,8 +45,8 @@ CREDITS
 #ifndef JAMESCA_H
 #define JAMESCA_H
 
-#include "curses.h"
-#include "../util/JamesCurses.h"
+#include "../util/cwt/CursesWindowToolkit.h"
+#include "../util/../util/cwt/CursesWindowToolkit.h"
 #include "../util/JamesOptionPanes.h"
 #include <string>
 
