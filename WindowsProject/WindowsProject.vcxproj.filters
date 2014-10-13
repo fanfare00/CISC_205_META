@@ -36,10 +36,13 @@
     <ClCompile Include="repo\src\util\cwt\Components\Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="repo\src\util\cwt\Components\Dialogs\DialogFrame.cpp">
+    <ClCompile Include="repo\src\util\cwt\Frames\Frame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="repo\src\util\cwt\Components\Frames\Frame.cpp">
+    <ClCompile Include="repo\src\util\cwt\Frames\Dialogs\DialogFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="repo\src\util\cwt\Components\ButtonMenu\ButtonMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,13 +80,19 @@
     <ClInclude Include="repo\src\util\cwt\Components\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="repo\src\util\cwt\Components\Dialogs\DialogFrame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="repo\src\util\cwt\Components\Frames\Frame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="repo\src\util\cwt\Components\InputField\InputField.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="repo\src\util\cwt\Components\TextArea\TextArea.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="repo\src\util\cwt\Frames\Frame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="repo\src\util\cwt\Frames\Dialogs\DialogFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="repo\src\util\cwt\Components\ButtonMenu\ButtonMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

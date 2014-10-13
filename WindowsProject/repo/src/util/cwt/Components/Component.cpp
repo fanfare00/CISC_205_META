@@ -11,19 +11,21 @@ Component::Component()
 
 Component::Component(int begX, int begY, int len, int wid) : x(begX), y(begY), length(len), width(wid)
 {
-	this->component->_begx = x;
-	this->component->_begy = y;
-	this->component->_maxx = length;
-	this->component->_maxy = width;
+	//this->component->_begx = x;
+	//this->component->_begy = y;
+	updateXY(x, y);
+	updateLW(length, width);
+
+
 
 	drawWin();
 }
 
 Component::~Component()
 {
-	touchwin(component);
-	wrefresh(component);
-	delwin(component);
+	//touchwin(component);
+	//wrefresh(component);
+//	delwin(component);
 }
 
 void Component::setSize(int len, int wid)
@@ -37,6 +39,8 @@ void  Component::setLocation(int begX, int begY)
 {
 
 	updateXY(begX, begY);
+
+
 	drawWin();
 }
 
@@ -44,6 +48,7 @@ void Component::setBounds(int begX, int begY, int len, int wid)
 {
 	this->length = len;
 	this->width = wid;
+
 	updateXY(begX, begY);
 	drawWin();
 }
@@ -80,7 +85,7 @@ void Component::drawWin()
 	this->component->_maxy = width;
 	
 
-	wbkgd(this->component, COLOR_PAIR(cwt::colorPair(foregroundColor, backgroundColor)));
+	wbkgd(this->component,COLOR_PAIR(cwt::colorPair(foregroundColor, backgroundColor)));
 
 	//werase(stdscr);
 	//wrefresh(stdscr);
@@ -108,6 +113,8 @@ void Component::updateXY(int begX, int begY)
 		this->y = begY;
 	}
 
+
+
 	if ((begX >= 0) && (begX <= COLS - length))
 	{
 		this->x = begX;
@@ -116,6 +123,24 @@ void Component::updateXY(int begX, int begY)
 
 void Component::updateLW(int l, int w)
 {
+
+	if ((l >= 0) && (l <= COLS - x))
+	{
+		this->length = l;
+	}
+	else
+	{
+		this->length = COLS - x-2;
+	}
+	
+	if ((w >= 0) && (w <= LINES - y))
+	{
+		this->width = w;
+	}
+	else
+	{
+		this->width = LINES - x-2;
+	}
 
 }
 

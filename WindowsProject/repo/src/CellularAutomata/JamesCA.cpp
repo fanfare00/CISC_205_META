@@ -252,7 +252,7 @@ void JamesCA::displayPattern(int nSteps, char* ruleSet, char* patternCode)
 	//title box that displays the code# and ruleset of the current pattern
 	WINDOW* patternTitle = JamesOptionPanes::titleBox();
 	mvwprintw(patternTitle, 1, 16, "%s", ruleSet);
-	cwt::mvwprintwCentered(patternTitle, 3, "PATTERN # %s", patternCode);
+	cwt::mvwprintwCentered(patternTitle, 3, "PATTERN # " + (string)patternCode);
 	
 	
 	wrefresh(patternTitle);
