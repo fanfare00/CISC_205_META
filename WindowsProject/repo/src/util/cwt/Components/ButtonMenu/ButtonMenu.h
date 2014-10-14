@@ -4,6 +4,13 @@
 #include <vector>
 #include <string>
 
+#define BUTTON_POSITION_MIDDLE 0
+#define BUTTON_POSITION_LEFT 1
+#define BUTTON_POSITION_RIGHT 2
+
+#define BUTTON_POSITION_DOUBLE_LEFT 3
+#define BUTTON_POSITION_DOUBLE_RIGHT 4
+
 class ButtonMenu : Component
 {
 public:
@@ -18,52 +25,117 @@ public:
 
 
 
-		mvwprintw(this->component, 1, 20, "TEST");
+		//mvwprintw(this->component, 1, 20, "TEST");
 
-		addButtons(buttons[0]);
+		addButtons(buttons);
 
 	}
 
 
 
 	inline void drawBorder();
-	inline void addButtons(std::string buttons);
+	inline void addButtons(std::vector<std::string> buttons);
+	int getButtonChoice();
+
 
 	int nButtons;
 	int buttonSpace = 0;
-
-
-
-};
-
-struct CButton
-{
-	WINDOW* parentWindow;
-	std::string name;
-	bool highlighted;
-
-	void drawButton(WINDOW* c);
-	void highlight();
-
-};
-
-
-inline void ButtonMenu::addButtons(std::string buttonText)
-{
 	
 
+	struct CButton
+	{
+		WINDOW* parentWindow;
+		std::string name;
+		
+		int highlightColor;
+		void drawButton(WINDOW* c);
+		//void highlight();
+
+		int position;
+		int choice;
+	};
+
+};
 
 
-	CButton b;
+
+
+inline void ButtonMenu::addButtons(std::vector<std::string> buttons)
+{
+	CButton b1;
+	CButton b2;
+	CButton b3;
+
+	if (nButtons == 1)
+	{
+		b1.name = buttons[0];
+		b1.position = BUTTON_POSITION_MIDDLE;
+		b1.highlightColor = this->backgroundColor;
+	}
+
+	if (nButtons == 2)
+	{
+		b1.name = buttons[0];
+		b1.position = BUTTON_POSITION_DOUBLE_LEFT;
+		b1.highlightColor = this->backgroundColor;
+		
+
+		b2.name = buttons[1];
+		b2.position = BUTTON_POSITION_DOUBLE_RIGHT;
+		b2.highlightColor = this->backgroundColor;
+	}
+
+	if (nButtons == 3)
+	{
+		b1.name = buttons[0];
+		b1.position = BUTTON_POSITION_LEFT;
+		b1.highlightColor = COLOR_WHITE;
+
+		b2.name = buttons[1];
+		b2.position = BUTTON_POSITION_MIDDLE;
+		b2.highlightColor = this->backgroundColor;
+
+		b3.name = buttons[2];
+		b3.position = BUTTON_POSITION_RIGHT;
+		b3.highlightColor = this->backgroundColor;
+	}
+
+
+	while (true)
+	{
+
+		b1.drawButton(this->component);
+		b2.drawButton(this->component);
+		b3.drawButton(this->component);
+
+
+
+		//pause for key input
+		int keyPress = wgetch(this->component);
+
+		//test key input
+		if (keyPress == 10)
+		{
+			break;
+		}
+	}
+
+	/*CButton b;
 	b.name = buttonText;
-	b.drawButton(this->component);
+	b.choice = pos;
 
-	
-	
-	buttonSpace += buttonText.length() + 5;
+	if (nButtons == 2)
+	{
+		pos += 4;
+	}
+
+	b.position = pos;
+	b.drawButton(this->component);*/
 
 
 }
+
+
 
 inline void ButtonMenu::drawBorder()
 {

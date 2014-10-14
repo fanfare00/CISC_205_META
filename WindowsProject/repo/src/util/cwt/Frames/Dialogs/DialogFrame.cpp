@@ -15,7 +15,7 @@ void DialogFrame::showMessageDialog(Component parentComponent, string title, str
 		dTextArea.addText((dTextArea.getLength() / 2) - 9, (dTextArea.getWidth() / 2), "The quick brown fox");
 
 
-		dFrame.addButtonMenu("Continue");
+		dFrame.addButtonMenu("Continue", "Back");
 
 	//ButtonMenu dButtonMenu = dFrame.addButtonMenu(1, "Continue");
 		//int choice = buttonMenu.getChoice();
