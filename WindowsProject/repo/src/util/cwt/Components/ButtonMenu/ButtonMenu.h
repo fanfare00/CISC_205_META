@@ -14,6 +14,8 @@
 class ButtonMenu : public Component
 {
 public:
+	ButtonMenu();
+
 	template<typename... Arguments>
 	ButtonMenu(int begX, int begY, int len, int wid, Arguments&... args) :Component(begX, begY, len, wid)
 	{
@@ -123,6 +125,8 @@ inline void ButtonMenu::addButtons(std::vector<std::string> buttons)
 	b3.drawButton(this->component);
 
 	 CButtons = { b1, b2, b3 };
+
+	 wrefresh(this->component);
 
 }
 

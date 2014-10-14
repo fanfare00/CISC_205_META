@@ -30,7 +30,7 @@ void DialogFrame::showMessageDialog(Component parentComponent, string option, st
 
 	//dFrame.setSize(dFrame.getLength(), dFrame.getWidth() + 4);
 
-	dFrame.width += 3;
+	dFrame.setSize(dFrame.getLength(), dFrame.getWidth() + 3);
 	ButtonMenu dButtonMenu(dFrame.getBegX(), dFrame.getBegY() + dFrame.getWidth() - 4, dFrame.getLength(), 3, option);
 	dButtonMenu.getButtonChoice();
 
@@ -68,7 +68,7 @@ string DialogFrame::showInputDialog(Component parentComponent, string option, st
 	
 	//std::vector<std::string> bNames{ "Continue" };
 
-	dFrame.width += 3;
+	dFrame.setSize(dFrame.getLength(), dFrame.getWidth() + 3);
 	ButtonMenu dButtonMenu(dFrame.getBegX(), dFrame.getBegY() + dFrame.getWidth() - 4, dFrame.getLength(), 3, option);
 	input = dInputField.getInput();
 
@@ -132,7 +132,7 @@ int DialogFrame::getLengthFromString(string message)
 int DialogFrame::getWidthFromString(string message)
 {
 	int messageLength = message.length();
-	int height = 7;
+	int height = 8;
 
 	int j = 0;
 	int k = 50;

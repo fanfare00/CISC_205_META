@@ -471,9 +471,12 @@ void JamesOptionPanes::printMenuItems(WINDOW *win, string menuItems[], int numMe
 			wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_YELLOW)));
 		}
 		else
-			
+		{
+
 			mvwprintw(win, y, x, (char*)menuItems[i].c_str());
+
 			
+		}
 		y++;
 	}
 

@@ -18,8 +18,6 @@ void TestingGround::start()
 	
 	//int keyPress;
 
-	int XEE = 5;
-	int YEE = 5;
 	keypad(stdscr, true);
 	string testStr;
 
@@ -37,14 +35,32 @@ void TestingGround::start()
 	getch();
 
 	DialogFrame::showMessageDialog(base, "< Continue >", "Welcome", "Welcome to James' Testing Ground!");
+	base.drawWin();
+
+	NavigationMenu NM((base.getLength()/2) - 25, (base.getWidth()/2)-7, 50, 15, "MAIN MENU", "Sign In", "Display Logo", "ID Information", "Credits", "Examples", "Exit");
+	int PP = NM.getMenuChoice();
+
+	base.drawWin();
+
+	DialogFrame::showMessageDialog(base, "< Continue >", "TEST", "You selected option " + to_string(PP));
+	base.drawWin();
+
+	//int PPP = NM.getMenuChoice();
+
+
 	//DialogFrame::showMessageDialog(base, "< Continue >", "Welcome", "Thank you for joining us Uknown User!");
 	//testStr = DialogFrame::showInputDialog(base, "< Submit >", "Log In", "Please enter your name");
-	base.drawWin();
+	//base.drawWin();
 
 	//DialogFrame::showMessageDialog(base, "< Continue >", "Burp Back", testStr);
-	base.drawWin();
+	//base.drawWin();
 
-	NavigationMenu NM(10, 5, 50, 15, "MAIN MENU");
+
+	Component moveTest(25, 10, 10, 5);
+	moveTest.setBackground(COLOR_RED);
+
+	moveTest.enableMoveMode(true);
+	//NavigationMenu NM(10, 5, 50, 15, "MAIN MENU");
 
 	getch();
 	//FRM.enableMoveMode(true);

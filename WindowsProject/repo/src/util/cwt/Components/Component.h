@@ -34,13 +34,14 @@ public:
 	void drawWin();
 	void hideWin();
 
+	int getKeyboardInput();
+
+protected:
+	
 	int length;
 	int width;
 	int x;
 	int y;
-
-protected:
-	
 
 	bool moveMode = false;
 	bool sizeMode = false;

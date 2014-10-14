@@ -32,16 +32,15 @@ void Component::setSize(int len, int wid)
 {
 	this->length = len;
 	this->width = wid;
-	drawWin();
 }
 
 void  Component::setLocation(int begX, int begY)
 {
 
-	updateXY(begX, begY);
-
-
+	this->x = begX;
+	this->y = begY;
 	drawWin();
+
 }
 
 void Component::setBounds(int begX, int begY, int len, int wid)
@@ -50,7 +49,6 @@ void Component::setBounds(int begX, int begY, int len, int wid)
 	this->width = wid;
 
 	updateXY(begX, begY);
-	drawWin();
 }
 
 void Component::setVisible(bool b)
@@ -249,4 +247,9 @@ int Component::getBegX()
 int Component::getBegY()
 {
 	return this->y;
+}
+
+int Component::getKeyboardInput()
+{
+	return 0;
 }

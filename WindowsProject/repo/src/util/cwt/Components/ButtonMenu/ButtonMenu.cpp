@@ -7,10 +7,10 @@
 
 ButtonMenu::~ButtonMenu()
 {
-	touchwin(this->component);
-	werase(this->component);
-	wrefresh(this->component);
-	delwin(this->component);
+	//touchwin(this->component);
+	//werase(this->component);
+	//wrefresh(this->component);
+	//delwin(this->component);
 }
 
 void ButtonMenu::CButton::drawButton(WINDOW* c)
@@ -18,12 +18,11 @@ void ButtonMenu::CButton::drawButton(WINDOW* c)
 	parentWindow = c;
 	std::string buttonText = this->name;
 
-
 	if (position == 0)
 	{
 		//buttonText = "< " + buttonText + " >";
 		wattron(c, A_BOLD | COLOR_PAIR(cwt::colorPair(FGHighlightColor, highlightColor)));
-		mvwprintw(c, 1, (getmaxx(c) / 2) - (buttonText.length() / 2), (char*)buttonText.c_str());
+		mvwprintw(c, getmaxy(c) - 2, (getmaxx(c) / 2) - (buttonText.length() / 2), (char*)buttonText.c_str());
 		wattroff(c, A_BOLD | COLOR_PAIR(cwt::colorPair(FGHighlightColor, highlightColor)));
 	}
 
@@ -31,7 +30,7 @@ void ButtonMenu::CButton::drawButton(WINDOW* c)
 	{
 		//buttonText = "< " + buttonText + " >";
 		wattron(c, A_BOLD | COLOR_PAIR(cwt::colorPair(FGHighlightColor, highlightColor)));
-		mvwprintw(c, 1, 5, (char*)buttonText.c_str());
+		mvwprintw(c, getmaxy(c) - 2, 5, (char*)buttonText.c_str());
 		wattroff(c, A_BOLD | COLOR_PAIR(cwt::colorPair(FGHighlightColor, highlightColor)));
 	}
 
@@ -39,7 +38,7 @@ void ButtonMenu::CButton::drawButton(WINDOW* c)
 	{
 		//buttonText = "< " + buttonText + " >";
 		wattron(c, A_BOLD | COLOR_PAIR(cwt::colorPair(FGHighlightColor, highlightColor)));
-		mvwprintw(c, 1, getmaxx(c) - (buttonText.length()) - 5, (char*)buttonText.c_str());
+		mvwprintw(c, getmaxy(c) - 2, getmaxx(c) - (buttonText.length()) - 5, (char*)buttonText.c_str());
 		wattroff(c, A_BOLD | COLOR_PAIR(cwt::colorPair(FGHighlightColor, highlightColor)));
 	}
 
@@ -47,7 +46,7 @@ void ButtonMenu::CButton::drawButton(WINDOW* c)
 	{
 		//buttonText = "< " + buttonText + " >";
 		wattron(c, A_BOLD | COLOR_PAIR(cwt::colorPair(FGHighlightColor, highlightColor)));
-		mvwprintw(c, 1, (getmaxx(c) / 2) - (buttonText.length()) - 5, (char*)buttonText.c_str());
+		mvwprintw(c, getmaxy(c) - 2, (getmaxx(c) / 2) - (buttonText.length()) - 5, (char*)buttonText.c_str());
 		wattroff(c, A_BOLD | COLOR_PAIR(cwt::colorPair(FGHighlightColor, highlightColor)));
 	}
 
@@ -55,11 +54,9 @@ void ButtonMenu::CButton::drawButton(WINDOW* c)
 	{
 		//buttonText = "< " + buttonText + " >";
 		wattron(c, A_BOLD | COLOR_PAIR(cwt::colorPair(FGHighlightColor, highlightColor)));
-		mvwprintw(c, 1, (getmaxx(c) /2) + 5, (char*)buttonText.c_str());
+		mvwprintw(c, getmaxy(c)-2, (getmaxx(c) /2) + 5, (char*)buttonText.c_str());
 		wattroff(c, A_BOLD | COLOR_PAIR(cwt::colorPair(FGHighlightColor, highlightColor)));
 	}
-
-
 
 	wrefresh(c);
 }
