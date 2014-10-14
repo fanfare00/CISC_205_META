@@ -31,7 +31,13 @@ public:
 	int getBegX();
 	int getBegY();
 
+	void drawWin();
+	void hideWin();
 
+	int length;
+	int width;
+	int x;
+	int y;
 
 protected:
 	
@@ -39,16 +45,12 @@ protected:
 	bool moveMode = false;
 	bool sizeMode = false;
 
-	int length;
-	int width;
-	int x;
-	int y;
+
 
 	int backgroundColor = COLOR_BLACK;
 	int foregroundColor = COLOR_WHITE;
 
-	void drawWin();
-	void hideWin();
+
 	void updateXY(int begX, int begY);
 	void updateLW(int l, int w);
 };

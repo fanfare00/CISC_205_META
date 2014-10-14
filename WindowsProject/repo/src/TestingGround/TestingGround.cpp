@@ -21,6 +21,7 @@ void TestingGround::start()
 	int XEE = 5;
 	int YEE = 5;
 	keypad(stdscr, true);
+	string testStr;
 
 	//Component CRM(5, 5, 60, 15);
 	//CRM.setBackground(COLOR_BLUE);
@@ -35,7 +36,15 @@ void TestingGround::start()
 
 	getch();
 
-	DialogFrame::showMessageDialog(base, "TEST", "The quick brown fox jumps");
+	DialogFrame::showMessageDialog(base, "< Continue >", "Welcome", "Welcome to James' Testing Ground!");
+	//DialogFrame::showMessageDialog(base, "< Continue >", "Welcome", "Thank you for joining us Uknown User!");
+	//testStr = DialogFrame::showInputDialog(base, "< Submit >", "Log In", "Please enter your name");
+	base.drawWin();
+
+	//DialogFrame::showMessageDialog(base, "< Continue >", "Burp Back", testStr);
+	base.drawWin();
+
+	NavigationMenu NM(10, 5, 50, 15, "MAIN MENU");
 
 	getch();
 	//FRM.enableMoveMode(true);

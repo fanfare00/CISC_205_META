@@ -45,6 +45,9 @@
     <ClCompile Include="repo\src\util\cwt\Components\ButtonMenu\ButtonMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="repo\src\util\cwt\Frames\Menus\NavigationMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repo\src\Cellular Automata\JamesCA.h">
@@ -93,6 +96,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="repo\src\util\cwt\Components\ButtonMenu\ButtonMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="repo\src\util\cwt\Frames\Menus\NavigationMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

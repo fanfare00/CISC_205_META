@@ -11,32 +11,40 @@
 #define BUTTON_POSITION_DOUBLE_LEFT 3
 #define BUTTON_POSITION_DOUBLE_RIGHT 4
 
-class ButtonMenu : Component
+class ButtonMenu : public Component
 {
 public:
-	ButtonMenu(int begX, int begY, int len, int wid, std::vector<std::string> buttons) :Component(begX, begY, len, wid)
+	template<typename... Arguments>
+	ButtonMenu(int begX, int begY, int len, int wid, Arguments&... args) :Component(begX, begY, len, wid)
 	{
-		
+		std::vector<std::string> buttons = { args... };
+
 		nButtons = buttons.size();
 		setBackground(COLOR_WHITE);
 
-
 		drawBorder();
 
-
-
-		//mvwprintw(this->component, 1, 20, "TEST");
-
 		addButtons(buttons);
+		//int pp = getButtonChoice();
 
 	}
 
+	//ButtonMenu(int begX, int begY, int len, int wid, std::vector<std::string> buttons) :Component(begX, begY, len, wid)
+	//{
+	//	nButtons = buttons.size();
+	//	setBackground(COLOR_WHITE);
 
+	//	drawBorder();
 
+	//	addButtons(buttons);
+	//	//int pp = getButtonChoice();
+
+	//}
+
+	~ButtonMenu();
+	
 	inline void drawBorder();
 	inline void addButtons(std::vector<std::string> buttons);
-	int getButtonChoice();
-
 
 	int nButtons;
 	int buttonSpace = 0;
@@ -48,12 +56,17 @@ public:
 		std::string name;
 		
 		int highlightColor;
+		int FGHighlightColor = COLOR_BLACK;
+
 		void drawButton(WINDOW* c);
 		//void highlight();
 
 		int position;
 		int choice;
 	};
+
+	std::vector<CButton> CButtons;
+	inline int getButtonChoice();
 
 };
 
@@ -66,19 +79,23 @@ inline void ButtonMenu::addButtons(std::vector<std::string> buttons)
 	CButton b2;
 	CButton b3;
 
+
+
 	if (nButtons == 1)
 	{
 		b1.name = buttons[0];
 		b1.position = BUTTON_POSITION_MIDDLE;
-		b1.highlightColor = this->backgroundColor;
+		b1.highlightColor = COLOR_BLUE;
+		b1.FGHighlightColor = COLOR_WHITE;
 	}
 
 	if (nButtons == 2)
 	{
 		b1.name = buttons[0];
 		b1.position = BUTTON_POSITION_DOUBLE_LEFT;
-		b1.highlightColor = this->backgroundColor;
-		
+		b1.highlightColor = COLOR_BLUE;
+		b1.FGHighlightColor = COLOR_WHITE;
+
 
 		b2.name = buttons[1];
 		b2.position = BUTTON_POSITION_DOUBLE_RIGHT;
@@ -89,7 +106,8 @@ inline void ButtonMenu::addButtons(std::vector<std::string> buttons)
 	{
 		b1.name = buttons[0];
 		b1.position = BUTTON_POSITION_LEFT;
-		b1.highlightColor = COLOR_WHITE;
+		b1.highlightColor = COLOR_BLUE;
+		b1.FGHighlightColor = COLOR_WHITE;
 
 		b2.name = buttons[1];
 		b2.position = BUTTON_POSITION_MIDDLE;
@@ -100,38 +118,82 @@ inline void ButtonMenu::addButtons(std::vector<std::string> buttons)
 		b3.highlightColor = this->backgroundColor;
 	}
 
+	b1.drawButton(this->component);
+	b2.drawButton(this->component);
+	b3.drawButton(this->component);
+
+	 CButtons = { b1, b2, b3 };
+
+}
+
+inline int ButtonMenu::getButtonChoice()
+{
+
+	int highlight = 0;
+	int choice;
 
 	while (true)
 	{
+		switch (wgetch(stdscr))
+		{
+		case  KEY_LEFT:
 
-		b1.drawButton(this->component);
-		b2.drawButton(this->component);
-		b3.drawButton(this->component);
+			if (highlight == 0)
+			{
+				highlight = nButtons-1;
+			}
+			else
+			{
+				--highlight;
+			}
+
+			//CButtons[0].highlightColor = COLOR_BLUE;
+			//CButtons[1].highlightColor = this->backgroundColor;
+			break;
+
+		case KEY_RIGHT:
+
+			if (highlight == nButtons-1)
+			{
+				highlight = 0;
+			}
+			else
+			{
+				++highlight;
+			}
+
+			/*CButtons[0].highlightColor = this->backgroundColor;
+			CButtons[1].highlightColor = COLOR_BLUE;*/
+			break;
+
+		case  10:
+			choice = highlight+1;
+			break;
+		}
+
+		CButtons[0].highlightColor = this->backgroundColor;
+		CButtons[1].highlightColor = this->backgroundColor;
+		CButtons[2].highlightColor = this->backgroundColor;
+
+		CButtons[0].FGHighlightColor = COLOR_BLACK;
+		CButtons[1].FGHighlightColor = COLOR_BLACK;
+		CButtons[2].FGHighlightColor = COLOR_BLACK;
 
 
+		CButtons[highlight].highlightColor = COLOR_BLUE;
+		CButtons[highlight].FGHighlightColor = COLOR_WHITE;
 
-		//pause for key input
-		int keyPress = wgetch(this->component);
+		CButtons[0].drawButton(this->component);
+		CButtons[1].drawButton(this->component);
+		CButtons[2].drawButton(this->component);
 
-		//test key input
-		if (keyPress == 10)
+		if (choice != 0)
 		{
 			break;
 		}
+
 	}
-
-	/*CButton b;
-	b.name = buttonText;
-	b.choice = pos;
-
-	if (nButtons == 2)
-	{
-		pos += 4;
-	}
-
-	b.position = pos;
-	b.drawButton(this->component);*/
-
+	return choice;
 
 }
 

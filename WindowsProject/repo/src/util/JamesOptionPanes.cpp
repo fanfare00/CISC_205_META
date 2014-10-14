@@ -131,43 +131,6 @@ string JamesOptionPanes::showInputMessage(WINDOW* parentWindow, string title, st
 }
 
 
-void JamesOptionPanes::showMessage(WINDOW* parentWindow, string title, string message)
-{
-	int startingLine = 0;
-
-
-
-	ConsoleWordWrapper::formatString(&message, 80);
-
-	
-
-	WINDOW* win = JamesOptionPanes::jamesFrame(getWidthFromString(message), getHeightFromString(message));
-	WINDOW* textArea = newwin( (getmaxy(win) - 6), (getmaxx(win) - 4), (getbegy(win) + 3), (getbegx(win) + 2) );
-	WINDOW* titleArea = newwin(1,                  (getmaxx(win) - 4), (getbegy(win) + 1), (getbegx(win) + 2) );
-
-	if (message.length() <= 80)
-	{
-		startingLine = (getmaxx(textArea) / 2) - (message.length() / 2);
-	}
-
-	wattron(win, A_BOLD | WA_BLINK);
-	mvwprintw(win,(getmaxy(win)-3), ((getmaxx(win)/2) - 4), "CONTINUE");
-	wattroff(win, A_BOLD | WA_BLINK);
-
-	mvwprintw(titleArea, 0, (getmaxx(titleArea) / 2) - (title.length() / 2), (char*)title.c_str());
-	mvwprintw(textArea, 1, startingLine, (char*)message.c_str());
-	
-	
-
-	wrefresh(win);
-	wrefresh(titleArea);
-	wrefresh(textArea);
-
-	
-	JamesOptionPanes::hitEnter(win);
-	werase(win);
-
-}
 
 void JamesOptionPanes::showLargeMessage(WINDOW* parentWindow, string title, string message)
 {
@@ -340,6 +303,45 @@ int JamesOptionPanes::getHeightFromString(string message)
 	return height;
 
 }
+
+void JamesOptionPanes::showMessage(WINDOW* parentWindow, string title, string message)
+{
+	int startingLine = 0;
+
+
+
+	ConsoleWordWrapper::formatString(&message, 80);
+
+
+
+	WINDOW* win = JamesOptionPanes::jamesFrame(getWidthFromString(message), getHeightFromString(message));
+	WINDOW* textArea = newwin((getmaxy(win) - 6), (getmaxx(win) - 4), (getbegy(win) + 3), (getbegx(win) + 2));
+	WINDOW* titleArea = newwin(1, (getmaxx(win) - 4), (getbegy(win) + 1), (getbegx(win) + 2));
+
+	if (message.length() <= 80)
+	{
+		startingLine = (getmaxx(textArea) / 2) - (message.length() / 2);
+	}
+
+	wattron(win, A_BOLD | WA_BLINK);
+	mvwprintw(win, (getmaxy(win) - 3), ((getmaxx(win) / 2) - 4), "CONTINUE");
+	wattroff(win, A_BOLD | WA_BLINK);
+
+	mvwprintw(titleArea, 0, (getmaxx(titleArea) / 2) - (title.length() / 2), (char*)title.c_str());
+	mvwprintw(textArea, 1, startingLine, (char*)message.c_str());
+
+
+
+	wrefresh(win);
+	wrefresh(titleArea);
+	wrefresh(textArea);
+
+
+	JamesOptionPanes::hitEnter(win);
+	werase(win);
+
+}
+
 
 WINDOW* JamesOptionPanes::jamesFrame(int width, int height)
 {

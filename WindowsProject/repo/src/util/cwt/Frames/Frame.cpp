@@ -4,6 +4,19 @@
 //{
 //
 //}
+Frame::~Frame()
+{
+	touchwin(this->component);
+	werase(this->component);
+	wrefresh(this->component);
+	delwin(this->component);
+}
+void Frame::addButtonMenu(std::string test)
+{
+	width += 3;
+	ButtonMenu bMenu(x, y + width - 4, length, 3, test);
+	
+}
 
 TextArea Frame::addTextArea()
 {

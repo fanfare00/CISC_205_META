@@ -36,8 +36,10 @@ public:
 
 		
 		setBackground(bkgColor);
-		//setForeground(foreColor);
+		setForeground(foreColor);
 	}
+
+	~Frame();
 
 	void drawBorder();
 	
@@ -47,15 +49,10 @@ public:
 	void addTextArea(std::string msgStr);
 	void addTextArea(int startX, int startY, int aLength, int aWidth, std::string testStr);
 
-	template<typename... Arguments>
-	inline void addButtonMenu(Arguments&... args)
-	{
-		std::vector<std::string> menuItems = { args... };
+	void addButtonMenu(std::string test);
 
-		width += 3;
-		ButtonMenu bMenu(x, y + width - 4, length, 3, menuItems);
-	}
 
+	
 	//void addButtonMenu(std::string b1Text);
 	//void addButtonMenu(std::string b1Text, std::string b2Text);
 	//void addButtonMenu(std::string b1Text, std::string b2Text, std::string b3Text);

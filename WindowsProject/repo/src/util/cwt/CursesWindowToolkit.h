@@ -4,9 +4,11 @@
 #include <string>
 #include "Color/Color.h"
 
-#include "Components\Component.h"
 #include "Frames\Frame.h"
 #include "Frames\Dialogs\DialogFrame.h"
+#include "Frames\Menus\NavigationMenu.h"
+
+#include "Components\Component.h"
 #include "Components\InputField\InputField.h"
 
 

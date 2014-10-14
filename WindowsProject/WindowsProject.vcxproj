@@ -80,6 +80,7 @@
     <ClCompile Include="repo\src\util\ConsoleWordWrapper.cpp" />
     <ClCompile Include="repo\src\util\cwt\Frames\Dialogs\DialogFrame.cpp" />
     <ClCompile Include="repo\src\util\cwt\Frames\Frame.cpp" />
+    <ClCompile Include="repo\src\util\cwt\Frames\Menus\NavigationMenu.cpp" />
     <ClCompile Include="repo\src\util\JamesOptionPanes.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +99,7 @@
     <ClInclude Include="repo\src\util\cwt\CursesWindowToolkit.h" />
     <ClInclude Include="repo\src\util\cwt\Frames\Dialogs\DialogFrame.h" />
     <ClInclude Include="repo\src\util\cwt\Frames\Frame.h" />
+    <ClInclude Include="repo\src\util\cwt\Frames\Menus\NavigationMenu.h" />
     <ClInclude Include="repo\src\util\JamesOptionPanes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

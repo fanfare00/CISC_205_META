@@ -34,6 +34,7 @@ public:
 		wattroff(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_WHITE)));
 		/////////////////////////////////
 
+
 		setBackground(COLOR_WHITE);
 
 	}
@@ -57,10 +58,13 @@ inline void TextArea::addText(std::string textStr)
 
 inline void TextArea::addText(int x, int y, std::string textStr)
 {
-	wattron(this->component, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
-	mvwprintw(this->component, y, x, (char*)textStr.c_str());
-	wattroff(this->component, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
+	WINDOW* internalTextArea = newwin(this->width-2, this->length-2, this->y+1, this->x+1);
+	wbkgd(internalTextArea, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, this->backgroundColor)));
 
-	wrefresh(this->component);
+	wattron(internalTextArea, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
+	mvwprintw(internalTextArea, y, x, (char*)textStr.c_str());
+	wattroff(internalTextArea, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
+
+	wrefresh(internalTextArea);
 
 }
