@@ -253,3 +253,9 @@ int Component::getKeyboardInput()
 {
 	return 0;
 }
+
+void Component::addText(int x, int y, std::string text)
+{
+	mvwprintw(this->component, y, x, (char*)text.c_str());
+	wrefresh(this->component);
+}

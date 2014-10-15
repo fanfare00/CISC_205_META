@@ -11,6 +11,8 @@ Frame::~Frame()
 	wrefresh(this->component);
 	delwin(this->component);
 }
+
+
 void Frame::addButtonMenu(std::string test)
 {
 	width += 3;

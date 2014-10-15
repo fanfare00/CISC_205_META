@@ -12,6 +12,7 @@ using namespace std;
 class JamesPP
 {
 public:
+	Frame mainFrame;
 
 	vector<int>     gBox;
 	int gameNumber = 0;
@@ -19,12 +20,12 @@ public:
 	string userName = "Unknown User";
 	const string MY_NAME = "James";
 	char* defaultStatus = "You are currently not signed in.";
-	WINDOW* mainWindow;
+	//WINDOW* mainWindow;
 
 	static JamesPP& getInstance();
 	~JamesPP();
 
-	void start();
+	void start(Frame mFrame);
 	void setup();
 	void refreshBackground();
 	void welcomeScreen();

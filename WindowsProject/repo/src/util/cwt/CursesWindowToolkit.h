@@ -16,7 +16,37 @@
 
 
 namespace cwt
-{
+{ 
+	inline void initializeScreen()
+	{
+		initscr();
+		noecho();
+		cbreak();
+		curs_set(0);
+		resize_term(40, 100);
+		cwt::loadColor();
+		wclear(stdscr);
+		wrefresh(stdscr);
+		keypad(stdscr, true);
+	}
+
+	inline void hitEnter()
+	{
+		int keyPress;
+		while (true)
+		{
+			//pause for key input
+			keyPress = wgetch(stdscr);
+
+			//test key input
+			if (keyPress == 10)
+			{
+					break;
+			}
+
+		}
+
+	}
 
 	inline void mvwprintwCentered(WINDOW *win, int y, std::string aString)
 	{

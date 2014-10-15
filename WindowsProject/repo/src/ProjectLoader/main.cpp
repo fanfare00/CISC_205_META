@@ -12,28 +12,20 @@
 
 int main(int argc, char *argv[])
 {
-	initscr();
-	noecho();
-	cbreak();
-	curs_set(0);
-	resize_term(40, 100);
-	cwt::loadColor();
-
-	wclear(stdscr);
-	wrefresh(stdscr);
-	keypad(stdscr, true);
+	cwt::initializeScreen();
 
 	Frame mainFrame(0, 0, COLS, LINES, "JAMES' CISC 205 PROJECT LOADER", COLOR_WHITE, COLOR_BLUE);
+
 	NavigationMenu NM((mainFrame.getLength() / 2) - 25, (mainFrame.getWidth() / 2) - 7, 50, 13, 
 		"SELECT PROGRAM", "Cellular Automata", "Affirmative Interaction", "Pointer Power", "Testing Ground");
 
-	NM.setMenuOptions("Select", "Exit", "Help");
+	NM.setMenuOptions("< Select >", "< Exit >", "< Help >");
 	
 	switch (NM.getMenuChoice())
 	{
 		case 0:
-					exit(1);
-					break;
+			exit(1);
+			break;
 		
 		case 1:
 			JamesCA::getInstance().start();
@@ -46,7 +38,7 @@ int main(int argc, char *argv[])
 			break;
 
 		case 3:
-			JamesPP::getInstance().start();
+			JamesPP::getInstance().start(mainFrame);
 			break;
 		
 		case 4:

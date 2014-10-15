@@ -3,6 +3,7 @@
 
 void DialogFrame::showMessageDialog(Component parentComponent, string option, string title, string message)
 {
+	parentComponent.drawWin();
 	ConsoleWordWrapper::formatString(&message, 78);
 
 	int dLength = getLengthFromString(message);
@@ -34,12 +35,15 @@ void DialogFrame::showMessageDialog(Component parentComponent, string option, st
 	ButtonMenu dButtonMenu(dFrame.getBegX(), dFrame.getBegY() + dFrame.getWidth() - 4, dFrame.getLength(), 3, option);
 	dButtonMenu.getButtonChoice();
 
-	 werase(dFrame.component);
+	werase(dFrame.component);
+
+	
 	 
 }
 
 string DialogFrame::showInputDialog(Component parentComponent, string option, string title, string message)
 {
+	parentComponent.drawWin();
 	string input;
 
 	ConsoleWordWrapper::formatString(&message, 78);
@@ -73,6 +77,8 @@ string DialogFrame::showInputDialog(Component parentComponent, string option, st
 	input = dInputField.getInput();
 
 	werase(dFrame.component);
+	
+
 
 	return input;
 }
@@ -82,7 +88,7 @@ string DialogFrame::showInputDialog(Component parentComponent, string option, st
 int DialogFrame::getLengthFromString(string message)
 {
 	int messageLength = message.length();
-	int width = 0;
+	int len = 0;
 
 	int j = 0;
 	int k = 50;
@@ -90,11 +96,11 @@ int DialogFrame::getLengthFromString(string message)
 	{
 		if (messageLength - 46 <= 0)
 		{
-			width = 0;
+			len = 0;
 		}
 		else
 		{
-			width = (messageLength - 46);
+			len = (messageLength - 46);
 		}
 	}
 
@@ -124,15 +130,15 @@ int DialogFrame::getLengthFromString(string message)
 			k = j;
 		}
 	}
-	width = k + 4;
-	return width;
+	len = k + 6;
+	return len;
 
 }
 
 int DialogFrame::getWidthFromString(string message)
 {
 	int messageLength = message.length();
-	int height = 8;
+	int height = 7;
 
 	int j = 0;
 	int k = 50;

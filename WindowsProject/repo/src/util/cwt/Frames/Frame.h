@@ -43,7 +43,7 @@ public:
 
 	void drawBorder();
 	
-	void addText();
+	
 
 	TextArea addTextArea();
 	void addTextArea(std::string msgStr);

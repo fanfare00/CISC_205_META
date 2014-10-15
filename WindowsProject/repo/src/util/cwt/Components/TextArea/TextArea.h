@@ -13,6 +13,8 @@ public:
 	TextArea() :Component() {}
 	TextArea(int begX, int begY, int len, int wid) :Component(begX, begY, len, wid)
 	{
+		internalTextArea = newwin(this->width - 2, this->length - 2, this->y + 1, this->x + 1);
+		
 
 		//CREATE BORDER////////////////
 		wattron(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
@@ -41,7 +43,7 @@ public:
 	inline void addText(std::string textStr);
 	inline void addText(int x, int y, std::string textStr);
 
-	
+	WINDOW* internalTextArea;
 
 
 };
@@ -58,9 +60,9 @@ inline void TextArea::addText(std::string textStr)
 
 inline void TextArea::addText(int x, int y, std::string textStr)
 {
-	WINDOW* internalTextArea = newwin(this->width-2, this->length-2, this->y+1, this->x+1);
-	wbkgd(internalTextArea, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, this->backgroundColor)));
+	
 
+	wbkgd(internalTextArea,COLOR_PAIR(cwt::colorPair(COLOR_BLACK, this->backgroundColor)));
 	wattron(internalTextArea, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
 	mvwprintw(internalTextArea, y, x, (char*)textStr.c_str());
 	wattroff(internalTextArea, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));

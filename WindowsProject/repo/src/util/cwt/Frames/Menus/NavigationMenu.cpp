@@ -4,6 +4,8 @@ NavigationMenu::~NavigationMenu()
 {
 	delete mItems;
 	delete bMenu;
+	touchwin(this->component);
+	delwin(this->component);
 }
 
 int NavigationMenu::loopMenu(ButtonMenu dButtonMenu, std::vector<std::string> menuItems)

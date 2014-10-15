@@ -2,6 +2,7 @@
 
 
 #include "curses.h"
+#include <string>
 
 class Component
 {
@@ -35,6 +36,8 @@ public:
 	void hideWin();
 
 	int getKeyboardInput();
+
+	void addText(int x, int y, std::string text);
 
 protected:
 	
