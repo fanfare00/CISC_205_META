@@ -4,7 +4,7 @@
 void DialogFrame::showMessageDialog(Component parentComponent, string option, string title, string message)
 {
 	//parentComponent.drawWin();
-	ConsoleWordWrapper::formatString(&message, 78);
+	ConsoleWordWrapper::formatString(&message, 80);
 
 	int dLength = getLengthFromString(message);
 	int dWidth = getWidthFromString(message);
@@ -91,7 +91,7 @@ int DialogFrame::getLengthFromString(string message)
 	int len = 0;
 
 	int j = 0;
-	int k = 50;
+	int k = 5;
 	if (messageLength <= 80)
 	{
 		if (messageLength - 46 <= 0)
@@ -130,7 +130,7 @@ int DialogFrame::getLengthFromString(string message)
 			k = j;
 		}
 	}
-	len = k + 6;
+	len = k + 7;
 	return len;
 
 }

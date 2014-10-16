@@ -53,14 +53,14 @@ void JamesPP::mainMenu()
 
 
 	NavigationMenu NM((mainFrame.getLength() / 2) - 25, (mainFrame.getWidth() / 2) - 9, 50, 16,
-		"MAIN MENU", "Sign In", "Display Logo", "Go Galton", "Play Game", "Game History", "ID Information", "Credits");
+		"MAIN MENU", "Sign In", "Display Logo", "Go Galton", "Play Game", "Game History", "ID Information", "Credits", "Stars");
 
 	NM.setMenuOptions("< Select >", "< Exit >", "< Help >");
 
 	switch (NM.getMenuChoice())
 	{
 	case 0:
-		
+		farewell();
 		break;
 
 	case 1:
@@ -85,6 +85,15 @@ void JamesPP::mainMenu()
 	case 6:
 		displayIDInfo();
 		break;
+
+	case 7:
+		displayCredits();
+		break;
+
+	case 8:
+		displayStars();
+		break;
+
 	default:
 		
 		break;
@@ -742,39 +751,38 @@ void JamesPP::displayIDInfo()
 	//mainMenu();
 }
 
+void JamesPP::displayCredits()
+{
+	DialogFrame::showMessageDialog(
+		mainFrame,
+		"< CONTINUE >", "CREDITS",
+		"This program was created by James McCarthy for Larry Forman's CISC 205 Object Oriented C++ class\n"
+		"\nThank you to Nils for providing support with debugging and for giving me many   ideas and of course, introducing me to PDCurses.\n"
+		"\nThank you to the creators of ncurses/PDCurses for providing a wonderful library to create this program's UI.\n\n"
+		"PDCurses website   : www.pdcurses.sourceforge.net/doc/PDCurses.txt\n"
+		"ncurses tutorials  : www.tldp.org/HOWTO/NCURSES-Programming-HOWTO/\n"
+		"My Github          : www.github.com/fanfare00");
+
+	mainFrame.drawWin();
+	mainMenu();
+}
+
+
 void JamesPP::displayStars()
 {
-	/*JamesOptionPanes::showMessage(
-		mainWindow,
-		"ID INFORMATION",
-		"      Programmer         : James McCarthy   \n"
-		"      Assignment #       : TA #1.2CA        \n"
-		"      Assignment Name    : Cellular Automata\n"
-		"      Course # and Title : CISC 205 - OOPS  \n"
-		"      Class Meeting Time : TTh 9:35 - 12:40 \n"
-		"      Instructor         : Professor Forman \n"
-		"      Hours              : 15               \n"
-		"      Difficulty         : 5                \n"
-		"      Completion Date    : 9/11/2014        \n"
-		"      Project Name       : JamesCA          \n");
+	DialogFrame::showMessageDialog(
+		mainFrame,
+		"< CONTINUE >", "STARS",
+		"Insert stars here");
 
-
-	refreshBackground();
-	mainMenu();*/
+	mainFrame.drawWin();
+	mainMenu();
 }
 
 void JamesPP::farewell()
 {
-	//JamesOptionPanes::showMessage(mainWindow, "Farewell", "Farewell, " + userName + ". Thank you for visiting " + MY_NAME + "' Pointer Power!");
-
-	////touchwin(mainWindow);
-	////wrefresh(mainWindow);
-	////delwin(mainWindow);
-
-	////touchwin(stdscr);
-	////wrefresh(stdscr);
-
-	//exit(1);
+	DialogFrame::showMessageDialog(mainFrame, "< EXIT >", "GOODBYE", "Farewell, " + userName + ". Thank you for using " + MY_NAME + "' Pointer Power");
+	exit(1);
 
 	
 }

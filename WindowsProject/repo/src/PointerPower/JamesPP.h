@@ -37,6 +37,8 @@ public:
 	void displayGameHistory();
 	void displayIDInfo();
 	void displayStars();
+
+	void displayCredits();
 	void farewell();
 
 	vector< vector<int>* > getGaltonRows();
