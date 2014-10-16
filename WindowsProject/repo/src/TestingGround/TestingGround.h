@@ -4,7 +4,6 @@
 
 #include "../util/cwt/CursesWindowToolkit.h"
 #include "curses.h"
-#include "../util/JamesOptionPanes.h"
 
 
 class TestingGround

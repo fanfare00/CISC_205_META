@@ -21,9 +21,6 @@
     <ClCompile Include="repo\src\CellularAutomata\JamesCA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="repo\src\util\JamesOptionPanes.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="repo\src\PointerPower\JamesPP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,15 +45,15 @@
     <ClCompile Include="repo\src\util\cwt\Frames\Menus\NavigationMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="repo\src\CellularAutomata\JamesOptionPanes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repo\src\Cellular Automata\JamesCA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="repo\src\CellularAutomata\JamesCA.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="repo\src\util\JamesOptionPanes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="repo\src\PointerPower\JamesPP.h">
@@ -99,6 +96,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="repo\src\util\cwt\Frames\Menus\NavigationMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="repo\src\CellularAutomata\JamesOptionPanes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

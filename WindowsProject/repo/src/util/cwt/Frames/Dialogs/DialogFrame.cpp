@@ -24,6 +24,8 @@ void DialogFrame::showMessageDialog(Component parentComponent, string option, st
 		startLine = (dTextArea.getLength() / 2) - (message.length() / 2);
 	}
 	
+	//startLine = 0;
+
 	dTextArea.addText(startLine, 0, message);
 
 	//Need to return the button menu itself from frame.h, but cant for some reason
@@ -91,7 +93,7 @@ int DialogFrame::getLengthFromString(string message)
 	int len = 0;
 
 	int j = 0;
-	int k = 5;
+	int k = 50;
 	if (messageLength <= 80)
 	{
 		if (messageLength - 46 <= 0)

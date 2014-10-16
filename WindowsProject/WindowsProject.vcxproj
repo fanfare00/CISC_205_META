@@ -72,6 +72,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="repo\src\CellularAutomata\JamesCA.cpp" />
+    <ClCompile Include="repo\src\CellularAutomata\JamesOptionPanes.cpp" />
     <ClCompile Include="repo\src\PointerPower\JamesPP.cpp" />
     <ClCompile Include="repo\src\ProjectLoader\main.cpp" />
     <ClCompile Include="repo\src\TestingGround\TestingGround.cpp" />
@@ -81,13 +82,13 @@
     <ClCompile Include="repo\src\util\cwt\Frames\Dialogs\DialogFrame.cpp" />
     <ClCompile Include="repo\src\util\cwt\Frames\Frame.cpp" />
     <ClCompile Include="repo\src\util\cwt\Frames\Menus\NavigationMenu.cpp" />
-    <ClCompile Include="repo\src\util\JamesOptionPanes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\curses.h" />
     <ClInclude Include="include\panel.h" />
     <ClInclude Include="repo\src\Cellular Automata\JamesCA.h" />
     <ClInclude Include="repo\src\CellularAutomata\JamesCA.h" />
+    <ClInclude Include="repo\src\CellularAutomata\JamesOptionPanes.h" />
     <ClInclude Include="repo\src\PointerPower\JamesPP.h" />
     <ClInclude Include="repo\src\TestingGround\TestingGround.h" />
     <ClInclude Include="repo\src\util\cwt\Components\ButtonMenu\ButtonMenu.h" />
@@ -100,7 +101,6 @@
     <ClInclude Include="repo\src\util\cwt\Frames\Dialogs\DialogFrame.h" />
     <ClInclude Include="repo\src\util\cwt\Frames\Frame.h" />
     <ClInclude Include="repo\src\util\cwt\Frames\Menus\NavigationMenu.h" />
-    <ClInclude Include="repo\src\util\JamesOptionPanes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

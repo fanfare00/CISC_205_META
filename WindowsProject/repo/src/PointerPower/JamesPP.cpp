@@ -36,8 +36,8 @@ void JamesPP::start(Frame mFrame)
 void JamesPP::welcomeScreen()
 {
 
-	mainFrame.addText((mainFrame.getLength() / 2) - 18, (mainFrame.getWidth() / 2), "Welcome to James' Pointer Power!");
-	mainFrame.addText((mainFrame.getLength() / 2) - 11, (mainFrame.getWidth() / 2) + 1, "Press <ENTER> to Begin.");
+	mainFrame.addText((mainFrame.getLength() / 2) - 16, (mainFrame.getWidth() / 2), "Welcome to James' Pointer Power!", COLOR_GREEN, COLOR_BLUE);
+	mainFrame.addText((mainFrame.getLength() / 2) - 11, (mainFrame.getWidth() / 2) + 1, "Press <ENTER> to Begin.", COLOR_GREEN, COLOR_BLUE);
 
 	cwt::hitEnter();
 	mainFrame.addText((mainFrame.getLength() / 2) - 18, (mainFrame.getWidth() / 2), "                                     ");
@@ -49,6 +49,8 @@ void JamesPP::welcomeScreen()
 
 void JamesPP::mainMenu()
 {
+	mainFrame.addText(2, mainFrame.getWidth() - 2, defaultStatus, COLOR_GREEN, COLOR_BLUE);
+
 	mainFrame.drawWin();
 
 
@@ -103,12 +105,48 @@ void JamesPP::mainMenu()
 
 void JamesPP::signIn()
 {
+	
+	string lastName;
+	string middleName;
+	string temp;
 
-	userName = DialogFrame::showInputDialog(mainFrame, "Continue", "SIGN IN", "Please enter your name:");
+	userName = DialogFrame::showInputDialog(mainFrame, "Continue", "SIGN IN", "Please enter your full name:");
 	
+
+	temp = userName;
+
+	firstName = temp.substr(0, temp.find(" "));
+
+	//temp = temp.substr(temp.find(" ") + 1);
+	//middleName = temp.substr(0, temp.find(" "));
+
+	lastName = temp.substr(temp.find(" ") + 1);
+
+
 	mainFrame.drawWin();
-	DialogFrame::showMessageDialog(mainFrame, "Continue", "WELCOME", "Welcome to " + MY_NAME + "' Pointer Power, " + userName);
+
+	if (firstName != lastName)
+	{
+		DialogFrame::showMessageDialog(mainFrame, "Continue", "WELCOME",
+			"\nFirst Name: " + firstName + "\n"
+			"Last Name: " + lastName + "\n"
+			"\nYou have succsessfuly signed in to " + MY_NAME + "' Pointer Power. Welcome " + firstName + ".");
+	}
+	else
+	{
+
+		lastName = "Unknown";
+		DialogFrame::showMessageDialog(mainFrame, "Continue", "WELCOME",
+			"\nFirst Name: " + firstName + "\n"
+			"Last Name: " + lastName + "\n"
+			"\nYou have succsessfuly signed in to " + MY_NAME + "' Pointer Power. Welcome " + firstName + ".");
+	}
 	
+
+	historyString += "User: " + userName + "\n";
+	defaultStatus = "You are currently signed in as: " + userName;
+	gameNumber = 0;
+
 	mainFrame.drawWin();
 	mainMenu();
 
@@ -331,7 +369,7 @@ void JamesPP::displayGraphFrame(vector< vector<int>* > galtonData)
 	graphFrame.setForeground(COLOR_WHITE);
 	graphFrame.drawBorder();
 
-	flash();
+	//flash();
 	for (int i = 0; i < 51; i++)
 	{
 		if (i % 5 == 0)
@@ -438,13 +476,15 @@ void JamesPP::displayGameFrame(vector< vector<int>* > galtonData)
 
 void JamesPP::displayScoreTable(vector< vector<int>* > galtonData)
 {
-	Frame scoreTableFrame(68, 2, 30, 34, userName + "'s Game History");
+
+	Frame scoreTableFrame(68, 2, 30, 34, firstName + "'s Game History");
 	TextArea TA = scoreTableFrame.addTextArea();
 	TA.addText(0,0,historyString);
 
 	ButtonMenu bMenu(68, 35, 30, 3, "< Write >", "< Back >");
 
 	ofstream myfile("scores.txt", ios_base::app);
+
 	switch (bMenu.getButtonChoice())
 	{
 	case 1:
@@ -458,6 +498,9 @@ void JamesPP::displayScoreTable(vector< vector<int>* > galtonData)
 		{
 			DialogFrame::showMessageDialog(mainFrame, "Continue", "ERROR", "Unable to open file 'scores.txt'.");
 		}
+		DialogFrame::showMessageDialog(mainFrame, "Continue", "WRITE SUCCESSFUL", "The following data has been saved to disk:\n" + historyString);
+		mainFrame.drawWin();
+		drawGameFrames(galtonData);
 		break;
 
 	case 2:
@@ -482,6 +525,7 @@ void JamesPP::drawGameFrames(vector< vector<int>* > galtonData)
 
 void JamesPP::goGalton()
 {
+	requireLogin();
 
 	mainFrame.drawWin();
 
@@ -518,15 +562,13 @@ void JamesPP::goGalton()
 			break;
 	}
 	
-
-
-
 	getch();
 
 }
 
 void JamesPP::displayGameOptions(vector< vector<int>* > galtonData)
 {
+
 	NavigationMenu optionFrame(68, 18, 30, 18, "OPTIONS", "DROP BALLS", "Edit number of balls", "Edit number of rows", "Edit left chance", "Edit right chance", "Score Table ");
 	optionFrame.setMenuOptions("< Select >", "< Back >");
 	optionFrame.setTextXY(4, 6);
@@ -560,6 +602,8 @@ void JamesPP::displayGameOptions(vector< vector<int>* > galtonData)
 
 void JamesPP::playGame()
 {
+	requireLogin();
+
 	gameNumber += 1;
 
 	mainFrame.drawWin();
@@ -568,169 +612,22 @@ void JamesPP::playGame()
 
 	drawGameFrames(rows);
 
-
-
-	//WINDOW* win = JamesOptionPanes::jamesFrame(80, 36);
-	//JamesPP::showGalton(win, false);
-	//string aString = "";
-	//double score = 0;
-	//string scoreString = "";
-	//
-
-
-
-	//double values[]{ 126, 14, 3.5, 1.5, 1, 1, 1.5, 3.5, 14, 126 };
-
-	//gameNumber += 1;
-
-	//wattron(win, COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
-	//mvwprintw(win, 14, 2, "WEIGHT:    126    14   3.5   1.5    1     1    1.5   3.5    14   126");
-	//wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
-	//mvwprintw(win, 16, 2, "SCORE:");
-
-	//wattron(win, COLOR_PAIR(cwt::colorPair(COLOR_CYAN, COLOR_BLACK)));
-	//for (int i = 0; i < 10; i++)
-	//{
-
-
-
-	//	aString = to_string(gBox[i] * values[i]);
-	//	aString.erase(aString.find_last_not_of('0') + 1, std::string::npos);
-	//	if (aString.back() == '.')
-	//	{
-	//		aString.pop_back();
-	//	}
-	//	
-	//	
-	//	score += (gBox[i] * values[i]);
-	//	mvwprintw(win, 16, 13+i*6, (char*)aString.c_str());
-
-	//}
-	//wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_CYAN, COLOR_BLACK)));
-
-	//for (int t = 0; t < getmaxx(win) - 2; t++)
-	//{
-	//	mvwaddch(win, 13, 1 + t, ACS_HLINE);
-	//	mvwaddch(win, 15, 1 + t, ACS_HLINE);
-	//	mvwaddch(win, 17, 1 + t, ACS_HLINE);
-	//	mvwaddch(win, 30, 1 + t, ACS_HLINE);
-
-	//}
-
-	//
-
-	//scoreString = to_string(score);
-	//scoreString.erase(scoreString.find_last_not_of('0') + 1, std::string::npos);
-
-	//string congrats = "Congratulations, " + userName + "! Your score in game #" + to_string(gameNumber) + " is " + scoreString ;
-
-	//ofstream myfile("scores.txt", ios_base::app);
-	//if (myfile.is_open())
-	//{
-	//	myfile << scoreString + "\n";
-	//	myfile.close();
-	//}
-	//else
-	//{
-	//	JamesOptionPanes::showMessage(mainWindow, "ERROR", "Unable to open file 'scores.txt'.");
-	//}
-
-	//wattron(win, COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_BLACK)));
-	//cwt::mvwprintwCentered(win, 24, (char*)congrats.c_str());
-	//wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_BLACK)));
-
-	//wattron(win, COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
-	//cwt::mvwprintwCentered(win, 1, "   PLAY GAME");
-	//cwt::mvwprintwCentered(win, 32, "Press <ESC> to return to main menu");
-	//cwt::mvwprintwCentered(win, 33, "Press <ENTER> to drop again");
-	//wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
-
-	//wrefresh(win);
-
-	//int keyPress = wgetch(win);
-
-	////test key input
-	//if (keyPress == 10)
-	//{
-	//	touchwin(win);
-	//	wclear(win);
-	//	delwin(win);
-	//	
-	//	JamesPP::playGame();
-	//}
-
-	//if (keyPress = 27)
-	//{
-	//	touchwin(win);
-	//	wclear(win);
-	//	delwin(win);
-	//	refreshBackground();
-	//	mainMenu();
-	//}
-
-	//
 }
 
 void JamesPP::displayGameHistory()
 {
+	requireLogin();
+
 	DialogFrame::showMessageDialog(mainFrame, "< Continue >","GAME HISTORY" , historyString);
 	mainFrame.drawWin();
 	mainMenu();
 
-
-	//WINDOW* win = JamesOptionPanes::jamesFrame(80, 12 + gameNumber);
-	//string summary = "So far, " + userName + ", you have played " + to_string(gameNumber) + " game(s) with the following scores:";
-	//string game;
-	//
-	//string line;
-	//vector<string> myLines;
-	//myLines.clear();
-
-	//ifstream myFile("scores.txt", ios_base::in);
-	//while (getline(myFile, line, '\n'))
-	//{
-	//	myLines.push_back(line);
-	//}
-
-
-	//cwt::mvwprintwCentered(win, 4, (char*)summary.c_str());
-	//cwt::mvwprintwCentered(win, 1, "GAME HISTORY");
-
-	//
-	//for (int i = 1; i <= gameNumber; i++)
-	//{
-	//	
-	//	if (myLines[i - 1].back() == '.')
-	//	{
-	//		myLines[i - 1].pop_back();
-	//	}
-
-	//	game = "Game #" + to_string(i) + ": " + myLines[i - 1];
-
-
-	//	mvwprintw(win, 6 + i, 10, (char*)game.c_str());
-	//}
-
-	//wattron(win, A_BOLD | WA_BLINK);
-	//mvwprintw(win, (getmaxy(win) - 3), ((getmaxx(win) / 2) - 4), "CONTINUE");
-	//wattroff(win, A_BOLD | WA_BLINK);
-	//wrefresh(win);
-
-	//JamesOptionPanes::hitEnter(win);
-	//
-	//touchwin(win);
-	//wclear(win);
-	//delwin(win);
-	//refreshBackground();
-	//mainMenu();
-
-	//	//"GAME HISTORY", "So far, " + userName + ", you have played " + to_string(gameNumber) + " games with the following scores: \n\n");
-	//
-	//
 }
 
 void JamesPP::displayIDInfo()
 {
+	requireLogin();
+
 	DialogFrame::showMessageDialog(
 		mainFrame,
 		"Continue", "ID INFORMATION",
@@ -747,12 +644,12 @@ void JamesPP::displayIDInfo()
 
 	mainFrame.drawWin();
 	mainMenu();
-	//refreshBackground();
-	//mainMenu();
 }
 
 void JamesPP::displayCredits()
 {
+	requireLogin();
+
 	DialogFrame::showMessageDialog(
 		mainFrame,
 		"< CONTINUE >", "CREDITS",
@@ -770,6 +667,8 @@ void JamesPP::displayCredits()
 
 void JamesPP::displayStars()
 {
+	requireLogin();
+
 	DialogFrame::showMessageDialog(
 		mainFrame,
 		"< CONTINUE >", "STARS",
@@ -785,4 +684,18 @@ void JamesPP::farewell()
 	exit(1);
 
 	
+}
+
+void JamesPP::requireLogin()
+{
+	if (userName == "Unknown User")
+	{
+		DialogFrame::showMessageDialog(mainFrame, "< Back >", "ERROR", "Please sign in before proceeding");
+		mainFrame.drawWin();
+		mainMenu();
+	}
+	else
+	{
+		return;
+	}
 }

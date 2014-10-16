@@ -263,9 +263,9 @@ void Component::addText(int x, int y, std::string text)
 
 void Component::addText(int x, int y, std::string text, int foreColor, int backColor)
 {
-	wattron(this->component, COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
+	wattron(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
 	mvwprintw(this->component, y, x, (char*)text.c_str());
-	wattroff(this->component, COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
+	wattroff(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
 
 	wrefresh(this->component);
 }
@@ -278,8 +278,8 @@ void Component::addCharacter(int x, int y, unsigned long cCharacter)
 
 void Component::addCharacter(int x, int y, unsigned long cCharacter, int foreColor, int backColor)
 {
-	wattron(this->component, COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
+	wattron(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
 	mvwaddch(this->component, y, x, cCharacter);
-	wattroff(this->component, COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
+	wattroff(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
 	wrefresh(this->component);
 }

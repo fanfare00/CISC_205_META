@@ -47,7 +47,7 @@ CREDITS
 
 #include "../util/cwt/CursesWindowToolkit.h"
 #include "../util/../util/cwt/CursesWindowToolkit.h"
-#include "../util/JamesOptionPanes.h"
+#include "JamesOptionPanes.h"
 #include <string>
 
 

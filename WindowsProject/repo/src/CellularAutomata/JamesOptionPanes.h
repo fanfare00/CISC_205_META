@@ -43,15 +43,13 @@ CREDITS
 ********************************************************************************/
 #pragma once
 
-#include "cwt/CursesWindowToolkit.h"
 #include <string>
+#include "curses.h"
 using namespace std;
 
 class JamesOptionPanes
 {
 public: 
-
-
 
 	static WINDOW* setUp(int scrHeight, int scrWidth);
 	//static void loadColors();

@@ -41,11 +41,15 @@ CREDITS
 ********************************************************************************
 ********************************************************************************
 ********************************************************************************/
-
+#include "curses.h"
 #include "JamesOptionPanes.h"
 #include <stdio.h>
 #include <time.h>
-#include "ConsoleWordWrapper.h"
+#include "../util/ConsoleWordWrapper.h"
+
+#include "../util/cwt/CursesWindowToolkit.h";
+
+
 
 WINDOW* JamesOptionPanes::setUp(int scrHeight, int scrWidth)
 {
@@ -70,22 +74,22 @@ void JamesOptionPanes::showDateTime(WINDOW* win, int y, int x)
 	_strdate_s(date);
 	_strtime_s(time);
 
-	
-	mvwprintw(win, y,  x, "Date: %s", date);
-	mvwprintw(win, y+1, x, "Time: %s", time);
-	 
+
+	mvwprintw(win, y, x, "Date: %s", date);
+	mvwprintw(win, y + 1, x, "Time: %s", time);
+
 }
 
 
 string JamesOptionPanes::showInputMessage(WINDOW* parentWindow, string title, string message)
 {
-	WINDOW* win = JamesOptionPanes::jamesFrame(getWidthFromString(message), getHeightFromString(message)+3);
+	WINDOW* win = JamesOptionPanes::jamesFrame(getWidthFromString(message), getHeightFromString(message) + 3);
 	char * cMessage = (char*)message.c_str();
 	string userInput;
 	int startingLine = 0;
 
 	ConsoleWordWrapper::formatString(&message, 80);
-	
+
 	WINDOW* textArea = newwin((getmaxy(win) - 6), (getmaxx(win) - 4), (getbegy(win) + 3), (getbegx(win) + 2));
 	WINDOW* titleArea = newwin(1, (getmaxx(win) - 4), (getbegy(win) + 1), (getbegx(win) + 2));
 
@@ -105,7 +109,7 @@ string JamesOptionPanes::showInputMessage(WINDOW* parentWindow, string title, st
 
 	mvwprintw(titleArea, 0, (getmaxx(titleArea) / 2) - (title.length() / 2), (char*)title.c_str());
 	mvwprintw(textArea, 1, startingLine, (char*)message.c_str());
-	
+
 
 	wrefresh(win);
 	wrefresh(textArea);
@@ -125,7 +129,7 @@ string JamesOptionPanes::showInputMessage(WINDOW* parentWindow, string title, st
 
 
 
-	
+
 
 	return userInput;
 }
@@ -136,8 +140,8 @@ void JamesOptionPanes::showLargeMessage(WINDOW* parentWindow, string title, stri
 {
 	WINDOW* win = largeMessageFrame();
 	WINDOW* textArea = derwin(win, 16, 71, 0, 2);
-	 
-	
+
+
 
 
 
@@ -161,7 +165,7 @@ void JamesOptionPanes::showLargeMessage(WINDOW* parentWindow, string title, stri
 
 WINDOW* JamesOptionPanes::titleBox()
 {
-	WINDOW *win = newwin(5, 40, 2, (COLS/2) - 20);
+	WINDOW *win = newwin(5, 40, 2, (COLS / 2) - 20);
 	WINDOW *shadowWin = newwin(5, 40, 3, (COLS / 2) - 19);
 	box(win, 0, 183);
 
@@ -172,7 +176,7 @@ WINDOW* JamesOptionPanes::titleBox()
 
 	wrefresh(shadowWin);
 	wrefresh(win);
-	
+
 
 	return win;
 }
@@ -180,14 +184,14 @@ WINDOW* JamesOptionPanes::titleBox()
 void JamesOptionPanes::showTitleMessage(string title)
 {
 	WINDOW* titleBox = JamesOptionPanes::titleBox();
-		mvwprintw(titleBox, 2, getCenterX(titleBox, title), (char*)title.c_str());
-		wrefresh(titleBox);
+	mvwprintw(titleBox, 2, getCenterX(titleBox, title), (char*)title.c_str());
+	wrefresh(titleBox);
 }
 
 int JamesOptionPanes::getCenterX(WINDOW* win, string text)
 {
 
-	return (getmaxx(win) / 2) - (text.length()/2);
+	return (getmaxx(win) / 2) - (text.length() / 2);
 }
 
 bool JamesOptionPanes::showConfirmationMessage(WINDOW* parWindow, string title, string message)
@@ -200,7 +204,7 @@ bool JamesOptionPanes::showConfirmationMessage(WINDOW* parWindow, string title, 
 
 	int menuItemSelection;
 
-	WINDOW *win = newwin(10, 50, (getmaxy(parWindow)/2) - 5, (getmaxx(parWindow)/2) - 50/2);
+	WINDOW *win = newwin(10, 50, (getmaxy(parWindow) / 2) - 5, (getmaxx(parWindow) / 2) - 50 / 2);
 
 	menuItemSelection = navigationMenu(win, menuItems, 2);
 	wrefresh(win);
@@ -239,14 +243,14 @@ int JamesOptionPanes::getWidthFromString(string message)
 
 		if (j == 80)
 		{
-			
+
 			j = 0;
 		}
 
 
 		if ((message[i] == '\n'))
 		{
-			
+
 			j = 0;
 		}
 		else
@@ -299,7 +303,7 @@ int JamesOptionPanes::getHeightFromString(string message)
 		}
 	}
 
-	
+
 	return height;
 
 }
@@ -346,17 +350,17 @@ void JamesOptionPanes::showMessage(WINDOW* parentWindow, string title, string me
 WINDOW* JamesOptionPanes::jamesFrame(int width, int height)
 {
 
-	WINDOW *win = newwin(height, width, ((getmaxy(stdscr) / 2) - (height) / 2), (getmaxx(stdscr) / 2) - (( width) / 2));
-		box(win, 0, 0);
-		wbkgd(win, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_BLACK)));
+	WINDOW *win = newwin(height, width, ((getmaxy(stdscr) / 2) - (height) / 2), (getmaxx(stdscr) / 2) - ((width) / 2));
+	box(win, 0, 0);
+	wbkgd(win, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_BLACK)));
 
-		mvwaddch(win, 2, 0, ACS_LTEE);
-		mvwaddch(win, 2, width-1, ACS_RTEE);
+	mvwaddch(win, 2, 0, ACS_LTEE);
+	mvwaddch(win, 2, width - 1, ACS_RTEE);
 
-		for (int i = 1; i <= (width-2); i++)
-		{
-			mvwaddch(win, 2, i, ACS_HLINE);
-		}
+	for (int i = 1; i <= (width - 2); i++)
+	{
+		mvwaddch(win, 2, i, ACS_HLINE);
+	}
 
 	return win;
 }
@@ -364,9 +368,9 @@ WINDOW* JamesOptionPanes::jamesFrame(int width, int height)
 
 WINDOW* JamesOptionPanes::largeMessageFrame()
 {
-	WINDOW *win = newwin(25, 80, (LINES/2) - 12, (COLS/2) - 40);
-		box(win, 0, 0);
-		wbkgd(win, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_BLACK)));
+	WINDOW *win = newwin(25, 80, (LINES / 2) - 12, (COLS / 2) - 40);
+	box(win, 0, 0);
+	wbkgd(win, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_YELLOW, COLOR_BLACK)));
 
 	return win;
 }
@@ -465,7 +469,7 @@ void JamesOptionPanes::printMenuItems(WINDOW *win, string menuItems[], int numMe
 	{
 		if (highlight == i + 1) /* High light the present choice */
 		{
-			
+
 			wattron(win, COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_YELLOW)));
 			mvwprintw(win, y, x, (char*)menuItems[i].c_str());
 			wattroff(win, COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_YELLOW)));
@@ -475,7 +479,7 @@ void JamesOptionPanes::printMenuItems(WINDOW *win, string menuItems[], int numMe
 
 			mvwprintw(win, y, x, (char*)menuItems[i].c_str());
 
-			
+
 		}
 		y++;
 	}
@@ -486,7 +490,7 @@ void JamesOptionPanes::printMenuItems(WINDOW *win, string menuItems[], int numMe
 void JamesOptionPanes::hitEnter(WINDOW *win)
 {
 	int keyPress;
-	
+
 
 	while (true)
 	{

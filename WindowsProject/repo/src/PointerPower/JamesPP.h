@@ -1,7 +1,6 @@
 #ifndef JAMESPP_H
 #define JAMESPP_H
 
-#include "../util/JamesOptionPanes.h"
 #include "../util/cwt/CursesWindowToolkit.h"
 #include "curses.h"
 #include <string>
@@ -14,11 +13,10 @@ class JamesPP
 public:
 	Frame mainFrame;
 
-	
-
 	string userName = "Unknown User";
+	string firstName = "Unknown";
 	const string MY_NAME = "James";
-	char* defaultStatus = "You are currently not signed in.";
+	string defaultStatus = "You are not currently signed in.";
 	//WINDOW* mainWindow;
 
 	static JamesPP& getInstance();
@@ -37,10 +35,9 @@ public:
 	void displayGameHistory();
 	void displayIDInfo();
 	void displayStars();
-
 	void displayCredits();
 	void farewell();
-
+	
 	vector< vector<int>* > getGaltonRows();
 	void displayFlowFrame(vector< vector<int>* > galtonData);
 	void displayVariableFrame();
@@ -50,6 +47,8 @@ public:
 	void displayScoreTable(vector< vector<int>* > galtonData);
 	void displayGameOptions(vector< vector<int>* > galtonData);
 	void drawGameFrames(vector< vector<int>* > galtonData);
+
+	void requireLogin();
 
 	int nRows = 10;
 	int nBalls = 1000;
