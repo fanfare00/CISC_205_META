@@ -6,10 +6,10 @@
 //}
 Frame::~Frame()
 {
-	touchwin(this->component);
-	werase(this->component);
-	wrefresh(this->component);
-	delwin(this->component);
+	//touchwin(this->component);
+	//werase(this->component);
+	//wrefresh(this->component);
+	//delwin(this->component);
 }
 
 
@@ -49,6 +49,8 @@ void Frame::drawBorder()
 	wattroff(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_WHITE)));
 
 
+
+
 	wattron(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
 	for (int i = 1; i < (width - 1); i++)
 	{
@@ -69,7 +71,21 @@ void Frame::drawBorder()
 	mvwprintw(this->component, 0, ((length / 2) - (frameTitle.length() / 2)), (char*)frameTitle.c_str());
 	wattroff(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLUE, COLOR_WHITE)));
 	////////////////////////////////
+
+	wrefresh(this->component);
 }
+
+void Frame::setTitle(std::string title)
+{
+
+
+	frameTitle = title;
+
+
+	drawBorder();
+
+}
+
 
 //void Frame::addButtonMenu(std::string b1Text)
 //{

@@ -14,8 +14,7 @@ class JamesPP
 public:
 	Frame mainFrame;
 
-	vector<int>     gBox;
-	int gameNumber = 0;
+	
 
 	string userName = "Unknown User";
 	const string MY_NAME = "James";
@@ -40,8 +39,29 @@ public:
 	void displayStars();
 	void farewell();
 
-	void showGalton(WINDOW* win, bool showHistogram);
+	vector< vector<int>* > getGaltonRows();
+	void displayFlowFrame(vector< vector<int>* > galtonData);
+	void displayVariableFrame();
+	void displayGraphFrame(vector< vector<int>* > galtonData);
+	void displayGameFrame(vector< vector<int>* > galtonData);
 
+	void displayScoreTable(vector< vector<int>* > galtonData);
+	void displayGameOptions(vector< vector<int>* > galtonData);
+	void drawGameFrames(vector< vector<int>* > galtonData);
+
+	int nRows = 10;
+	int nBalls = 1000;
+	int leftRight = 0;
+	int counter = 0;
+
+	int leftChance = 50;
+	int rightChance = 100 - leftChance;
+
+	string graphDirection = "Up";
+
+	int gameNumber = 0;
+
+	string historyString = "";
 };
 
 #endif /* JAMESPP_H */

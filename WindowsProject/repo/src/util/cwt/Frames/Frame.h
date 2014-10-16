@@ -51,7 +51,7 @@ public:
 
 	void addButtonMenu(std::string test);
 
-
+	void setTitle(std::string title);
 	
 	//void addButtonMenu(std::string b1Text);
 	//void addButtonMenu(std::string b1Text, std::string b2Text);

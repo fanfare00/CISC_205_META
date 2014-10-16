@@ -118,6 +118,7 @@ int NavigationMenu::loopMenu(ButtonMenu dButtonMenu, std::vector<std::string> me
 		return -1;
 	}
 
+	return -2;
 }
 
 
@@ -125,27 +126,25 @@ void NavigationMenu::printMenuItems(std::vector<std::string> menuItems, int high
 {
 	int nMenuItems = menuItems.size();
 
-	int xE, yE, iE;
+	int iE;
 
-	xE = 7;
-	yE = 5;
-
-	//box(win, 0, 0);
+	int xE = textStartX;
+	int yE = textStartY;
 
 
 	for (iE = 0; iE < nMenuItems; ++iE)
 	{
 
-		wattron(component, COLOR_PAIR(cwt::colorPair(COLOR_RED, COLOR_WHITE)));
+		wattron(component, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
 		mvwprintw(component, yE, xE, (char*)menuItems[iE].c_str());
-		wattroff(component, COLOR_PAIR(cwt::colorPair(COLOR_RED, COLOR_WHITE)));
+		wattroff(component, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
 
 		if (highlight == iE)
 		{
 
-			wattron(component, COLOR_PAIR(cwt::colorPair(COLOR_RED, COLOR_YELLOW)));
+			wattron(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_RED, COLOR_WHITE)));
 			mvwprintw(component, yE, xE, (char*)menuItems[iE].c_str());
-			wattroff(component, COLOR_PAIR(cwt::colorPair(COLOR_RED, COLOR_YELLOW)));
+			wattroff(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_RED, COLOR_WHITE)));
 			
 		}
 		else
@@ -164,3 +163,14 @@ int NavigationMenu::getMenuChoice()
 	return loopMenu(*bMenu, *mItems);
 }
 
+void NavigationMenu::setTextXY(int x, int y)
+{
+	textStartX = x;
+	textStartY = y;
+
+	werase(this->component);
+	drawBorder();
+	width -= 3;
+	addTextArea();
+	printMenuItems(*mItems, 0);
+}

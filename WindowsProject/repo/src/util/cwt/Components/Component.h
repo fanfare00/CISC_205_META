@@ -38,6 +38,9 @@ public:
 	int getKeyboardInput();
 
 	void addText(int x, int y, std::string text);
+	void addText(int x, int y, std::string text, int foreColor, int backColor);
+	void addCharacter(int x, int y, unsigned long cCharacter);
+	void addCharacter(int x, int y, unsigned long cCharacter, int foreColor, int backColor);
 
 protected:
 	

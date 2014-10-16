@@ -3,7 +3,7 @@
 
 void DialogFrame::showMessageDialog(Component parentComponent, string option, string title, string message)
 {
-	parentComponent.drawWin();
+	//parentComponent.drawWin();
 	ConsoleWordWrapper::formatString(&message, 78);
 
 	int dLength = getLengthFromString(message);
@@ -43,7 +43,7 @@ void DialogFrame::showMessageDialog(Component parentComponent, string option, st
 
 string DialogFrame::showInputDialog(Component parentComponent, string option, string title, string message)
 {
-	parentComponent.drawWin();
+	//parentComponent.drawWin();
 	string input;
 
 	ConsoleWordWrapper::formatString(&message, 78);

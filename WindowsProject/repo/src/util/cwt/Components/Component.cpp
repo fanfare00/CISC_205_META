@@ -65,13 +65,13 @@ void Component::setVisible(bool b)
 
 void Component::setBackground(int bkgColor)
 {
-	backgroundColor = bkgColor;
+	this->backgroundColor = bkgColor;
 	drawWin();
 }
 
 void Component::setForeground(int foreColor)
 {
-	foregroundColor = foreColor;
+	this->foregroundColor = foreColor;
 	drawWin();
 }
 
@@ -84,7 +84,7 @@ void Component::drawWin()
 	
 
 	wbkgd(this->component,COLOR_PAIR(cwt::colorPair(foregroundColor, backgroundColor)));
-
+	//wcolor_set(this->component, COLOR_PAIR(cwt::colorPair(foregroundColor, backgroundColor)), NULL );
 	//werase(stdscr);
 	//wrefresh(stdscr);
 	wrefresh(this->component);
@@ -144,16 +144,16 @@ void Component::updateLW(int l, int w)
 
 void Component::enableBorder(bool b)
 {
-	if (b == true)
-	{
-		box(this->component, 0, 0);
-	}
-	else
-	{
-		wattron(this->component, COLOR_PAIR(cwt::colorPair(backgroundColor, backgroundColor)));
-		box(this->component, 0, 0);
-		wattron(this->component, COLOR_PAIR(cwt::colorPair(backgroundColor, backgroundColor)));
-	}
+	//if (b == true)
+	//{
+	//	box(this->component, 0, 0);
+	//}
+	//else
+	//{
+	//	wattron(this->component, COLOR_PAIR(cwt::colorPair(backgroundColor, backgroundColor)));
+	//	box(this->component, 0, 0);
+	//	wattron(this->component, COLOR_PAIR(cwt::colorPair(backgroundColor, backgroundColor)));
+	//}
 }
 
 void Component::enableMoveMode(bool b)
@@ -256,6 +256,30 @@ int Component::getKeyboardInput()
 
 void Component::addText(int x, int y, std::string text)
 {
+
 	mvwprintw(this->component, y, x, (char*)text.c_str());
+	wrefresh(this->component);
+}
+
+void Component::addText(int x, int y, std::string text, int foreColor, int backColor)
+{
+	wattron(this->component, COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
+	mvwprintw(this->component, y, x, (char*)text.c_str());
+	wattroff(this->component, COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
+
+	wrefresh(this->component);
+}
+
+void Component::addCharacter(int x, int y, unsigned long cCharacter)
+{
+	mvwaddch(this->component, y, x, cCharacter);
+	wrefresh(this->component);
+}
+
+void Component::addCharacter(int x, int y, unsigned long cCharacter, int foreColor, int backColor)
+{
+	wattron(this->component, COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
+	mvwaddch(this->component, y, x, cCharacter);
+	wattroff(this->component, COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
 	wrefresh(this->component);
 }

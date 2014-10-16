@@ -26,6 +26,8 @@ public:
 	ButtonMenu *bMenu;
 	std::vector<std::string> *mItems;
 
+
+	void setTextXY(int x, int y);
 	int loopMenu(ButtonMenu dButtonMenu, std::vector<std::string> menuItems);
 	void printMenuItems(std::vector<std::string> menuItems, int highlight);
 	int getMenuChoice();
@@ -33,9 +35,13 @@ public:
 	template<typename... Arguments>
 	void setMenuOptions(Arguments&... args)
 	{
+		delete bMenu;
 		bMenu = new ButtonMenu(x, y + width - 4, length, 3, args...);
 	}
 
 private:
 	std::string frameTitle;
+
+	int textStartX = 7;;
+	int textStartY = 5;
 };
