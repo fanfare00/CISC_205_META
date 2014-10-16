@@ -79,7 +79,7 @@ void JamesPP::mainMenu()
 		playGame();
 		break;
 	case 5:
-
+		displayGameHistory();
 		break;
 
 	case 6:
@@ -664,6 +664,11 @@ void JamesPP::playGame()
 
 void JamesPP::displayGameHistory()
 {
+	DialogFrame::showMessageDialog(mainFrame, "< Continue >","GAME HISTORY" , historyString);
+	mainFrame.drawWin();
+	mainMenu();
+
+
 	//WINDOW* win = JamesOptionPanes::jamesFrame(80, 12 + gameNumber);
 	//string summary = "So far, " + userName + ", you have played " + to_string(gameNumber) + " game(s) with the following scores:";
 	//string game;
