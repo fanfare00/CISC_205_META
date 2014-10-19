@@ -38,6 +38,7 @@ void DialogFrame::showMessageDialog(Component parentComponent, string option, st
 	dButtonMenu.getButtonChoice();
 
 	werase(dFrame.component);
+	
 
 	
 	 

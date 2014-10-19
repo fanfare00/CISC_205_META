@@ -38,18 +38,28 @@ public:
 	void displayCredits();
 	void farewell();
 	
-	vector< vector<int>* > getGaltonRows();
-	void displayFlowFrame(vector< vector<int>* > galtonData);
-	void displayVariableFrame();
-	void displayGraphFrame(vector< vector<int>* > galtonData);
-	void displayGameFrame(vector< vector<int>* > galtonData);
+	void loopGraphMenu(NavigationMenu graphMenu, Frame graphFrame, Frame galtonFrame, Frame variableFrame);
 
-	void displayScoreTable(vector< vector<int>* > galtonData);
-	void displayGameOptions(vector< vector<int>* > galtonData);
-	void drawGameFrames(vector< vector<int>* > galtonData);
+	Frame setUpGraphFrame();
+	void updateGraphData(Frame graphFrame);
+	void clearGraphData();
+	
+	void displayFlowFrame();
+	void updateFlowData(Frame galtonFrame);
+
+
+	Frame setUpVariableFrame();
+	void updateVariableData(Frame variableFrame);
+	
+	void updateGameData(Frame gameFrame);
+
+	void displayScoreTable();
+	void loopGameMenu(NavigationMenu gameMenu, Frame flowFrame, Frame gameFrame, Frame variableFrame);
+	void drawGameFrames();
 
 	void requireLogin();
 
+	
 	int nRows = 10;
 	int nBalls = 1000;
 	int leftRight = 0;
@@ -58,11 +68,18 @@ public:
 	int leftChance = 50;
 	int rightChance = 100 - leftChance;
 
-	string graphDirection = "Up";
+	string graphDirectionString = "Up";
+	int graphDirection = 0;
 
 	int gameNumber = 0;
 
 	string historyString = "";
+	
+
+	vector< vector<int>* > galtonData;
+	void generateGaltonData();
+	void setUpGaltonData();
+
 };
 
 #endif /* JAMESPP_H */

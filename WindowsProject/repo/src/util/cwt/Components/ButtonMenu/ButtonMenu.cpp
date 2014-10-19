@@ -7,16 +7,17 @@
 
 ButtonMenu::~ButtonMenu()
 {
-	//touchwin(this->component);
-	//werase(this->component);
-	//wrefresh(this->component);
-	//delwin(this->component);
+	//touchwin(component);
+	//werase(component);
+	//wrefresh(component);
+	
+	//delwin(component);
 }
 
 void ButtonMenu::CButton::drawButton(WINDOW* c)
 {
-	parentWindow = c;
-	std::string buttonText = this->name;
+	//parentWindow = c;
+	std::string buttonText = name;
 
 	if (position == BUTTON_POSITION_MIDDLE)
 	{

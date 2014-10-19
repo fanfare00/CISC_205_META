@@ -52,8 +52,6 @@ protected:
 	bool moveMode = false;
 	bool sizeMode = false;
 
-
-
 	int backgroundColor = COLOR_BLACK;
 	int foregroundColor = COLOR_WHITE;
 

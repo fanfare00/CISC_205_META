@@ -6,10 +6,13 @@
 //}
 Frame::~Frame()
 {
-	//touchwin(this->component);
-	//werase(this->component);
-	//wrefresh(this->component);
-	//delwin(this->component);
+	//touchwin(component);
+	//werase(component);
+	//wrefresh(component);
+	//delwin(component);
+
+	//touchwin(component);
+	//delwin(component);
 }
 
 
@@ -44,35 +47,35 @@ void Frame::addTextArea(int startX, int startY, int aLength, int aWidth, std::st
 void Frame::drawBorder()
 {
 	//CREATE BORDER////////////////
-	wattron(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_WHITE)));
-	box(this->component, 0, 0);
-	wattroff(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_WHITE)));
+	wattron(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_WHITE)));
+	box(component, 0, 0);
+	wattroff(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_WHITE)));
 
 
 
 
-	wattron(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
+	wattron(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
 	for (int i = 1; i < (width - 1); i++)
 	{
-		mvwaddch(this->component, i, (length - 1), ACS_VLINE);
+		mvwaddch(component, i, (length - 1), ACS_VLINE);
 	}
 
 	for (int i = 1; i < (length - 1); i++)
 	{
-		mvwaddch(this->component, width - 1, i, ACS_HLINE);
+		mvwaddch(component, width - 1, i, ACS_HLINE);
 	}
-	mvwaddch(this->component, width - 1, length - 1, ACS_LRCORNER);
-	mvwaddch(this->component, 0, length - 1, ACS_URCORNER);
-	wattroff(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
+	mvwaddch(component, width - 1, length - 1, ACS_LRCORNER);
+	mvwaddch(component, 0, length - 1, ACS_URCORNER);
+	wattroff(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
 	/////////////////////////////////
 
 	//ADD TITLE//////////////////////
-	wattron(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLUE, COLOR_WHITE)));
-	mvwprintw(this->component, 0, ((length / 2) - (frameTitle.length() / 2)), (char*)frameTitle.c_str());
-	wattroff(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLUE, COLOR_WHITE)));
+	wattron(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLUE, COLOR_WHITE)));
+	mvwprintw(component, 0, ((length / 2) - (frameTitle.length() / 2)), (char*)frameTitle.c_str());
+	wattroff(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLUE, COLOR_WHITE)));
 	////////////////////////////////
 
-	wrefresh(this->component);
+	wrefresh(component);
 }
 
 void Frame::setTitle(std::string title)

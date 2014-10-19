@@ -4,8 +4,8 @@ NavigationMenu::~NavigationMenu()
 {
 	delete mItems;
 	delete bMenu;
-	touchwin(this->component);
-	delwin(this->component);
+	touchwin(component);
+	delwin(component);
 }
 
 int NavigationMenu::loopMenu(ButtonMenu dButtonMenu, std::vector<std::string> menuItems)
@@ -24,6 +24,8 @@ int NavigationMenu::loopMenu(ButtonMenu dButtonMenu, std::vector<std::string> me
 
 	while (true)
 	{
+		printMenuItems(menuItems, vertHighlight);
+
 		switch (wgetch(stdscr))
 		{
 			case KEY_LEFT:
@@ -52,7 +54,6 @@ int NavigationMenu::loopMenu(ButtonMenu dButtonMenu, std::vector<std::string> me
 				if (vertHighlight == 0)
 				{
 					vertHighlight = nMenuItems - 1;
-
 				}
 				else
 				{
@@ -69,7 +70,6 @@ int NavigationMenu::loopMenu(ButtonMenu dButtonMenu, std::vector<std::string> me
 				else
 				{
 					++vertHighlight;
-
 				}
 				
 				break;
@@ -80,16 +80,13 @@ int NavigationMenu::loopMenu(ButtonMenu dButtonMenu, std::vector<std::string> me
 				break;
 		}
 
-		printMenuItems(menuItems, vertHighlight);
-
-		CButtons[0].highlightColor = this->backgroundColor;
-		CButtons[1].highlightColor = this->backgroundColor;
-		CButtons[2].highlightColor = this->backgroundColor;
+		CButtons[0].highlightColor = backgroundColor;
+		CButtons[1].highlightColor = backgroundColor;
+		CButtons[2].highlightColor = backgroundColor;
 
 		CButtons[0].FGHighlightColor = COLOR_BLACK;
 		CButtons[1].FGHighlightColor = COLOR_BLACK;
 		CButtons[2].FGHighlightColor = COLOR_BLACK;
-
 
 		CButtons[highlight].highlightColor = COLOR_BLUE;
 		CButtons[highlight].FGHighlightColor = COLOR_WHITE;
@@ -102,7 +99,6 @@ int NavigationMenu::loopMenu(ButtonMenu dButtonMenu, std::vector<std::string> me
 		{
 			break;
 		}
-
 	}
 
 	if (panelChoice == 1)
@@ -155,7 +151,7 @@ void NavigationMenu::printMenuItems(std::vector<std::string> menuItems, int high
 		yE++;
 	}
 
-	wrefresh(this->component);
+	wrefresh(component);
 }
 
 int NavigationMenu::getMenuChoice()
@@ -168,7 +164,7 @@ void NavigationMenu::setTextXY(int x, int y)
 	textStartX = x;
 	textStartY = y;
 
-	werase(this->component);
+	werase(component);
 	drawBorder();
 	width -= 3;
 	addTextArea();

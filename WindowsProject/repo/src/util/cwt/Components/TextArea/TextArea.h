@@ -10,30 +10,35 @@ class TextArea : public Component
 
 
 public:
+	~TextArea()
+	{
+		//delwin(internalTextArea);
+		//delwin(component);
+	}
 	TextArea() :Component() {}
 	TextArea(int begX, int begY, int len, int wid) :Component(begX, begY, len, wid)
 	{
-		internalTextArea = newwin(this->width - 2, this->length - 2, this->y + 1, this->x + 1);
+		internalTextArea = newwin(width - 2, length - 2, y + 1, x + 1);
 		
 
 		//CREATE BORDER////////////////
-		wattron(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
-		box(this->component, 0, 0);
-		wattroff(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
+		wattron(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
+		box(component, 0, 0);
+		wattroff(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
 
-		wattron(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_WHITE)));
+		wattron(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_WHITE)));
 		for (int i = 1; i < (width - 1); i++)
 		{
-			mvwaddch(this->component, i, (length - 1), ACS_VLINE);
+			mvwaddch(component, i, (length - 1), ACS_VLINE);
 		}
 
 		for (int i = 1; i < (length - 1); i++)
 		{
-			mvwaddch(this->component, width - 1, i, ACS_HLINE);
+			mvwaddch(component, width - 1, i, ACS_HLINE);
 		}
-		mvwaddch(this->component, width - 1, length - 1, ACS_LRCORNER);
-		mvwaddch(this->component, 0, length - 1, ACS_URCORNER);
-		wattroff(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_WHITE)));
+		mvwaddch(component, width - 1, length - 1, ACS_LRCORNER);
+		mvwaddch(component, 0, length - 1, ACS_URCORNER);
+		wattroff(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_WHITE)));
 		/////////////////////////////////
 
 
@@ -50,11 +55,11 @@ public:
 
 inline void TextArea::addText(std::string textStr)
 {
-	wattron(this->component, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
-	mvwprintw(this->component, 1, 1, (char*)textStr.c_str());
-	wattroff(this->component, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
+	wattron(component, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
+	mvwprintw(component, 1, 1, (char*)textStr.c_str());
+	wattroff(component, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
 
-	wrefresh(this->component);
+	wrefresh(component);
 
 }
 
@@ -62,7 +67,7 @@ inline void TextArea::addText(int x, int y, std::string textStr)
 {
 	
 
-	wbkgd(internalTextArea,COLOR_PAIR(cwt::colorPair(COLOR_BLACK, this->backgroundColor)));
+	wbkgd(internalTextArea,COLOR_PAIR(cwt::colorPair(COLOR_BLACK, backgroundColor)));
 	wattron(internalTextArea, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
 	mvwprintw(internalTextArea, y, x, (char*)textStr.c_str());
 	wattroff(internalTextArea, COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));

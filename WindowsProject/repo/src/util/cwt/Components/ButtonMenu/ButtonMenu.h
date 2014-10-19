@@ -54,7 +54,8 @@ public:
 
 	struct CButton
 	{
-		WINDOW* parentWindow;
+
+		
 		std::string name;
 		
 		int highlightColor;
@@ -101,7 +102,7 @@ inline void ButtonMenu::addButtons(std::vector<std::string> buttons)
 
 		b2.name = buttons[1];
 		b2.position = BUTTON_POSITION_DOUBLE_RIGHT;
-		b2.highlightColor = this->backgroundColor;
+		b2.highlightColor = backgroundColor;
 	}
 
 	if (nButtons == 3)
@@ -113,20 +114,20 @@ inline void ButtonMenu::addButtons(std::vector<std::string> buttons)
 
 		b2.name = buttons[1];
 		b2.position = BUTTON_POSITION_MIDDLE;
-		b2.highlightColor = this->backgroundColor;
+		b2.highlightColor = backgroundColor;
 
 		b3.name = buttons[2];
 		b3.position = BUTTON_POSITION_RIGHT;
-		b3.highlightColor = this->backgroundColor;
+		b3.highlightColor = backgroundColor;
 	}
 
-	b1.drawButton(this->component);
-	b2.drawButton(this->component);
-	b3.drawButton(this->component);
+	b1.drawButton(component);
+	b2.drawButton(component);
+	b3.drawButton(component);
 
 	 CButtons = { b1, b2, b3 };
 
-	 wrefresh(this->component);
+	 wrefresh(component);
 
 }
 
@@ -152,7 +153,7 @@ inline int ButtonMenu::getButtonChoice()
 			}
 
 			//CButtons[0].highlightColor = COLOR_BLUE;
-			//CButtons[1].highlightColor = this->backgroundColor;
+			//CButtons[1].highlightColor = backgroundColor;
 			break;
 
 		case KEY_RIGHT:
@@ -166,7 +167,7 @@ inline int ButtonMenu::getButtonChoice()
 				++highlight;
 			}
 
-			/*CButtons[0].highlightColor = this->backgroundColor;
+			/*CButtons[0].highlightColor = backgroundColor;
 			CButtons[1].highlightColor = COLOR_BLUE;*/
 			break;
 
@@ -175,9 +176,9 @@ inline int ButtonMenu::getButtonChoice()
 			break;
 		}
 
-		CButtons[0].highlightColor = this->backgroundColor;
-		CButtons[1].highlightColor = this->backgroundColor;
-		CButtons[2].highlightColor = this->backgroundColor;
+		CButtons[0].highlightColor = backgroundColor;
+		CButtons[1].highlightColor = backgroundColor;
+		CButtons[2].highlightColor = backgroundColor;
 
 		CButtons[0].FGHighlightColor = COLOR_BLACK;
 		CButtons[1].FGHighlightColor = COLOR_BLACK;
@@ -187,9 +188,9 @@ inline int ButtonMenu::getButtonChoice()
 		CButtons[highlight].highlightColor = COLOR_BLUE;
 		CButtons[highlight].FGHighlightColor = COLOR_WHITE;
 
-		CButtons[0].drawButton(this->component);
-		CButtons[1].drawButton(this->component);
-		CButtons[2].drawButton(this->component);
+		CButtons[0].drawButton(component);
+		CButtons[1].drawButton(component);
+		CButtons[2].drawButton(component);
 
 		if (choice != 0)
 		{
@@ -206,25 +207,25 @@ inline int ButtonMenu::getButtonChoice()
 inline void ButtonMenu::drawBorder()
 {
 	//CREATE BORDER////////////////
-	wattron(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_WHITE)));
-	box(this->component, 0, 0);
-	mvwaddch(this->component, 0, 0, ACS_LTEE);
-	wattroff(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_WHITE)));
+	wattron(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_WHITE)));
+	box(component, 0, 0);
+	mvwaddch(component, 0, 0, ACS_LTEE);
+	wattroff(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_WHITE)));
 
 
-	wattron(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
+	wattron(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
 	for (int i = 1; i < (width - 1); i++)
 	{
-		mvwaddch(this->component, i, (length - 1), ACS_VLINE);
+		mvwaddch(component, i, (length - 1), ACS_VLINE);
 	}
 
 	for (int i = 1; i < (length - 1); i++)
 	{
-		mvwaddch(this->component, width - 1, i, ACS_HLINE);
+		mvwaddch(component, width - 1, i, ACS_HLINE);
 	}
-	mvwaddch(this->component, width - 1, length - 1, ACS_LRCORNER);
-	mvwaddch(this->component, 0, length - 1, ACS_RTEE);
-	wattroff(this->component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
+	mvwaddch(component, width - 1, length - 1, ACS_LRCORNER);
+	mvwaddch(component, 0, length - 1, ACS_RTEE);
+	wattroff(component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_BLACK, COLOR_WHITE)));
 	/////////////////////////////////
 
 
