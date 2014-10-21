@@ -1,29 +1,9 @@
-﻿Build started 10/18/2014 10:58:08 PM.
+﻿Build started 10/20/2014 1:13:08 AM.
      1>Project "C:\Users\james\Desktop\CISC_205_OOPS_META\WindowsProject\WindowsProject.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\Users\james\Desktop\CISC_205_OOPS_META\WindowsProject\include /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /analyze- /errorReport:prompt /clr:nostdlib repo\src\PointerPower\JamesPP.cpp
-         JamesPP.cpp
-     1>repo\src\PointerPower\JamesPP.cpp(202): warning C4018: '<' : signed/unsigned mismatch
-     1>repo\src\PointerPower\JamesPP.cpp(212): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>repo\src\PointerPower\JamesPP.cpp(220): warning C4018: '<' : signed/unsigned mismatch
-     1>repo\src\PointerPower\JamesPP.cpp(266): warning C4018: '<' : signed/unsigned mismatch
-     1>repo\src\PointerPower\JamesPP.cpp(417): warning C4018: '<' : signed/unsigned mismatch
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\james\Desktop\CISC_205_OOPS_META\Debug\CISC_205_OOPS_META.exe" /INCREMENTAL /NOLOGO C:\Users\james\Desktop\CISC_205_OOPS_META\WindowsProject\lib\pdcurses.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\james\Desktop\CISC_205_OOPS_META\Debug\CISC_205_OOPS_META.pdb" /ASSEMBLYDEBUG /TLBID:1 /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 Debug\JamesCA.obj
-         Debug\JamesOptionPanes.obj
-         Debug\JamesPP.obj
-         Debug\main.obj
-         Debug\TestingGround.obj
-         Debug\ButtonMenu.obj
-         Debug\Component.obj
-         Debug\ConsoleWordWrapper.obj
-         Debug\DialogFrame.obj
-         Debug\Frame.obj
-         Debug\NavigationMenu.obj
-         "Debug\.NETFramework,Version=v4.5.AssemblyAttributes.obj"
+     1>Link:
          WindowsProject.vcxproj -> C:\Users\james\Desktop\CISC_205_OOPS_META\Debug\CISC_205_OOPS_META.exe
      1>Done Building Project "C:\Users\james\Desktop\CISC_205_OOPS_META\WindowsProject\WindowsProject.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.38
+Time Elapsed 00:00:00.06

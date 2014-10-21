@@ -10,17 +10,12 @@ NavigationMenu::~NavigationMenu()
 
 int NavigationMenu::loopMenu(ButtonMenu dButtonMenu, std::vector<std::string> menuItems)
 {
+	bool breakLoop = false;
+
 	std::vector<ButtonMenu::CButton> CButtons = dButtonMenu.CButtons;
 	int nButtons = dButtonMenu.nButtons;
 
-
-	int vertHighlight;
-	int highlight;
-
-	int panelChoice;
-	int menuChoice;
 	int nMenuItems = menuItems.size();
-	
 
 	while (true)
 	{
@@ -77,6 +72,7 @@ int NavigationMenu::loopMenu(ButtonMenu dButtonMenu, std::vector<std::string> me
 			case 10:
 				panelChoice = highlight + 1;
 				menuChoice = vertHighlight + 1;
+				breakLoop = true;
 				break;
 		}
 
@@ -95,7 +91,12 @@ int NavigationMenu::loopMenu(ButtonMenu dButtonMenu, std::vector<std::string> me
 		CButtons[1].drawButton(dButtonMenu.component);
 		CButtons[2].drawButton(dButtonMenu.component);
 
-		if (panelChoice != 0)
+		//if (panelChoice != 0)
+		//{
+		//	//break;
+		//}
+
+		if (breakLoop)
 		{
 			break;
 		}

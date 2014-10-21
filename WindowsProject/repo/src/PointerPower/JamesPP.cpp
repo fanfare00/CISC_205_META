@@ -214,6 +214,8 @@ void JamesPP::generateGaltonData()
 	int counter;
 	int leftRight;
 
+	//int chance = 9;
+
 
 	for (int i = 0; i < nRows; i++)
 	{
@@ -232,8 +234,14 @@ void JamesPP::generateGaltonData()
 
 			for (int j = 0; j < i; j++)
 			{
-				leftRight = rand() % 2;
-				counter = counter + leftRight;
+				//leftRight = (rand() % chance) / (chance-1);
+				//leftRight = leftRight;
+				//counter = counter + leftRight;
+				if (rand() % 100 < rightChance)
+				{
+					counter++;
+				}
+				
 			}
 
 			galtonData[i]->at(counter) += 1;
@@ -242,21 +250,19 @@ void JamesPP::generateGaltonData()
 
 }
 
-void JamesPP::displayFlowFrame()
-{
-
-	
-
-
-
-
-	//galtonFrame.drawBorder();
-}
-
 
 void JamesPP::updateFlowData(Frame galtonFrame)
 {
 	int nRows = galtonData.size();
+	string buttonSpace = "   ";
+	int adjustment = 4;
+
+	if (nBalls >= 10000)
+	{
+		buttonSpace = "  ";
+		adjustment -= 1;
+	}
+
 
 	string centerNumbers;
 	for (int i = 0; i < nRows; i++)
@@ -265,17 +271,26 @@ void JamesPP::updateFlowData(Frame galtonFrame)
 		galtonFrame.addText(2, i + 3, to_string(i) + ":", COLOR_MAGENTA, COLOR_BLACK);
 		for (int j = 0; j < galtonData[i]->size(); j++)
 		{
-			centerNumbers += to_string(galtonData[i]->at(j)) + "   ";
+
+			centerNumbers += to_string(galtonData[i]->at(j)) + buttonSpace;
 		}
 
-
-		galtonFrame.addText(((galtonFrame.getLength() / 2) - centerNumbers.length() / 2) + 4, i + 3, centerNumbers);
+		galtonFrame.addText(4, i + 3, "                                                ");
+		galtonFrame.addText(((galtonFrame.getLength() / 2) - centerNumbers.length() / 2) + adjustment, i + 3, centerNumbers);
 	}
+
+	galtonFrame.drawBorder();
 
 }
 
 void JamesPP::updateVariableData(Frame variableFrame)
 {
+	variableFrame.addText(variableFrame.getLength() - 6, 2,  "     ");
+	variableFrame.addText(variableFrame.getLength() - 6, 4,  "     ");
+	variableFrame.addText(variableFrame.getLength() - 6, 6,  "     ");
+	variableFrame.addText(variableFrame.getLength() - 6, 8,  "     ");
+	variableFrame.addText(variableFrame.getLength() - 6, 10, "     ");
+
 	variableFrame.addText(variableFrame.getLength() - 2 - to_string(nBalls).length(), 2, to_string(nBalls));
 	variableFrame.addText(variableFrame.getLength() - 2 - to_string(nRows).length(), 4, to_string(nRows));
 	variableFrame.addText(variableFrame.getLength() - 2 - to_string(leftChance).length() - 1, 6, to_string(leftChance) + "%%");
@@ -343,41 +358,75 @@ Frame JamesPP::setUpGraphFrame()
 
 void JamesPP::updateGraphData(Frame graphFrame)
 {
+	int scale = 50;
+	int lowBallCountAdjustment = 0;
+
+	if ( (rightChance >= 75) | (leftChance >= 75) )
+	{
+		scale = 40;
+	}
+
+	if ((rightChance >= 85) | (leftChance >= 85))
+	{
+		scale = 33;
+	}
+
+	if ((rightChance >= 95) | (leftChance >= 95))
+	{
+		scale = 20;
+	}
+
+	if (nBalls < 500)
+	{
+		scale = 33;
+	}
+
+	if ( (nBalls < 500) && ((leftChance >= 80) | (rightChance >= 80)) )
+	{
+		scale = 20;
+	}
+
+	if (nBalls < 33)
+	{
+		lowBallCountAdjustment = 1;
+	}
+
+	int dynamicBallNumber = ((lowBallCountAdjustment + (nBalls / scale)));
+
 	if (graphDirection == 0)
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			for (int j = 0; j < 14; j++)
+			for (int j = 0; j < 15; j++)
 			{
 				graphFrame.addText(8 + (i * 5), 1 + j, "    ");
 			}
 			//draw left side ball count meter
-			graphFrame.addText(3, 16 - (2 * i), to_string(i * ((nBalls / 50) * 2)));
+			graphFrame.addText(3, 16 - (2 * i), to_string(i * dynamicBallNumber * 2));
 
 			for (int b = 0; b < galtonData[nRows - 1]->at(i); b++)
 			{
-				graphFrame.addText(8 + (i * 5), 16 - ((b + 1) / (nBalls / 50)), "    ", COLOR_BLACK, COLOR_RED);
+				graphFrame.addText(8 + (i * 5), 16 - (b + 1) / dynamicBallNumber, "    ", COLOR_BLACK, COLOR_RED);
 				graphFrame.addText(8 + (i * 5), 16, "----");
-
 			}
 		}
-		graphFrame.addText(3, 0, "---", COLOR_WHITE, COLOR_WHITE);
+		graphFrame.addText(3, 0, "-----", COLOR_WHITE, COLOR_WHITE);
 	}
 	else
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			for (int j = 0; j < 13; j++)
+			for (int j = 0; j < 14; j++)
 			{
 				graphFrame.addText(8 + (i * 5), 3 + j, "    ");
 			}
 			//draw left side ball count meter
 			graphFrame.addText(3, 2 + (2 * i), "   ");
-			graphFrame.addText(3, 2 + (2 * i), to_string(i * ((nBalls / 50) * 2)));
+			graphFrame.addText(3, 2 + (2 * i), to_string(i * dynamicBallNumber));
 
 			for (int b = 0; b < galtonData[nRows - 1]->at(i); b++)
 			{
-				graphFrame.addText(8 + (i * 5), 2 + ((b + 1) / (nBalls / 50)), "    ", COLOR_BLACK, COLOR_RED);
+				graphFrame.addText(8 + (i * 5), 2 + (b + 1) / dynamicBallNumber, "    ", COLOR_BLACK, COLOR_RED);
 				graphFrame.addText(8 + (i * 5), 2, "----");
 
 			}
@@ -478,7 +527,30 @@ void JamesPP::displayScoreTable()
 	getch();
 }
 
+void JamesPP::goGalton()
+{
+	requireLogin();
 
+	mainFrame.drawWin();
+
+	Frame galtonFrame(2, 2, 65, 15, "GALTON FLOW");
+	galtonFrame.setBackground(COLOR_BLACK);
+	galtonFrame.setForeground(COLOR_WHITE);
+	galtonFrame.drawBorder();
+
+	Frame variableFrame = setUpVariableFrame();
+	updateVariableData(variableFrame);
+
+	Frame graphFrame = setUpGraphFrame();
+
+	NavigationMenu graphMenu(68, 18, 30, 18, "OPTIONS", "DROP BALLS", "Edit number of balls", "Edit number of rows", "Increase left chance", "Increase right chance", "Change graph direction");
+	graphMenu.setMenuOptions("< Select >", "< Back >");
+	graphMenu.setTextXY(4, 6);
+
+	loopGraphMenu(graphMenu, graphFrame, galtonFrame, variableFrame);
+
+	getch();
+}
 
 void JamesPP::loopGraphMenu(NavigationMenu graphMenu, Frame graphFrame, Frame galtonFrame, Frame variableFrame)
 {
@@ -498,6 +570,26 @@ void JamesPP::loopGraphMenu(NavigationMenu graphMenu, Frame graphFrame, Frame ga
 	case 2:
 		nBalls = atoi(DialogFrame::showInputDialog(mainFrame, "< Submit >", "Edit number of balls", "Please enter the number of balls to drop:").c_str());
 		goGalton();
+		break;
+
+	case 4:
+		if (leftChance < 100)
+		{
+			leftChance += 5;
+			rightChance -= 5;
+		}
+		updateVariableData(variableFrame);
+		loopGraphMenu(graphMenu, graphFrame, galtonFrame, variableFrame);
+		break;
+
+	case 5:
+		if (rightChance < 100)
+		{
+			rightChance += 5;
+			leftChance -= 5;
+		}
+		updateVariableData(variableFrame);
+		loopGraphMenu(graphMenu, graphFrame, galtonFrame, variableFrame);
 		break;
 
 	case 6:
@@ -523,30 +615,7 @@ void JamesPP::loopGraphMenu(NavigationMenu graphMenu, Frame graphFrame, Frame ga
 
 }
 
-void JamesPP::goGalton()
-{
-	requireLogin();
 
-	mainFrame.drawWin();
-
-	Frame galtonFrame(2, 2, 65, 15, "GALTON FLOW");
-		galtonFrame.setBackground(COLOR_BLACK);
-		galtonFrame.setForeground(COLOR_WHITE);
-		galtonFrame.drawBorder();
-
-	Frame variableFrame = setUpVariableFrame();
-	updateVariableData(variableFrame);
-
-	Frame graphFrame = setUpGraphFrame();
-
-	NavigationMenu graphMenu(68, 18, 30, 18, "OPTIONS", "DROP BALLS", "Edit number of balls", "Edit number of rows", "Edit left chance", "Edit right chance", "Change graph direction");
-	graphMenu.setMenuOptions("< Select >", "< Back >");
-	graphMenu.setTextXY(4, 6);
-
-	loopGraphMenu(graphMenu, graphFrame, galtonFrame, variableFrame);
-
-	getch();
-}
 
 void JamesPP::playGame()
 {
@@ -576,9 +645,6 @@ void JamesPP::playGame()
 	loopGameMenu(gameMenu, flowFrame, gameFrame, variableFrame);
 
 	//generateGaltonData();
-
-	
-
 }
 
 

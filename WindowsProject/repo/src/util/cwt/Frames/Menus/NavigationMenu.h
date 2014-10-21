@@ -26,6 +26,11 @@ public:
 	ButtonMenu *bMenu;
 	std::vector<std::string> *mItems;
 
+	int vertHighlight = 0;
+	int highlight = 0;
+
+	int panelChoice = 0;
+	int menuChoice = 0;
 
 	void setTextXY(int x, int y);
 	int loopMenu(ButtonMenu dButtonMenu, std::vector<std::string> menuItems);
@@ -38,6 +43,7 @@ public:
 		delete bMenu;
 		bMenu = new ButtonMenu(x, y + width - 4, length, 3, args...);
 	}
+
 
 private:
 	std::string frameTitle;
