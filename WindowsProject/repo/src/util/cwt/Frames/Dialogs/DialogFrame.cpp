@@ -38,10 +38,7 @@ void DialogFrame::showMessageDialog(Component parentComponent, string option, st
 	dButtonMenu.getButtonChoice();
 
 	werase(dFrame.component);
-	
 
-	
-	 
 }
 
 string DialogFrame::showInputDialog(Component parentComponent, string option, string title, string message)
@@ -49,7 +46,7 @@ string DialogFrame::showInputDialog(Component parentComponent, string option, st
 	//parentComponent.drawWin();
 	string input;
 
-	ConsoleWordWrapper::formatString(&message, 78);
+	ConsoleWordWrapper::formatString(&message, 80);
 
 	int dLength = getLengthFromString(message);
 	int dWidth = getWidthFromString(message);
@@ -57,7 +54,6 @@ string DialogFrame::showInputDialog(Component parentComponent, string option, st
 	int centerY = (parentComponent.getWidth() / 2) - (dWidth / 2)-2;
 
 	int startLine;
-
 
 	Frame dFrame(centerX, centerY, dLength, dWidth+4, title);
 	dFrame.setBackground(COLOR_WHITE);
@@ -81,7 +77,6 @@ string DialogFrame::showInputDialog(Component parentComponent, string option, st
 
 	werase(dFrame.component);
 	
-
 
 	return input;
 }
@@ -133,7 +128,7 @@ int DialogFrame::getLengthFromString(string message)
 			k = j;
 		}
 	}
-	len = k + 7;
+	len = k + 6;
 	return len;
 
 }

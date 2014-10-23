@@ -291,11 +291,11 @@ void JamesPP::updateVariableData(Frame variableFrame)
 	variableFrame.addText(variableFrame.getLength() - 6, 8,  "     ");
 	variableFrame.addText(variableFrame.getLength() - 6, 10, "     ");
 
-	variableFrame.addText(variableFrame.getLength() - 2 - to_string(nBalls).length(), 2, to_string(nBalls));
-	variableFrame.addText(variableFrame.getLength() - 2 - to_string(nRows).length(), 4, to_string(nRows));
-	variableFrame.addText(variableFrame.getLength() - 2 - to_string(leftChance).length() - 1, 6, to_string(leftChance) + "%%");
-	variableFrame.addText(variableFrame.getLength() - 2 - to_string(rightChance).length() - 1, 8, to_string(rightChance) + "%%");
-	variableFrame.addText(variableFrame.getLength() - 2 - graphDirectionString.length(), 10, graphDirectionString);
+	variableFrame.addText(variableFrame.getLength() - 2 - to_string(nBalls).length(), 2, to_string(nBalls), COLOR_GREEN, COLOR_BLACK);
+	variableFrame.addText(variableFrame.getLength() - 2 - to_string(nRows).length(), 4, to_string(nRows), COLOR_GREEN, COLOR_BLACK);
+	variableFrame.addText(variableFrame.getLength() - 2 - to_string(leftChance).length() - 1, 6, to_string(leftChance) + "%%", COLOR_GREEN, COLOR_BLACK);
+	variableFrame.addText(variableFrame.getLength() - 2 - to_string(rightChance).length() - 1, 8, to_string(rightChance) + "%%", COLOR_GREEN, COLOR_BLACK);
+	variableFrame.addText(variableFrame.getLength() - 2 - graphDirectionString.length(), 10, graphDirectionString, COLOR_GREEN, COLOR_BLACK);
 }
 
 Frame JamesPP::setUpVariableFrame()
@@ -376,6 +376,11 @@ void JamesPP::updateGraphData(Frame graphFrame)
 		scale = 20;
 	}
 
+	if ((rightChance >= 100) | (leftChance >= 100))
+	{
+		scale = 10;
+	}
+
 	if (nBalls < 500)
 	{
 		scale = 33;
@@ -390,6 +395,8 @@ void JamesPP::updateGraphData(Frame graphFrame)
 	{
 		lowBallCountAdjustment = 1;
 	}
+
+
 
 	int dynamicBallNumber = ((lowBallCountAdjustment + (nBalls / scale)));
 
@@ -416,13 +423,13 @@ void JamesPP::updateGraphData(Frame graphFrame)
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			for (int j = 0; j < 14; j++)
+			for (int j = 0; j < 13; j++)
 			{
 				graphFrame.addText(8 + (i * 5), 3 + j, "    ");
 			}
 			//draw left side ball count meter
-			graphFrame.addText(3, 2 + (2 * i), "   ");
-			graphFrame.addText(3, 2 + (2 * i), to_string(i * dynamicBallNumber));
+			graphFrame.addText(2, 2 + (2 * i), "    ");
+			graphFrame.addText(3, 2 + (2 * i), to_string(i * dynamicBallNumber * 2));
 
 			for (int b = 0; b < galtonData[nRows - 1]->at(i); b++)
 			{
