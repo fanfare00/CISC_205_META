@@ -58,9 +58,10 @@ void JamesPP::mainMenu()
 
 
 	NavigationMenu NM((mainFrame.getLength() / 2) - 25, (mainFrame.getWidth() / 2) - 9, 50, 16,
-		"MAIN MENU", "Sign In", "Display Logo", "Go Galton", "Play Game", "Game History", "ID Information", "Credits", "Stars");
+		"MAIN MENU", "Sign In", "Display Logo", "Go Galton", "Play Game", "Game History", "High Scores", "ID Information", "Credits", "Stars");
 
 	NM.setMenuOptions("< Select >", "< Exit >", "< Help >");
+	NM.setTextXY(7, 4);
 
 	switch (NM.getMenuChoice())
 	{
@@ -88,14 +89,18 @@ void JamesPP::mainMenu()
 		break;
 
 	case 6:
-		displayIDInfo();
+		displayHighScores();
 		break;
 
 	case 7:
-		displayCredits();
+		displayIDInfo();
 		break;
 
 	case 8:
+		displayCredits();
+		break;
+
+	case 9:
 		displayStars();
 		break;
 
@@ -104,6 +109,24 @@ void JamesPP::mainMenu()
 		break;
 	}
 
+}
+
+void JamesPP::displayHighScores()
+{
+	requireLogin();
+
+	/*DialogFrame::showMessageDialog(
+		mainFrame,
+		"Continue", "HIGH SCORES",
+		"Under Construction");*/
+
+	NavigationMenu NM((mainFrame.getLength() / 2) - 25, (mainFrame.getWidth() / 2) - 9, 50, 16,
+		"MAIN MENU", "Sign In", "Display Logo", "Go Galton", "Play Game", "Game History", "High Scores", "ID Information", "Credits", "Stars", "Test2", "Test 3", "Stars", "Test2", "Test 3", "Stars", "Test2", "Test 3", "Stars", "Test2", "Test 3", "Stars", "Test2", "Test 3");
+
+	getch();
+
+	mainFrame.drawWin();
+	mainMenu();
 }
 
 void JamesPP::signIn()
@@ -119,9 +142,6 @@ void JamesPP::signIn()
 	temp = userName;
 
 	firstName = temp.substr(0, temp.find(" "));
-
-	//temp = temp.substr(temp.find(" ") + 1);
-	//middleName = temp.substr(0, temp.find(" "));
 
 	lastName = temp.substr(temp.find(" ") + 1);
 
@@ -234,9 +254,7 @@ void JamesPP::generateGaltonData()
 
 			for (int j = 0; j < i; j++)
 			{
-				//leftRight = (rand() % chance) / (chance-1);
-				//leftRight = leftRight;
-				//counter = counter + leftRight;
+
 				if (rand() % 100 < rightChance)
 				{
 					counter++;
@@ -396,8 +414,6 @@ void JamesPP::updateGraphData(Frame graphFrame)
 		lowBallCountAdjustment = 1;
 	}
 
-
-
 	int dynamicBallNumber = ((lowBallCountAdjustment + (nBalls / scale)));
 
 	if (graphDirection == 0)
@@ -441,7 +457,6 @@ void JamesPP::updateGraphData(Frame graphFrame)
 		graphFrame.addText(3, 18, "   ");
 	}
 
-	
 }
 
 
@@ -575,7 +590,7 @@ void JamesPP::loopGraphMenu(NavigationMenu graphMenu, Frame graphFrame, Frame ga
 		break;
 
 	case 2:
-		nBalls = atoi(DialogFrame::showInputDialog(mainFrame, "< Submit >", "Edit number of balls", "Please enter the number of balls to drop:").c_str());
+		userGetBallNumber();
 		goGalton();
 		break;
 
@@ -622,7 +637,17 @@ void JamesPP::loopGraphMenu(NavigationMenu graphMenu, Frame graphFrame, Frame ga
 
 }
 
+void JamesPP::userGetBallNumber()
+{
+	nBalls = atoi(DialogFrame::showInputDialog(mainFrame, "< Submit >", "Edit number of balls", "Please enter the number of balls to drop (1-99,999):").c_str());
 
+	if ((nBalls < 1) | (nBalls > 99999))
+	{
+		userGetBallNumber();
+	}
+	
+	return;
+}
 
 void JamesPP::playGame()
 {
@@ -657,7 +682,7 @@ void JamesPP::playGame()
 
 void JamesPP::loopGameMenu(NavigationMenu gameMenu, Frame flowFrame, Frame gameFrame, Frame variableFrame)
 {
-	//variableFrame.addText(2, 10, "                           ");
+	variableFrame.addText(2, 10, "                           ");
 
 	switch (gameMenu.getMenuChoice())
 	{
@@ -674,8 +699,28 @@ void JamesPP::loopGameMenu(NavigationMenu gameMenu, Frame flowFrame, Frame gameF
 		break;
 
 	case 2:
-		nBalls = atoi(DialogFrame::showInputDialog(mainFrame, "< Submit >", "Edit number of balls", "Please enter the number of balls to drop:").c_str());
-		playGame();
+		userGetBallNumber();
+		goGalton();
+		break;
+
+	case 4:
+		if (leftChance < 100)
+		{
+			leftChance += 5;
+			rightChance -= 5;
+		}
+		updateVariableData(variableFrame);
+		loopGameMenu(gameMenu, flowFrame, gameFrame, variableFrame);
+		break;
+
+	case 5:
+		if (rightChance < 100)
+		{
+			rightChance += 5;
+			leftChance -= 5;
+		}
+		updateVariableData(variableFrame);
+		loopGameMenu(gameMenu, flowFrame, gameFrame, variableFrame);
 		break;
 
 	case 6:
@@ -693,8 +738,16 @@ void JamesPP::loopGameMenu(NavigationMenu gameMenu, Frame flowFrame, Frame gameF
 void JamesPP::displayGameHistory()
 {
 	requireLogin();
+	std::string fullScores = "";
+	std::string line;
 
-	DialogFrame::showMessageDialog(mainFrame, "< Continue >","GAME HISTORY" , historyString);
+	ifstream myFile("scores.txt", ios_base::in);
+	while (getline(myFile, line, '\n'))
+	{
+		fullScores+=line+"\n";
+	}
+
+	DialogFrame::showMessageDialog(mainFrame, "< Continue >", "GAME HISTORY", fullScores);
 	mainFrame.drawWin();
 	mainMenu();
 
@@ -748,7 +801,27 @@ void JamesPP::displayStars()
 	DialogFrame::showMessageDialog(
 		mainFrame,
 		"< CONTINUE >", "STARS",
-		"Insert stars here");
+		"1: Prompt user for full name, burp back seperately.\n"
+		"2: Center align the galton flow columns\n"
+		"3-4: Add a histogram after row #9\n"
+		"5-6: Have the histogram rise upward\n"
+		"7: Bouncing probablity between 0 and 100 instead of 50-50\n"
+		"8: Have user select the number of balls to be dropped\n"
+		"9: Use a vector of pointers instead of arrays\n"
+		"10: Have a write and read to disk option\n");
+
+	DialogFrame::showMessageDialog(
+		mainFrame,
+		"< CONTINUE >", "STARS",
+		"11: Only proceed after sign-in is done\n"
+		"12: be ecological and re-use prompts\n"
+		"13: be ecological and re-use messages\n"
+		"14: Impliment a pointer to a pointer\n"
+		"15: In a new way, use 4 windows.h colors\n"
+		"16: Use header files\n"
+		"17: Three advanced features: Classes, inheritance, constructors\n"
+		"18: Perfectly align the Weight and SCORE values\n"
+		"\nTOTAL STARS: 18");
 
 	mainFrame.drawWin();
 	mainMenu();
@@ -759,7 +832,6 @@ void JamesPP::farewell()
 	DialogFrame::showMessageDialog(mainFrame, "< EXIT >", "GOODBYE", "Farewell, " + userName + ". Thank you for using " + MY_NAME + "' Pointer Power");
 	exit(1);
 
-	
 }
 
 void JamesPP::requireLogin()

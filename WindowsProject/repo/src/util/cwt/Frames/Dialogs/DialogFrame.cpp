@@ -128,7 +128,7 @@ int DialogFrame::getLengthFromString(string message)
 			k = j;
 		}
 	}
-	len = k + 6;
+	len = k + 7;
 	return len;
 
 }

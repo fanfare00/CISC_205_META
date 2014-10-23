@@ -27,21 +27,21 @@ void TestingGround::start()
 	mainComponent.drawWin();
 
 	Component coolComponent(0, 0, 20, 11);
-	coolComponent.setBackground(COLOR_BLACK);
+	coolComponent.setBackground(COLOR_GREEN);
 	coolComponent.drawWin();
 
 	
-	coolComponent.addText(0, 0, "     JJJJJJJJJJJJJJJ", COLOR_RED, COLOR_BLACK);
-	coolComponent.addText(0, 1, "     J.............J", COLOR_RED, COLOR_BLACK);
-	coolComponent.addText(0, 2, "     JJJJJJJ...JJJJJ", COLOR_RED, COLOR_BLACK);
-	coolComponent.addText(0, 3, "           J...J    ", COLOR_RED, COLOR_BLACK);
-	coolComponent.addText(0, 4, "           J...J    ", COLOR_RED, COLOR_BLACK);
-	coolComponent.addText(0, 5, "           J...J    ", COLOR_RED, COLOR_BLACK);
-	coolComponent.addText(0, 6, "JJJJJJ     J...J    ", COLOR_RED, COLOR_BLACK);
-	coolComponent.addText(0, 7, "J....J     J...J    ", COLOR_RED, COLOR_BLACK);
-	coolComponent.addText(0, 8, "J.....JJJJJ....J    ", COLOR_RED, COLOR_BLACK);
-	coolComponent.addText(0, 9, " J............J     ", COLOR_RED, COLOR_BLACK);
-	coolComponent.addText(0, 10, "  JJJJJJJJJJJJ      ", COLOR_RED, COLOR_BLACK);
+	//coolComponent.addText(0, 0, "     JJJJJJJJJJJJJJJ", COLOR_RED, COLOR_BLACK);
+	//coolComponent.addText(0, 1, "     J.............J", COLOR_RED, COLOR_BLACK);
+	//coolComponent.addText(0, 2, "     JJJJJJJ...JJJJJ", COLOR_RED, COLOR_BLACK);
+	//coolComponent.addText(0, 3, "           J...J    ", COLOR_RED, COLOR_BLACK);
+	//coolComponent.addText(0, 4, "           J...J    ", COLOR_RED, COLOR_BLACK);
+	//coolComponent.addText(0, 5, "           J...J    ", COLOR_RED, COLOR_BLACK);
+	//coolComponent.addText(0, 6, "JJJJJJ     J...J    ", COLOR_RED, COLOR_BLACK);
+	//coolComponent.addText(0, 7, "J....J     J...J    ", COLOR_RED, COLOR_BLACK);
+	//coolComponent.addText(0, 8, "J.....JJJJJ....J    ", COLOR_RED, COLOR_BLACK);
+	//coolComponent.addText(0, 9, " J............J     ", COLOR_RED, COLOR_BLACK);
+	//coolComponent.addText(0, 10, "  JJJJJJJJJJJJ      ", COLOR_RED, COLOR_BLACK);
 
 
 	int xMove;
@@ -49,7 +49,8 @@ void TestingGround::start()
 	bool goRight = true;
 	bool goUp = true;
 
-	while (true)
+	nodelay(mainComponent.component, TRUE);
+	while (wgetch(mainComponent.component) == ERR)
 	{
 		if (xMove+coolComponent.getLength() == mainComponent.getLength() - 2)
 		{
@@ -100,11 +101,19 @@ void TestingGround::start()
 			yMove -= 1;
 		}
 	
-		mainComponent.drawWin();
+		
 		coolComponent.setLocation(xMove, yMove);
+		werase(mainComponent.component);
 
-		napms(35);
+
+		napms(95);
+
+		
+
 	}
+
+	coolComponent.enableMoveMode(true);
+
 
 
 	getch();

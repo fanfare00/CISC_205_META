@@ -33,6 +33,7 @@ public:
 	void goGalton();
 	void playGame();
 	void displayGameHistory();
+	void displayHighScores();
 	void displayIDInfo();
 	void displayStars();
 	void displayCredits();
@@ -47,6 +48,7 @@ public:
 	void displayFlowFrame();
 	void updateFlowData(Frame galtonFrame);
 
+	void userGetBallNumber();
 
 	Frame setUpVariableFrame();
 	void updateVariableData(Frame variableFrame);
