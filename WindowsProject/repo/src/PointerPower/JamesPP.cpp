@@ -737,17 +737,81 @@ void JamesPP::loopGameMenu(NavigationMenu gameMenu, Frame flowFrame, Frame gameF
 
 void JamesPP::displayGameHistory()
 {
-	requireLogin();
-	std::string fullScores = "";
-	std::string line;
+//	requireLogin();
 
-	ifstream myFile("scores.txt", ios_base::in);
-	while (getline(myFile, line, '\n'))
+
+	//std::string fullScores = "";
+	//std::string line;
+
+	//ifstream myFile("scores.txt", ios_base::in);
+	//while (getline(myFile, line, '\n'))
+	//{
+	//	fullScores+=line+"\n";
+	//}
+
+	//DialogFrame::showMessageDialog(mainFrame, "< Continue >", "GAME HISTORY", fullScores);
+
+	Frame kFrame(mainFrame.getLength() / 2 - 27, mainFrame.getWidth() / 2 - 14, 54, 26);
+	kFrame.setTitle("GAME HISTORY");
+	kFrame.addButtonMenu("Back");
+
+	//Component hFrame(mainFrame.getLength() / 2 - 25, mainFrame.getWidth() / 2 - 13, 50, 24);
+	Component hFrame(kFrame.getBegX() + 2, kFrame.getBegY() + 1, 50, 24);
+//	hFrame.enableBorder(true);
+
+	
+
+	//TextArea TA = hFrame.addTextArea();
+	scrollok(hFrame.component, true);
+	idlok(hFrame.component, true);
+	keypad(hFrame.component, true);
+
+	for (int i = 0; i < 40; i++)
 	{
-		fullScores+=line+"\n";
+		
+		hFrame.addText(5, i, to_string(i));
+		
 	}
 
-	DialogFrame::showMessageDialog(mainFrame, "< Continue >", "GAME HISTORY", fullScores);
+	int keypress;
+	int test = 29;
+	
+	while (true)
+	{
+		keypress = wgetch(hFrame.component);
+		
+		if (keypress == KEY_DOWN)
+		{
+			
+			wscrl(hFrame.component, 1);
+			test += 1;
+			
+			touchwin(hFrame.component);
+
+
+			
+		}
+		if (keypress == KEY_UP)
+		{
+
+			wscrl(hFrame.component, -1);
+			test -= 1;
+
+			touchwin(hFrame.component);
+
+			//hFrame.addText(5, hFrame.getBegY(), to_string(test-hFrame.getWidth()));
+			//wrefresh(hFrame.component);*/
+
+		}
+		
+		hFrame.addText(5, hFrame.getWidth() - 1, to_string(test));
+		hFrame.addText(5, 0, to_string(test-29));
+		wrefresh(hFrame.component);
+		
+
+	}
+		
+	getch();
 	mainFrame.drawWin();
 	mainMenu();
 

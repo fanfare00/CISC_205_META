@@ -85,6 +85,12 @@ void Component::drawWin()
 
 
 	wbkgd(component,COLOR_PAIR(cwt::colorPair(foregroundColor, backgroundColor)));
+
+	if (bordered == true)
+	{
+		box(component, 0, 0);
+	}
+
 	//wcolor_set(component, COLOR_PAIR(cwt::colorPair(foregroundColor, backgroundColor)), NULL );
 	//werase(stdscr);
 	//wrefresh(stdscr);
@@ -145,16 +151,8 @@ void Component::updateLW(int l, int w)
 
 void Component::enableBorder(bool b)
 {
-	//if (b == true)
-	//{
-	//	box(component, 0, 0);
-	//}
-	//else
-	//{
-	//	wattron(component, COLOR_PAIR(cwt::colorPair(backgroundColor, backgroundColor)));
-	//	box(component, 0, 0);
-	//	wattron(component, COLOR_PAIR(cwt::colorPair(backgroundColor, backgroundColor)));
-	//}
+	bordered = b;
+	drawWin();
 }
 
 void Component::enableMoveMode(bool b)

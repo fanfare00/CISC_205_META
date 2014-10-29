@@ -43,7 +43,8 @@ public:
 	void addCharacter(int x, int y, unsigned long cCharacter, int foreColor, int backColor);
 
 protected:
-	
+	bool bordered;
+
 	int length;
 	int width;
 	int x;
