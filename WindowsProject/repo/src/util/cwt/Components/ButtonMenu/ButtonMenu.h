@@ -1,6 +1,8 @@
 #pragma once
 
-#include "../../Frames/Frame.h"
+#include "../Component.h"
+#include "../../Color/Color.h"
+
 #include <vector>
 #include <string>
 
@@ -28,7 +30,7 @@ public:
 
 		addButtons(buttons);
 		//int pp = getButtonChoice();
-
+		highlight = 0;
 	}
 
 	//ButtonMenu(int begX, int begY, int len, int wid, std::vector<std::string> buttons) :Component(begX, begY, len, wid)
@@ -48,6 +50,8 @@ public:
 	inline void drawBorder();
 	inline void addButtons(std::vector<std::string> buttons);
 
+
+	int highlight;
 	int nButtons;
 	int buttonSpace = 0;
 	
@@ -70,10 +74,75 @@ public:
 
 	std::vector<CButton> CButtons;
 	inline int getButtonChoice();
+	inline void highlightLeft();
+	inline void highlightRight();
+	inline int getHighlight();
+
 
 };
 
+inline int ButtonMenu::getHighlight()
+{
+	return highlight;
+}
 
+inline void ButtonMenu::highlightLeft()
+{
+	if (highlight == 0)
+	{
+		highlight = nButtons - 1;
+	}
+	else
+	{
+		--highlight;
+	}
+
+
+	CButtons[0].highlightColor = backgroundColor;
+	CButtons[1].highlightColor = backgroundColor;
+	CButtons[2].highlightColor = backgroundColor;
+
+	CButtons[0].FGHighlightColor = COLOR_BLACK;
+	CButtons[1].FGHighlightColor = COLOR_BLACK;
+	CButtons[2].FGHighlightColor = COLOR_BLACK;
+
+
+	CButtons[highlight].highlightColor = COLOR_BLUE;
+	CButtons[highlight].FGHighlightColor = COLOR_WHITE;
+
+	CButtons[0].drawButton(component);
+	CButtons[1].drawButton(component);
+	CButtons[2].drawButton(component);
+
+}
+
+inline void ButtonMenu::highlightRight()
+{
+	if (highlight == nButtons - 1)
+	{
+		highlight = 0;
+	}
+	else
+	{
+		++highlight;
+	}
+
+	CButtons[0].highlightColor = backgroundColor;
+	CButtons[1].highlightColor = backgroundColor;
+	CButtons[2].highlightColor = backgroundColor;
+
+	CButtons[0].FGHighlightColor = COLOR_BLACK;
+	CButtons[1].FGHighlightColor = COLOR_BLACK;
+	CButtons[2].FGHighlightColor = COLOR_BLACK;
+
+
+	CButtons[highlight].highlightColor = COLOR_BLUE;
+	CButtons[highlight].FGHighlightColor = COLOR_WHITE;
+
+	CButtons[0].drawButton(component);
+	CButtons[1].drawButton(component);
+	CButtons[2].drawButton(component);
+}
 
 
 inline void ButtonMenu::addButtons(std::vector<std::string> buttons)
@@ -133,8 +202,8 @@ inline void ButtonMenu::addButtons(std::vector<std::string> buttons)
 
 inline int ButtonMenu::getButtonChoice()
 {
-
-	int highlight = 0;
+	
+	//int highlight = 0;
 	int choice;
 
 	while (true)
@@ -143,29 +212,14 @@ inline int ButtonMenu::getButtonChoice()
 		{
 		case  KEY_LEFT:
 
-			if (highlight == 0)
-			{
-				highlight = nButtons-1;
-			}
-			else
-			{
-				--highlight;
-			}
-
+			highlightLeft();
 			//CButtons[0].highlightColor = COLOR_BLUE;
 			//CButtons[1].highlightColor = backgroundColor;
 			break;
 
 		case KEY_RIGHT:
 
-			if (highlight == nButtons-1)
-			{
-				highlight = 0;
-			}
-			else
-			{
-				++highlight;
-			}
+			highlightRight();
 
 			/*CButtons[0].highlightColor = backgroundColor;
 			CButtons[1].highlightColor = COLOR_BLUE;*/
@@ -176,21 +230,6 @@ inline int ButtonMenu::getButtonChoice()
 			break;
 		}
 
-		CButtons[0].highlightColor = backgroundColor;
-		CButtons[1].highlightColor = backgroundColor;
-		CButtons[2].highlightColor = backgroundColor;
-
-		CButtons[0].FGHighlightColor = COLOR_BLACK;
-		CButtons[1].FGHighlightColor = COLOR_BLACK;
-		CButtons[2].FGHighlightColor = COLOR_BLACK;
-
-
-		CButtons[highlight].highlightColor = COLOR_BLUE;
-		CButtons[highlight].FGHighlightColor = COLOR_WHITE;
-
-		CButtons[0].drawButton(component);
-		CButtons[1].drawButton(component);
-		CButtons[2].drawButton(component);
 
 		if (choice != 0)
 		{

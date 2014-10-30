@@ -48,6 +48,9 @@
     <ClCompile Include="repo\src\CellularAutomata\JamesOptionPanes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="repo\src\AffirmativeInteraction\JamesAI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repo\src\Cellular Automata\JamesCA.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="repo\src\CellularAutomata\JamesOptionPanes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="repo\src\AffirmativeInteraction\JamesAI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

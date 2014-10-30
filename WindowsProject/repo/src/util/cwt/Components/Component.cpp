@@ -91,6 +91,7 @@ void Component::drawWin()
 		box(component, 0, 0);
 	}
 
+
 	//wcolor_set(component, COLOR_PAIR(cwt::colorPair(foregroundColor, backgroundColor)), NULL );
 	//werase(stdscr);
 	//wrefresh(stdscr);
@@ -264,6 +265,17 @@ void Component::addText(int x, int y, std::string text, int foreColor, int backC
 {
 	wattron(component, A_BOLD | COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
 	mvwprintw(component, y, x, (char*)text.c_str());
+	wattroff(component, A_BOLD | COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
+
+	wrefresh(component);
+}
+
+void Component::addTextHorCentered(int y, std::string text, int foreColor, int backColor)
+{
+
+
+	wattron(component, A_BOLD | COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
+	mvwprintw(component, y, (length/2)-(text.length()/2), (char*)text.c_str());
 	wattroff(component, A_BOLD | COLOR_PAIR(cwt::colorPair(foreColor, backColor)));
 
 	wrefresh(component);

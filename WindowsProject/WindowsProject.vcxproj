@@ -71,6 +71,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="repo\src\AffirmativeInteraction\JamesAI.cpp" />
     <ClCompile Include="repo\src\CellularAutomata\JamesCA.cpp" />
     <ClCompile Include="repo\src\CellularAutomata\JamesOptionPanes.cpp" />
     <ClCompile Include="repo\src\PointerPower\JamesPP.cpp" />
@@ -86,6 +87,7 @@
   <ItemGroup>
     <ClInclude Include="include\curses.h" />
     <ClInclude Include="include\panel.h" />
+    <ClInclude Include="repo\src\AffirmativeInteraction\JamesAI.h" />
     <ClInclude Include="repo\src\Cellular Automata\JamesCA.h" />
     <ClInclude Include="repo\src\CellularAutomata\JamesCA.h" />
     <ClInclude Include="repo\src\CellularAutomata\JamesOptionPanes.h" />

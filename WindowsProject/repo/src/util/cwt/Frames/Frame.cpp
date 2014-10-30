@@ -16,11 +16,27 @@ Frame::~Frame()
 }
 
 
-void Frame::addButtonMenu(std::string test)
+ButtonMenu Frame::addButtonMenu(std::string b1text)
 {
 	width += 3;
-	ButtonMenu bMenu(x, y + width - 4, length, 3, test);
+	ButtonMenu bMenu(x, y + width - 4, length, 3, b1text);
+
+	return bMenu;
 	
+}
+
+ButtonMenu Frame::addButtonMenu(std::string b1text, std::string b2text)
+{
+	width += 3;
+	ButtonMenu bMenu(x, y + width - 4, length,  3, b1text, b2text);
+	return bMenu;
+}
+
+ButtonMenu Frame::addButtonMenu(std::string b1text, std::string  b2text, std::string  b3text)
+{
+	width += 3;
+	ButtonMenu bMenu(x, y + width - 4, length, 3, b1text, b2text, b3text);
+	return bMenu;
 }
 
 TextArea Frame::addTextArea()

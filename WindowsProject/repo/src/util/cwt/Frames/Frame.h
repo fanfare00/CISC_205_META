@@ -49,7 +49,9 @@ public:
 	void addTextArea(std::string msgStr);
 	void addTextArea(int startX, int startY, int aLength, int aWidth, std::string testStr);
 
-	void addButtonMenu(std::string test);
+	ButtonMenu addButtonMenu(std::string b1text);
+	ButtonMenu addButtonMenu(std::string b1text, std::string b2text);
+	ButtonMenu addButtonMenu(std::string b1text, std::string b2text, std::string b3text);
 
 	void setTitle(std::string title);
 	

@@ -25,6 +25,8 @@ void JamesAI::start(Frame mFrame)
 	mainFrame.setBackground(COLOR_RED);
 	mainFrame.drawWin();
 
+	vDictionary.push_back("Yes");
+
 	ofstream ofs;
 	ofs.open("scores.txt", std::ofstream::out | std::ofstream::trunc);
 	ofs.close();
@@ -240,40 +242,382 @@ void JamesAI::mainMenu()
 //Afirmative Interaction
 void JamesAI::startAI()
 {
+
 	char cTemp[80];
 	int length = 82;
 	int width = 27;
 	int x = (mainFrame.getLength() / 2) - (length/2);
 	int y = (mainFrame.getWidth()/2) - (width/2);
 
-	Frame aFrame(x, y, length, width, "AFFIRMATIVE INTERACTION");
-	TextArea TA = aFrame.addTextArea();
+	//Frame aFrame(x, y-1, length, width, "AFFIRMATIVE INTERACTION");
 
-	TA.setBackground(COLOR_BLACK);
-	TA.enableBorder(false);
+	Frame bFrame(x, y - 3, length, width-1);
+	
+	wattron(bFrame.component, COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+	bFrame.addCharacter(bFrame.getLength() - 2, 1, ACS_URCORNER);
+	bFrame.addCharacter(1, 1, ACS_ULCORNER);
+	bFrame.addCharacter(1, width -6, ACS_LLCORNER);
+	bFrame.addCharacter(bFrame.getLength() - 2, width - 6, ACS_LRCORNER);
+	
+	wattroff(bFrame.component, COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
 
-	keypad(aFrame.component, true); 
-	curs_set(1);
-	echo();
-	scrollok(TA.component, true);
-
-	move(y, x);
-
-	int i = 1;
-	while (true)
+	for (int i = 0; i < bFrame.getLength()-4; i++)
 	{
-		mvwgetstr(TA.component, i, 2, cTemp);
-		wscrl(TA.component, 1);
-		i++;
+		wattron(bFrame.component, COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+		bFrame.addCharacter(i+2, width-6, ACS_HLINE);
+		bFrame.addCharacter(i + 2, 1, ACS_HLINE);
+		bFrame.addText(3, width - 6, "Enter your response:");
+		wattroff(bFrame.component, COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
 	}
+
+	for (int i = 0; i < bFrame.getWidth() - 7; i++)
+	{
+		wattron(bFrame.component, COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+		bFrame.addCharacter(1, i+2, ACS_VLINE);
+		bFrame.addCharacter(bFrame.getLength() - 2 , i + 2, ACS_VLINE);
+		wattroff(bFrame.component,COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+	}
+
+	wattron(bFrame.component, COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_BLACK)));
+
+	wattroff(bFrame.component, COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_BLACK)));
+
+	bFrame.setTitle("AI");
+	ButtonMenu bMenu = bFrame.addButtonMenu("< Submit >", "< Back >", "< Help >");
+	
+	InputField bInputField(x+1, y+width-8,  length-2, 3);
+	bInputField.setForeground(COLOR_GREEN);
+	bInputField.setBackground(COLOR_BLACK);
+//	wclear(bInputField.component);
 	
 
+	WINDOW* echoArea = newpad(500, 80);
+	//mvwaddch(echoArea, 5, 5, ACS_DARROW);
+	prefresh(echoArea, 0, 0, 6, 11, getmaxy(stdscr) - 16, getmaxx(stdscr) - 12);
+
+	keypad(echoArea, true);
+	curs_set(1);
+	echo();
+	scrollok(echoArea, true);
+	
+	string input;
+	int keypress;
+
+	int xPos = 2;
+	int yPos = 8;
+	int padPos = 0;
+	int scrollLines = 0;
+
+	int scrollBarPos = 20;
+	int scrollBarLength = 19;
+
+	double scrollFactor = 1;
+	int scrollAmount;
+
+	keypad(bInputField.component, true);
+
+	wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_CYAN, COLOR_BLACK)));
+	cwt::mvwprintwCentered(echoArea, 2, "Words that mean YES: " + vDictionary[0]);
+	cwt::mvwprintwCentered(echoArea, 3, "Words that mean NO: No");
+	wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_CYAN, COLOR_BLACK)));
+
+	wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+	cwt::mvwprintwCentered(echoArea, 1, "Let me tell you what's already in my dictionary:");
+	mvwprintw(echoArea, 6, getmaxx(echoArea) - 50, "Can you teach me another word that means 'Yes'?");
+	wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+
+	prefresh(echoArea, 0, 0, 6, 11, getmaxy(stdscr) - 16, getmaxx(stdscr) - 12);
+
+	int buttonSelection = 0;
+
+	string aResponse;
+	string dictionaryEcho;
+
+	bool gettingSynonym = false;
+
+	while (true)
+	{
+
+
+		keypress = mvwgetch(bInputField.component, 1,xPos);
+		
+		switch (keypress)
+		{
+			case KEY_UP:
+				if (padPos > 0)
+				{
+					padPos--;
+					prefresh(echoArea, padPos, 0, 6, 11, getmaxy(stdscr) - 16, getmaxx(stdscr) - 12);
+					scrollLines += 1;
+
+					if (scrollFactor / 20 <= 1)
+					{
+						scrollBarPos--;
+					}
+					else if (scrollBarPos >= 4)
+					{
+						scrollAmount -= (1/(scrollFactor / 19)) * 1000;
+
+						if (scrollAmount <= 0)
+						{
+							scrollBarPos--;
+							scrollAmount += 1000;
+						}
+					}
+				}
+				break;
+
+			case KEY_DOWN:
+				if (scrollLines > 0)
+				{
+					padPos++;
+					prefresh(echoArea, padPos, 0, 6, 11, getmaxy(stdscr) - 16, getmaxx(stdscr) - 12);
+					scrollLines -= 1;
+
+					if (scrollFactor / 20 < 1)
+					{
+						scrollBarPos++;
+					}
+					else
+					{
+						scrollAmount += (1 / (scrollFactor / 19)) * 1000;
+
+						if (scrollAmount >= 1000)
+						{
+							scrollBarPos++;
+							scrollAmount -= 1000;
+						}
+					}
+				}
+
+				break;
+
+			case KEY_LEFT:
+				
+				bMenu.highlightLeft();
+				buttonSelection = bMenu.getHighlight();
+				break;
+
+			case KEY_RIGHT:
+				bMenu.highlightRight();
+				buttonSelection = bMenu.getHighlight();
+				break;
+			
+			//BACKSPACE
+			case 8:
+				if (input.length() > 0)
+				{
+					input.pop_back();
+				}
+				
+				if (xPos > 2)
+				{
+					xPos--;
+				}
+				mvwaddch(bInputField.component, 1,  xPos, ' ');
+				mvwaddch(bInputField.component, 1, bInputField.getLength(), ACS_VLINE);
+
+				break;
+
+			//ENTER
+			case 10:
+				if (buttonSelection == 1)
+				{
+					curs_set(0);
+					noecho();
+					delwin(bFrame.component);
+					delwin(echoArea);
+					delwin(bInputField.component);
+					delwin(bMenu.component);
+					mainFrame.drawWin();
+					mainMenu();
+					break;
+				}
+
+				wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+				mvwprintw(echoArea, yPos, 2, (char*)input.c_str());
+				wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+
+				if (gettingSynonym == false)
+				{
+					if (analyzeUserInput(input) == true)
+					{
+						aResponse = "Can you teach me a word than means \"Yes\"";
+
+						wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+						mvwprintw(echoArea, yPos + 2, getmaxx(echoArea) - aResponse.length() - 3, (char*)aResponse.c_str());
+						wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+
+						gettingSynonym = true;
+					}
+					else
+					{
+						wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+						mvwprintw(echoArea, yPos + 2, getbegx(echoArea) + 3, "Well, thank you for your positive, never-say-no attitude! Glad you believe");
+						mvwprintw(echoArea, yPos + 3, getbegx(echoArea) + 3, "in affirmative interaction! In this session, I learned the following words:");
+						wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+
+						dictionaryEcho = "";
+
+						for (int i = 1; i < vDictionary.size(); i++)
+						{
+							dictionaryEcho += vDictionary[i] + " ";
+						}
+
+						wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_CYAN, COLOR_BLACK)));
+						cwt::mvwprintwCentered(echoArea, yPos + 5, "New words for YES: " + dictionaryEcho);
+						cwt::mvwprintwCentered(echoArea, yPos + 6, "New words for NO:  'no'  'NO' ");
+						wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_CYAN, COLOR_BLACK)));
+
+						yPos += 4;
+
+					}
+
+				}
+				else
+				{
+					aResponse = "Thanks, I will add \"" + input + "\" to my dictionary.";
+					wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+					mvwprintw(echoArea, yPos + 2, getmaxx(echoArea) - aResponse.length() - 3, (char*)aResponse.c_str());
+					wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+					addToDictionary(input);
+					aResponse = "Can you please teach me another word that means \"Yes\"";
+					wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+					mvwprintw(echoArea, yPos + 4, getmaxx(echoArea) - aResponse.length() - 3, (char*)aResponse.c_str());
+					wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+					
+//gettingSynonym = false;
+				}
+
+
+				
+				
+				prefresh(echoArea, 0, 0, 6, 11, getmaxy(stdscr) - 16, getmaxx(stdscr) - 12);
+				
+				input = "";
+				
+				wmove(bInputField.component, 1, 1);
+				wclrtoeol(bInputField.component);
+
+
+				yPos+=4;
+				xPos = 2;
+
+
+				if (yPos > 20)
+				{
+					scrollBarPos = 20;
+					scrollFactor += 4;
+
+					if (scrollBarLength > 4)
+					{
+						scrollBarLength -= 4;
+					}
+					else
+					{
+						scrollBarLength = 2;
+					}
+
+					padPos = yPos - 20;
+					scrollLines = 0;
+					prefresh(echoArea, padPos, 0, 6, 11, getmaxy(stdscr) - 16, getmaxx(stdscr) - 12);
+				}
+
+
+
+				break;
+
+			default:
+				input += keypress;
+				xPos++;
+			break;
+
+
+		}
+
+
+
+		//////DRAW SCROLL BAR/////
+		if (yPos > 20)
+		{
+			for (int i = 0; i < 20; i++)
+			{
+				wattron(bFrame.component, COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+				mvwaddch(bFrame.component, 1 + i, bFrame.getLength() - 2, ACS_VLINE);
+				wattroff(bFrame.component, COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+			}
+
+			for (int i = 0; i < scrollBarLength; i++)
+			{
+				wattron(bFrame.component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+				mvwaddch(bFrame.component, scrollBarPos - i, bFrame.getLength() - 2, ACS_BLOCK);
+				wattroff(bFrame.component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+			}
+
+			wattron(bFrame.component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+			mvwaddch(bFrame.component, 1, bFrame.getLength() - 2, ACS_UARROW);
+			mvwaddch(bFrame.component, bFrame.getWidth() - 8, bFrame.getLength() - 2, ACS_DARROW);
+
+			wattroff(bFrame.component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+
+			wrefresh(bFrame.component);
+		}
+
+		wattron(bInputField.component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+		mvwaddch(bInputField.component, 1, bInputField.getLength() - 1, ACS_VLINE);
+		wattroff(bInputField.component, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+
+	}
 	getch();
-	//getch();
+
 }
 
 //Dictionary
 void JamesAI::displayAIDictionary()
 {
+
+}
+
+bool JamesAI::analyzeUserInput(string input)
+{
+
+	for (auto & c : input) c = toupper(c);
+	if (input == "YES")
+	{
+		return true;
+	}
+	else if (input == "NO")
+	{
+		return false;
+	}
+
+
+	return true;
+}
+string JamesAI::getAIResponse(string input)
+{
+	string response;
+	for (auto & c : input) c = toupper(c);
+
+	if (input == "YES")
+	{
+		response = "Good - please enter a word that mean \"YES\":";
+	}
+	else if (input == "NO")
+	{
+		response = "Thanks you for your positive, never-say-no attitude! I now know the following words:";
+	}
+	else
+	{
+		response = "I don't know \""+input+"\". Does it mean 'YES'?";
+	}
+
+	return response;
+}
+
+void JamesAI::addToDictionary(string input)
+{
+	vDictionary.push_back(input);
+
 
 }
