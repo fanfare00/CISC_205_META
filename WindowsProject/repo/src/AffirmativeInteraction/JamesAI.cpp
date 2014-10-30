@@ -1,5 +1,6 @@
 #include "JamesAI.h"
 #include <fstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -139,10 +140,29 @@ void JamesAI::displayStars()
 {
 	requireLogin();
 
+	
+
 	DialogFrame::showMessageDialog(
 		mainFrame,
 		"< CONTINUE >", "STARS",
-		"Insert stars here");
+		"1: Add the replies to 'Hmm, like uhuh, si, certainly – to the dictionary\n"
+		"2: In the above STAR, do not add duplicates. For example:\n"
+		"3: Expand previous STAR to respond 'I told you I don’t know what 'uhuh' means\n"
+		"4: Allow for case-insensitivity for all entries\n"
+		"5: Read a line, not just one word replies\n"
+		"6: Add extra pizzazz and briefly explain what you did: Scrolling frame\n"
+		"CONTINUE\n"
+		);
+
+	DialogFrame::showMessageDialog(
+		mainFrame,
+		"< CONTINUE >", "STARS",
+	"7: Classes vectors templates\n"
+		"8: Search for a specific synonym in the dictionary \n"
+		"9: Remove a specific synonym from the dictionary\n"
+		"10: Sort the dictionary alphabetically\n"
+		"11: Reverse the order of the items in the dictionary\n"
+		"\nTOTAL STARS: 11");
 
 	mainFrame.drawWin();
 	mainMenu();
@@ -282,8 +302,8 @@ void JamesAI::startAI()
 
 	wattroff(bFrame.component, COLOR_PAIR(cwt::colorPair(COLOR_WHITE, COLOR_BLACK)));
 
-	bFrame.setTitle("AI");
-	ButtonMenu bMenu = bFrame.addButtonMenu("< Submit >", "< Back >", "< Help >");
+	bFrame.setTitle("Affirmative Interaction (Yes Dictionary)");
+	ButtonMenu bMenu = bFrame.addButtonMenu("< Submit >", "< Back >", "< Options >");
 	
 	InputField bInputField(x+1, y+width-8,  length-2, 3);
 	bInputField.setForeground(COLOR_GREEN);
@@ -301,6 +321,9 @@ void JamesAI::startAI()
 	scrollok(echoArea, true);
 	
 	string input;
+	string aResponse;
+	string dictionaryEcho;
+
 	int keypress;
 
 	int xPos = 2;
@@ -316,24 +339,31 @@ void JamesAI::startAI()
 
 	keypad(bInputField.component, true);
 
+	dictionaryEcho = "Words that mean YES: ";
+	for (int i = 0; i < vDictionary.size(); i++)
+	{
+		dictionaryEcho += vDictionary[i] + " ";
+	}
+
 	wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_CYAN, COLOR_BLACK)));
-	cwt::mvwprintwCentered(echoArea, 2, "Words that mean YES: " + vDictionary[0]);
+	cwt::mvwprintwCentered(echoArea, 2, dictionaryEcho);
 	cwt::mvwprintwCentered(echoArea, 3, "Words that mean NO: No");
 	wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_CYAN, COLOR_BLACK)));
 
 	wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
 	cwt::mvwprintwCentered(echoArea, 1, "Let me tell you what's already in my dictionary:");
-	mvwprintw(echoArea, 6, getmaxx(echoArea) - 50, "Can you teach me another word that means 'Yes'?");
+	mvwprintw(echoArea, 6, getmaxx(echoArea) - 45, "Can you teach me a word that means 'Yes'?");
 	wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
 
 	prefresh(echoArea, 0, 0, 6, 11, getmaxy(stdscr) - 16, getmaxx(stdscr) - 12);
 
 	int buttonSelection = 0;
 
-	string aResponse;
-	string dictionaryEcho;
 
-	bool gettingSynonym = false;
+
+	vector<string>inputBuffer;
+
+	int gettingSynonym = false;
 
 	while (true)
 	{
@@ -343,151 +373,300 @@ void JamesAI::startAI()
 		
 		switch (keypress)
 		{
-			case KEY_UP:
-				if (padPos > 0)
-				{
-					padPos--;
-					prefresh(echoArea, padPos, 0, 6, 11, getmaxy(stdscr) - 16, getmaxx(stdscr) - 12);
-					scrollLines += 1;
+		case KEY_UP:
+			if (padPos > 0)
+			{
+				padPos--;
+				prefresh(echoArea, padPos, 0, 6, 11, getmaxy(stdscr) - 16, getmaxx(stdscr) - 12);
+				scrollLines += 1;
 
-					if (scrollFactor / 20 <= 1)
+				if (scrollFactor / 20 <= 1)
+				{
+					scrollBarPos--;
+				}
+				else if (scrollBarPos >= 4)
+				{
+					scrollAmount -= (1 / (scrollFactor / 19)) * 1000;
+
+					if (scrollAmount <= 0)
 					{
 						scrollBarPos--;
-					}
-					else if (scrollBarPos >= 4)
-					{
-						scrollAmount -= (1/(scrollFactor / 19)) * 1000;
-
-						if (scrollAmount <= 0)
-						{
-							scrollBarPos--;
-							scrollAmount += 1000;
-						}
+						scrollAmount += 1000;
 					}
 				}
-				break;
+			}
+			break;
 
-			case KEY_DOWN:
-				if (scrollLines > 0)
+		case KEY_DOWN:
+			if (scrollLines > 0)
+			{
+				padPos++;
+				prefresh(echoArea, padPos, 0, 6, 11, getmaxy(stdscr) - 16, getmaxx(stdscr) - 12);
+				scrollLines -= 1;
+
+				if (scrollFactor / 20 < 1)
 				{
-					padPos++;
-					prefresh(echoArea, padPos, 0, 6, 11, getmaxy(stdscr) - 16, getmaxx(stdscr) - 12);
-					scrollLines -= 1;
-
-					if (scrollFactor / 20 < 1)
-					{
-						scrollBarPos++;
-					}
-					else
-					{
-						scrollAmount += (1 / (scrollFactor / 19)) * 1000;
-
-						if (scrollAmount >= 1000)
-						{
-							scrollBarPos++;
-							scrollAmount -= 1000;
-						}
-					}
-				}
-
-				break;
-
-			case KEY_LEFT:
-				
-				bMenu.highlightLeft();
-				buttonSelection = bMenu.getHighlight();
-				break;
-
-			case KEY_RIGHT:
-				bMenu.highlightRight();
-				buttonSelection = bMenu.getHighlight();
-				break;
-			
-			//BACKSPACE
-			case 8:
-				if (input.length() > 0)
-				{
-					input.pop_back();
-				}
-				
-				if (xPos > 2)
-				{
-					xPos--;
-				}
-				mvwaddch(bInputField.component, 1,  xPos, ' ');
-				mvwaddch(bInputField.component, 1, bInputField.getLength(), ACS_VLINE);
-
-				break;
-
-			//ENTER
-			case 10:
-				if (buttonSelection == 1)
-				{
-					curs_set(0);
-					noecho();
-					delwin(bFrame.component);
-					delwin(echoArea);
-					delwin(bInputField.component);
-					delwin(bMenu.component);
-					mainFrame.drawWin();
-					mainMenu();
-					break;
-				}
-
-				wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
-				mvwprintw(echoArea, yPos, 2, (char*)input.c_str());
-				wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
-
-				if (gettingSynonym == false)
-				{
-					if (analyzeUserInput(input) == true)
-					{
-						aResponse = "Can you teach me a word than means \"Yes\"";
-
-						wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
-						mvwprintw(echoArea, yPos + 2, getmaxx(echoArea) - aResponse.length() - 3, (char*)aResponse.c_str());
-						wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
-
-						gettingSynonym = true;
-					}
-					else
-					{
-						wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
-						mvwprintw(echoArea, yPos + 2, getbegx(echoArea) + 3, "Well, thank you for your positive, never-say-no attitude! Glad you believe");
-						mvwprintw(echoArea, yPos + 3, getbegx(echoArea) + 3, "in affirmative interaction! In this session, I learned the following words:");
-						wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
-
-						dictionaryEcho = "";
-
-						for (int i = 1; i < vDictionary.size(); i++)
-						{
-							dictionaryEcho += vDictionary[i] + " ";
-						}
-
-						wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_CYAN, COLOR_BLACK)));
-						cwt::mvwprintwCentered(echoArea, yPos + 5, "New words for YES: " + dictionaryEcho);
-						cwt::mvwprintwCentered(echoArea, yPos + 6, "New words for NO:  'no'  'NO' ");
-						wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_CYAN, COLOR_BLACK)));
-
-						yPos += 4;
-
-					}
-
+					scrollBarPos++;
 				}
 				else
 				{
-					aResponse = "Thanks, I will add \"" + input + "\" to my dictionary.";
+					scrollAmount += (1 / (scrollFactor / 19)) * 1000;
+
+					if (scrollAmount >= 1000)
+					{
+						scrollBarPos++;
+						scrollAmount -= 1000;
+					}
+				}
+			}
+
+			break;
+
+		case KEY_LEFT:
+
+			bMenu.highlightLeft();
+			buttonSelection = bMenu.getHighlight();
+			break;
+
+		case KEY_RIGHT:
+			bMenu.highlightRight();
+			buttonSelection = bMenu.getHighlight();
+			break;
+
+			//BACKSPACE
+		case 8:
+			if (input.length() > 0)
+			{
+				input.pop_back();
+			}
+
+			if (xPos > 2)
+			{
+				xPos--;
+			}
+			mvwaddch(bInputField.component, 1, xPos, ' ');
+			mvwaddch(bInputField.component, 1, bInputField.getLength(), ACS_VLINE);
+
+			break;
+
+			//ENTER
+		case 10:
+			if (buttonSelection == 1)
+			{
+				curs_set(0);
+				noecho();
+				delwin(bFrame.component);
+				delwin(echoArea);
+				delwin(bInputField.component);
+				delwin(bMenu.component);
+				mainFrame.drawWin();
+				mainMenu();
+				break;
+			}
+
+			if (buttonSelection == 2)
+			{
+				curs_set(0);
+				noecho();
+
+				NavigationMenu optionMenu(bFrame.getBegX() + bFrame.getLength() - 35, bFrame.getBegY(), 35, bFrame.getWidth()-3 , "YES DICTIONARY OPTIONS",
+					"View Dictionary",
+					"Switch Dictionary",
+					"Search Dictionary",
+					"Remove from Dictionary",
+					"Clear Dictionary",
+					"Sort Dictionary",
+					"Reverse Dictionary Order"
+					);
+
+				optionMenu.addText(optionMenu.getLength() / 2 - 11, optionMenu.getWidth()-1,"Current Dictionary: Yes", COLOR_GREEN, COLOR_WHITE);
+
+				optionMenu.setMenuOptions("< Select >", "< Back >");
+
+				optionMenu.setTextXY(4, 4);
+				
+				
+				string searchStr;
+				int nMatches;
+				switch (optionMenu.getMenuChoice())
+				{
+				case 1:
+					for (int i = 0; i < vDictionary.size(); i++)
+					{
+						searchStr += vDictionary[i] + "\n";
+					}
+					DialogFrame::showMessageDialog(mainFrame, "Back", "Dictionary Contents", searchStr);
+					break;
+
+				case 2:
+
+					break;
+				case 3:
+					searchStr = DialogFrame::showInputDialog(mainFrame, "Search", "Dictionary Find", "Search the dictionary for a synonym:");
+
+					for(auto & c : searchStr) c = toupper(c);
+					for (int i = 0; i < vDictionary.size(); i++)
+					{
+						for (auto & v : vDictionary[i]) v = toupper(v);
+						if (vDictionary[i] == searchStr)
+						{
+							nMatches++;
+
+						}
+					}
+
+					DialogFrame::showMessageDialog(mainFrame, "Back", "Search Results", "(" + to_string(nMatches) + ") occurence(s) of \"" + searchStr + "\" were found in the dictionary.");
+					break;
+				case 4:
+					searchStr = DialogFrame::showInputDialog(mainFrame, "Search", "Find and Remove", "Search the dictionary for a synonym and remove:");
+
+					for (auto & c : searchStr) c = toupper(c);
+					for (int i = 0; i < vDictionary.size(); i++)
+					{
+						for (auto & v : vDictionary[i]) v = toupper(v);
+						if (vDictionary[i] == searchStr)
+						{
+							nMatches++;
+							vDictionary.erase(vDictionary.begin() + i);
+
+						}
+					}
+					DialogFrame::showMessageDialog(mainFrame, "Back", "Find and Remove", "(" + to_string(nMatches) + ") occurence(s) of \"" + searchStr + "\" were found and removed from the dictionary.");
+					//vec.erase(vec.begin() + index);
+					break;
+
+				case 5:
+					vDictionary.clear();
+					vDictionary.push_back("Yes");
+					DialogFrame::showMessageDialog(mainFrame, "Back", "Dictonary Cleared", "The dictionary has been successfully cleared.");
+					break;
+
+				case 6:
+					sort(vDictionary.begin(), vDictionary.end());
+					DialogFrame::showMessageDialog(mainFrame, "Back", "Dictonary Sorted", "The dictionary has been sorted alphabetically.");
+					break;
+				case 7:
+					reverse(vDictionary.begin(), vDictionary.end());
+					DialogFrame::showMessageDialog(mainFrame, "Back", "Dictonary Reversed", "The order of the dictionary has been reversed.");
+					break;
+
+				}
+
+				delwin(bFrame.component);
+				delwin(echoArea);
+				delwin(bInputField.component);
+				delwin(bMenu.component);
+				mainFrame.drawWin();
+				startAI();
+			}
+
+			wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+			mvwprintw(echoArea, yPos, 2, (char*)input.c_str());
+			wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_GREEN, COLOR_BLACK)));
+
+			//check if yes or no
+			if (analyzeUserInput(input) == 1)
+			{
+				//check if in syn mode
+				if (gettingSynonym == false)
+				{
+
+					aResponse = "Good - please enter a word that mean \"YES\":";
+
 					wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
 					mvwprintw(echoArea, yPos + 2, getmaxx(echoArea) - aResponse.length() - 3, (char*)aResponse.c_str());
 					wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
-					addToDictionary(input);
+
+					gettingSynonym = true;
+				}
+				else
+				{
+					/////////////////////////////////////////
+						/////////////////////////////////////////
+					if (inputBuffer.size() > 0)
+					{
+						string listEcho;
+
+						for (int i = 0; i < inputBuffer.size(); i++)
+						{
+							if (i != inputBuffer.size() - 1)
+							{
+								listEcho += inputBuffer[i] + ", ";
+							}
+							else
+							{
+								listEcho += inputBuffer[i];
+							}
+						
+							addToDictionary(inputBuffer[i]);
+						}
+					
+					
+						aResponse = "Thanks, I will add \"" + listEcho + "\" to my dictionary.";
+						wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+						mvwprintw(echoArea, yPos + 2, getmaxx(echoArea) - aResponse.length() - 3, (char*)aResponse.c_str());
+						wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+					
+						inputBuffer.clear();
+					}
+					else
+					{
+						aResponse = "Thanks, but \"" + input + "\" is already in my dictionary.";
+						wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+						mvwprintw(echoArea, yPos + 2, getmaxx(echoArea) - aResponse.length() - 3, (char*)aResponse.c_str());
+						wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+					}
+					
 					aResponse = "Can you please teach me another word that means \"Yes\"";
 					wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
 					mvwprintw(echoArea, yPos + 4, getmaxx(echoArea) - aResponse.length() - 3, (char*)aResponse.c_str());
 					wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
-					
-//gettingSynonym = false;
+					yPos += 2;
+
+					gettingSynonym = false;
 				}
+			}
+			else if (analyzeUserInput(input)==0)
+			{
+
+				
+					wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+					mvwprintw(echoArea, yPos + 2, getbegx(echoArea) + 3, "Well, thank you for your positive, never-say-no attitude! Glad you believe");
+					mvwprintw(echoArea, yPos + 3, getbegx(echoArea) + 3, "in affirmative interaction! In this session, I learned the following words:");
+					wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+
+					dictionaryEcho = "";
+
+					for (int i = 1; i < vDictionary.size(); i++)
+					{
+						dictionaryEcho += vDictionary[i] + " ";
+					}
+
+					wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_CYAN, COLOR_BLACK)));
+					cwt::mvwprintwCentered(echoArea, yPos + 5, "New words for YES: " + dictionaryEcho);
+					cwt::mvwprintwCentered(echoArea, yPos + 6, "New words for NO:  'no'  'NO' ");
+					wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_CYAN, COLOR_BLACK)));
+
+					yPos += 4;
+
+					gettingSynonym = false;
+			
+
+
+			}
+			else
+			{
+				aResponse = "Hmm I don't know \""+input+"\". Does it mean \"Yes\"?";
+
+				wattron(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+				mvwprintw(echoArea, yPos + 2, getmaxx(echoArea) - aResponse.length() - 3, (char*)aResponse.c_str());
+				wattroff(echoArea, A_BOLD | COLOR_PAIR(cwt::colorPair(COLOR_MAGENTA, COLOR_BLACK)));
+
+				inputBuffer.push_back(input);
+
+
+			}
+		
 
 
 				
@@ -578,39 +757,34 @@ void JamesAI::displayAIDictionary()
 
 }
 
-bool JamesAI::analyzeUserInput(string input)
+int JamesAI::analyzeUserInput(string input)
 {
 
 	for (auto & c : input) c = toupper(c);
-	if (input == "YES")
+
+	for (int i = 0; i < vDictionary.size(); i++)
 	{
-		return true;
-	}
-	else if (input == "NO")
-	{
-		return false;
+		
+		for (auto & v : vDictionary[i]) v = toupper(v);
+
+		if (input == vDictionary[i])
+		{
+			return 1;
+		}
 	}
 
+	if (input == "NO")
+	{
+		return 0;
+	}
+	
 
-	return true;
+
+	return -1;
 }
 string JamesAI::getAIResponse(string input)
 {
 	string response;
-	for (auto & c : input) c = toupper(c);
-
-	if (input == "YES")
-	{
-		response = "Good - please enter a word that mean \"YES\":";
-	}
-	else if (input == "NO")
-	{
-		response = "Thanks you for your positive, never-say-no attitude! I now know the following words:";
-	}
-	else
-	{
-		response = "I don't know \""+input+"\". Does it mean 'YES'?";
-	}
 
 	return response;
 }
@@ -618,6 +792,4 @@ string JamesAI::getAIResponse(string input)
 void JamesAI::addToDictionary(string input)
 {
 	vDictionary.push_back(input);
-
-
 }

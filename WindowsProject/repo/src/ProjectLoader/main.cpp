@@ -15,13 +15,6 @@ int main(int argc, char *argv[])
 	cwt::initializeScreen();
 
 	Frame mainFrame(0, 0, COLS, LINES, "JAMES' CISC 205 PROJECT LOADER", COLOR_WHITE, COLOR_BLUE);
-	
-	JamesAI::getInstance().start(mainFrame);
-	exit(1);
-
-
-
-
 
 	NavigationMenu NM((mainFrame.getLength() / 2) - 25, (mainFrame.getWidth() / 2) - 7, 50, 13, 
 		"SELECT PROGRAM", "Cellular Automata", "Affirmative Interaction", "Pointer Power", "Testing Ground");

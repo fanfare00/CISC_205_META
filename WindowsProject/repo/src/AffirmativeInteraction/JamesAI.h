@@ -48,10 +48,11 @@ public:
 ////////////////////////////////////////////////////////////////////////
 	
 	std::vector<string> vDictionary;
+	
 
 	void startAI();
 	void displayAIDictionary();
-	bool analyzeUserInput(string input);
+	int analyzeUserInput(string input);
 	string getAIResponse(string input);
 	void addToDictionary(string input);
 
